@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品リスト</title>
+</head>
+<body>
+    <div>
+        商品リスト
+    </div>
+    <br>
+    {% for item in results %}
+        <div>
+            {{item.itemname}} <a href="/description?id={{item.id}}">詳細</a>
+        </div> 
+    {% endfor %}
+    <br>
+    <div>
+        <form method="GET">
+            <div>
+                タグを設定  <select name="TAG" required>
+                                <option value="None">指定しない</option>
+                                <option value="fish">鮮魚</option>
+                                <option value="meat">精肉</option>
+                                <option value="vegetable">青果</option>
+                                <option value="other">その他</option>
+                            </select>
+            </div>
+            <div>
+                <input type="submit" value="検索">
+            </div>
+        </form>
+    </div>
+    <br>
+    <div>
+        <a href="/userpage">ユーザーページ</a>
+    </div>
+</body>
+</html>

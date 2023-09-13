@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>出品アイテム</title>
+</head>
+<body>
+    <div>
+        出品アイテム
+    </div>
+    <br>
+    <div>
+        {% for item in items %}
+            <form method="POST">
+                <div>
+                    {{item.itemname}}
+                </div>
+                <input type="hidden" name="ID" value="{{item.id}}">
+                <div>
+                    価格：<input type="number" name="PRICE" 
+                        value="{{item.price}}" min="0" required>円
+                </div>
+                <div>
+                    在庫：<input type="number" name="STOCK" 
+                        value="{{item.stock}}" min="0" required>点
+                </div>
+                <div>
+                    変更内容 <select name="ACT" required>
+                                <option value="update">商品情報を更新</option>
+                                <option value="delete">この商品を削除</option>
+                             </select>
+                </div>
+                <div>
+                    <input type="submit" value="変更">
+                </div>
+            </form>
+            <br>    
+        {% endfor %}
+    <div>
+        <a href="/userpage">ユーザーページ</a>
+    </div>
+</body>
+</html>

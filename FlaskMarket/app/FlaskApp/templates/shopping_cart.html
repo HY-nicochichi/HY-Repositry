@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ショッピングカート</title>
+</head>
+<body>
+    <div>
+        ショッピングカート　※ ログアウトすると空になります
+    </div>
+    <br>
+    <div>
+        <form method="POST">
+            {% for x in range(cart|length) %}
+                <div>
+                    {{cart[x]['name']}} {{cart[x]['price']}}円 <input type="number" name="{{cart[x]['id']}}" 
+                        value="{{cart[x]['num']}}" min="0" max="{{cart[x]['stock']}}" required>点
+                </div>   
+            {% endfor %}
+            <br>
+            <div>
+                合計：{{sum}}円
+            </div>
+            <br>
+            <div>
+                ※「全て注文」の直前に「カートを更新」することを推奨します
+            </div>
+            <div>
+                送信内容 <select name="ACT" required>
+                            <option value="update">カートを更新</option>
+                            <option value="order">全て注文</option>
+                         </select>
+            </div>
+            <div>
+                <input type="submit" value="送信">
+            </div>
+        </form>
+    </div>
+    <br>
+    <div>
+        <a href="/userpage">ユーザーページ</a>
+    </div>
+</body>
+</html>

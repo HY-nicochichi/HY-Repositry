@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
+</head>
+<body>
+    <div>
+        ログイン
+    </div>
+    {% with message = get_flashed_messages() %}
+        {% if message %}
+            <div>
+                ※ {{ message[0] }}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <br>
+    <div>
+        <form method="POST">
+            <div>
+                MAIL <input type="text" name="MAIL" required>
+            </div>
+            <div>
+                PASS <input type="password" name="PASS" required>
+            </div>
+            <br>
+            <div>
+                <input type="submit" value="ログイン">
+            </div>
+        </form>
+    </div>
+    <br>
+    <div>
+        <a href="/signup">ユーザー登録</a>
+    </div>
+</body>
+</html>

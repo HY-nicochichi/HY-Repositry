@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/kobun_top.css" rel="stylesheet" type="text/css"/>
+    <title>古文単語トップ</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>educa古文単語</h2>
+        <div>
+            <input type="button" onclick="window.close();" value="終了する"> 
+        </div>       
+    </div>
+    <div class="main">
+        <p><a href="/kobun_wordlist?listNo=1">List-1</a></p>
+        <p><a href="/kobun_wordlist?listNo=2">List-2</a></p>
+        <br>
+        <p><a href="{{url_for('room_top')}}" target="_blank">ルームTOP</a></p>
+    </div>
+</body>
+</html>

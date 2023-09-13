@@ -1,0 +1,4 @@
+Flask==2.2.3
+Flask-Login==0.6.2
+psycopg2==2.9.6
+uwsgi==2.0.21

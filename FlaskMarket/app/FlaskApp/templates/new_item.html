@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品登録</title>
+</head>
+<body>
+    <div>
+        商品登録
+    </div>
+    <br>
+    <div>
+        <form method="POST">
+            <div>
+                NAME <input type="text" name="NAME" required>
+            </div>
+            <div>
+                PRICE <input type="number" name="PRICE" min="0" required>
+            </div>
+            <div>
+                STOCK <input type="number" name="STOCK" min="1" required>
+            </div>
+            <div>
+                TAG <select name="TAG" required>
+                        <option value="fish">鮮魚</option>
+                        <option value="meat">精肉</option>
+                        <option value="vegetable">青果</option>
+                        <option value="other">その他</option>
+                    </select>
+            </div>
+            <br>
+            <div>
+                <input type="submit" value="新規登録">
+            </div>
+        </form>
+    </div>
+    <br>
+    <div>
+        <a href="/userpage">ユーザーページ</a>
+    </div>
+</body>
+</html>

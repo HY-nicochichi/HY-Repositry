@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/menu.css" rel="stylesheet" type="text/css"/>
+    <title>サービスメニュー</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>educaサービスメニュー</h2>
+        <div>
+            <a href="{{ url_for('logout') }}">
+                <button>ログアウト</button>
+            </a>
+        </div>        
+    </div>
+    <div class="main">
+        <div class="options">
+            <a href="{{ url_for('english_top') }}" target="_blank">
+                <img src="../static/images/英単語アイコン.png" width="15%">
+            </a>
+            <a href="{{ url_for('kobun_top') }}" target="_blank">
+                <img src="../static/images/古文単語アイコン.png" width="15%">
+            </a>
+            <a href="{{ url_for('room_top') }}" target="_blank">
+                <img src="../static/images/ルームアイコン.png" width="15%">
+            </a>
+        </div>
+    </div>
+</body>
+</html>

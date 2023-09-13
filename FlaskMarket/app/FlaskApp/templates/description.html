@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>詳細：{{description['name']}}</title>
+</head>
+<body>
+    <div>
+        詳細：{{description['name']}}
+    </div>
+    <br>
+    <div>
+        価格：{{description['price']}}円
+        <br>
+        在庫：{{description['stock']}}点
+    </div>
+    {% if not description['incart'] %}
+        <form method="POST">
+            <br>
+            <input type="hidden" name="ITEM" value="{{description['id']}}">
+            <div>
+                <input type="submit" value="カートに追加">
+            </div>
+        </form>
+    {% endif %}
+    <br>
+    <div>
+        <a href="/items">商品リスト</a>
+    </div>
+</body>
+</html>

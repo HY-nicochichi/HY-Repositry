@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  app:
+    container_name: market_app
+    build: ./app
+    expose:
+      - "3031"
+    volumes:
+      - ./app:/flaskapp
+    command: uwsgi --ini /flaskapp/config/uwsgi.ini
+    networks:
+      - network
+
+  web:
+    container_name: market_web
+    build: ./web
+    volumes:
+      - ./web/config/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    ports:
+      - "8080:8080"
+    networks:
+      - network
+
+networks:
+  network:
