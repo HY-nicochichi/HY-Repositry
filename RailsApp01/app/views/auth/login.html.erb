@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ログイン</title>
+</head>
+<body>
+    <h1>ログイン</h1>
+    <br>
+    <div>
+        <%= form_with url: '/login', method: :post do |form| %>
+            <div>
+                メールアドレス <%= form.text_field :email, required: true %>
+            </div>
+            <div>
+                パスワード <%= form.password_field :pass, required: true %>
+            </div>
+            <br>
+            <div>
+                <%= form.submit 'ログイン' %>
+            </div>
+        <% end %>
+    </div>
+    <br>
+    <div>
+        <a href="/signin">新規アカウント</a>
+    </div>
+</body>
+</html>
