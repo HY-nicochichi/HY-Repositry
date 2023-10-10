@@ -77,7 +77,7 @@ def update_items():
     if 'user' not in session:
         return redirect('/login')
     if request.method == 'POST':
-        id = request.form.get('ID', type=int)
+        id = request.form.get('ID', type=str)
         if request.form.get('ACT', type=str) == 'delete':
             Item.delete(id)
         else:

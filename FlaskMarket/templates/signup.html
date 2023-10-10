@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ログイン</title>
+    <title>ユーザー登録</title>
 </head>
 <body>
     <div>
-        ログイン
+        ユーザー登録
     </div>
     {% with message = get_flashed_messages() %}
         {% if message %}
@@ -19,21 +19,25 @@
     <br>
     <div>
         <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div>
                 MAIL <input type="text" name="MAIL" required>
             </div>
             <div>
                 PASS <input type="password" name="PASS" required>
             </div>
+            <div>
+                NAME <input type="text" name="username" required>
+            </div>
             <br>
             <div>
-                <input type="submit" value="ログイン">
+                <input type="submit" value="新規登録">
             </div>
         </form>
     </div>
     <br>
     <div>
-        <a href="/signup">ユーザー登録</a>
+        <a href="/login">ログイン</a>
     </div>
 </body>
 </html>

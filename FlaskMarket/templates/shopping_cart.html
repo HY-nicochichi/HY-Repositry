@@ -12,6 +12,7 @@
     <br>
     <div>
         <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             {% for x in range(cart|length) %}
                 <div>
                     {{cart[x]['name']}} {{cart[x]['price']}}円 <input type="number" name="{{cart[x]['id']}}" 

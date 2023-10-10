@@ -17,6 +17,7 @@
     </div>
     {% if not description['incart'] %}
         <form method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <br>
             <input type="hidden" name="ITEM" value="{{description['id']}}">
             <div>
