@@ -5,7 +5,10 @@ bp1 = Blueprint('bp1', __name__)
 
 @bp1.route('/', methods=['GET'])
 def index():
-    return render_template('index.html')
+    yourname = '未ログイン'
+    if 'user'  in session:
+        yourname = User.search_by_id(session['user']).username
+    return render_template('index.html', yourname=yourname)
 
 @bp1.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -19,7 +22,7 @@ def signup():
             session['user'] = result['userid']
             session['cart'] = {}
             session.permanent = True
-            return redirect('/userpage')
+            return redirect('/')
         flash(result['message'])
         return redirect('/signup')
     return render_template('signup.html')
@@ -47,7 +50,7 @@ def login():
             session['user'] = result['userid']
             session['cart'] = {}
             session.permanent = True
-            return redirect('/userpage')
+            return redirect('/')
         flash(result['message'])
         return redirect('/login')
     return render_template('login.html')
@@ -58,10 +61,3 @@ def logout():
         return redirect('/login')
     session.clear()
     return redirect('/')
-
-@bp1.route('/userpage', methods=['GET'])
-def userpage():
-    if 'user' not in session:
-        return redirect('/login')
-    yourname = User.search_by_id(session['user']).username
-    return render_template('userpage.html', yourname=yourname)

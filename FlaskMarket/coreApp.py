@@ -5,7 +5,7 @@ from views1 import bp1
 from views2 import bp2
 from orm import db
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 
 app.config.from_pyfile('settings.py')
 
