@@ -36,11 +36,18 @@ class Item(BaseModel):
         db.session.commit()
         return
 
-    def delete(id):
+    def delete_by_id(id):
         db.session.delete(Item.search_by_id(id))
         db.session.commit()
         return
-
+    
+    def delete_by_seller(seller):
+        items = Item.seller_search(seller)
+        for item in items:
+           db.session.delete(item)
+        db.session.commit()
+        return
+    
     def update_stock(id, new_stock):
         Item.search_by_id(id).stock = int(new_stock)
         db.session.commit()

@@ -7,10 +7,9 @@
     <link rel="icon" href="../static/parts/image/favicon.png">
 </head>
 <body>
-    <div>
+    <h2>
         商品リスト
-    </div>
-    <br>
+    </h2>
     {% for item in results %}
         <div>
             {{item.itemname}} <a href="/description?id={{item.id}}">詳細</a>

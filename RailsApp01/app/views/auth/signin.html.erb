@@ -6,15 +6,18 @@
     <title>アカウント登録</title>
 </head>
 <body>
-    <h1>アカウント登録</h1>
-    <br>
+    <h2>アカウント登録</h2>
+    <% flash.each do |message_type, message| %>
+        <div><%= message %></div>
+        <br>
+    <% end %>
     <div>
         <%= form_with url: '/signin', method: :post do |form| %>
             <div>
                 メールアドレス <%= form.text_field :email, required: true %>
             </div>
             <div>
-                パスワード <%= form.password_field :pass, required: true %>
+                パスワード&emsp;&emsp; <%= form.password_field :pass, required: true %>
             </div>
             <div>
                 ユーザーネーム <%= form.text_field :name, required: true %>

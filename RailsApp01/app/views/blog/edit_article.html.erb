@@ -6,8 +6,7 @@
     <title>記事編集</title>
 </head>
 <body>
-    <h1>記事編集</h1>
-    <br>
+    <h2>記事編集</h2>
     <div>
         <%= form_with url: '/edit_article', method: :post do |form| %>
             <%= form.hidden_field :id, value: @article.id %>

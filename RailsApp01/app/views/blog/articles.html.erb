@@ -6,11 +6,10 @@
     <title>記事一覧</title>
 </head>
 <body>
-    <h1>記事一覧</h1>
-    <br>
+    <h2>記事一覧</h2>
     <% @articles.each do |article| %>
         <div>
-            <div><%= article.title %></div>
+            <div><b><%= article.title %></b></div>
             <div><%= article.body %></div>
             <% if article.user == @user %>
                 <a href="/edit_article?id=<%= article.id %>">編集</a>&emsp;

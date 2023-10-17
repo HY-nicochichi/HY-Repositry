@@ -6,15 +6,18 @@
     <title>ログイン</title>
 </head>
 <body>
-    <h1>ログイン</h1>
-    <br>
+    <h2>ログイン</h2>
+    <% flash.each do |message_type, message| %>
+        <div><%= message %></div>
+        <br>
+    <% end %>
     <div>
         <%= form_with url: '/login', method: :post do |form| %>
             <div>
                 メールアドレス <%= form.text_field :email, required: true %>
             </div>
             <div>
-                パスワード <%= form.password_field :pass, required: true %>
+                パスワード&emsp;&emsp; <%= form.password_field :pass, required: true %>
             </div>
             <br>
             <div>

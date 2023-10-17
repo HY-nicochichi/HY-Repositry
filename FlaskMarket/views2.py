@@ -79,7 +79,7 @@ def update_items():
     if request.method == 'POST':
         id = request.form.get('ID', type=str)
         if request.form.get('ACT', type=str) == 'delete':
-            Item.delete(id)
+            Item.delete_by_id(id)
         else:
             price = request.form.get('PRICE', type=int)
             stock = request.form.get('STOCK', type=int)

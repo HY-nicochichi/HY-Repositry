@@ -5,7 +5,7 @@ class IndexController < ActionController::Base
         if session[:user]
             @you = User.find_by(email: session[:user]).name
         else
-            @you = "匿名"
+            @you = "未ログイン"
         end
     end
 

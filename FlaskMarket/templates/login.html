@@ -7,17 +7,17 @@
     <link rel="icon" href="../static/parts/image/favicon.png">
 </head>
 <body>
-    <div>
+    <h2>
         ログイン
-    </div>
+    </h2>
     {% with message = get_flashed_messages() %}
         {% if message %}
             <div>
                 ※ {{ message[0] }}
             </div>
+            <br>
         {% endif %}
     {% endwith %}
-    <br>
     <div>
         <form method="POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
@@ -35,7 +35,7 @@
     </div>
     <br>
     <div>
-        <a href="/signup">ユーザー登録</a>
+        <a href="/new_user">ユーザー登録</a>
     </div>
     <br>
     <div>
