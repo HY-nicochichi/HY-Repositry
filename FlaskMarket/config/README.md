@@ -16,6 +16,8 @@ This README tells you how to use this app in Windows with Python3.
 
 7 python run.py
 
-8 CTRL + C
+8 pytest test.py (when testing application)
 
-9 deactivate
+9 CTRL + C
+
+10 deactivate
