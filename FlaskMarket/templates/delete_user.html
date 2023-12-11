@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>アカウント削除</title>
-    <link rel="icon" href="../static/assets/image/icon.png">
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block title %}
+    アカウント削除
+{% endblock %}
+
+{% block content %}
     <div>
         本当に削除しますか？
     </div>
@@ -17,5 +15,4 @@
     <div>
         <a href="/delete_user?state=confirmed">はい</a>
     </div>
-</body>
-</html>
+{% endblock %}

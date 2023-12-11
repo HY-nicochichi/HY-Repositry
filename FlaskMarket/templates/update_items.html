@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>出品アイテム</title>
-    <link rel="icon" href="../static/assets/image/icon.png">
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block title %}
+    出品アイテム
+{% endblock %}
+    
+{% block content %}
     <h2>
         出品アイテム
     </h2>
@@ -42,5 +40,4 @@
     <div>
         <a href="/">TOPページ</a>
     </div>
-</body>
-</html>
+{% endblock %}
