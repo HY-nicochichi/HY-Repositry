@@ -20,7 +20,7 @@
 
 9 pytest test.py (自動テストの実行時のみ)
 
-10 set FLASK_APP=coreAPP (マイグレーション前に環境変数を設定)
+10 set FLASK_APP=coreApp (マイグレーション前に環境変数を設定)
 
 11 flask db init (初回マイグレーションの直前のみ)
 
