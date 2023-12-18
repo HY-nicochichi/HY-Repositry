@@ -5,15 +5,34 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Flask Market</h2>
+    <!-- ナビゲーションメニュー -->
+    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mt-3 mb-3">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="/">Flask Market</a>
+        <div class="collapse navbar-collapse justify-content-end">
+            <ul class="navbar-nav">
+                {% if auth_info['login'] == False %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/login">ログイン</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/new_user">ユーザー登録</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/logout">ログアウト</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="/delete_user">アカウント削除</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
     <div>
-        <a href="/login">ログイン</a>
-        &emsp;
-        <a href="/new_user">ユーザー登録</a>
-    </div>
-    <br>
-    <div>
-        <B>'{{yourname}}'</B> 様　※ 7日サイトにアクセスしないとログアウトします
+        <B>'{{auth_info['name']}}'</B> 様　※ 7日サイトにアクセスしないとログアウトします
     </div>
     <br>
     <div>
@@ -33,9 +52,5 @@
     </div>
     <br>
     <br>
-    <div>
-        <a href="/logout">ログアウト</a>
-        &emsp;
-        <a href="/delete_user">アカウント削除</a>
-    </div>
+
 {% endblock %}

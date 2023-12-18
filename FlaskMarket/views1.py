@@ -6,10 +6,11 @@ bp1 = Blueprint('bp1', __name__)
 
 @bp1.route('/', methods=['GET'])
 def index():
-    yourname = '未ログイン'
+    auth_info = {'login':False, 'name':'未ログイン'}
     if 'user' in session:
-        yourname = User.search_by_id(session['user']).username
-    return render_template('index.html', yourname=yourname)
+        auth_info['login'] = True
+        auth_info['name'] = User.search_by_id(session['user']).username
+    return render_template('index.html', auth_info=auth_info)
 
 @bp1.route('/new_user', methods=['GET', 'POST'])
 def new_user():

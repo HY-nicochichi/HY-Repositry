@@ -1,5 +1,5 @@
 from datetime import timedelta
-from orm import db
+from extensions import db
 
 SECRET_KEY = 'Flask_Market_Secret_Key'
 PERMANENT_SESSION_LIFETIME = timedelta(days=7)

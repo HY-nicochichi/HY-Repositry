@@ -1,5 +1,5 @@
 from uuid import uuid4
-from orm import db, BaseModel
+from extensions import db, BaseModel
 
 class Item(BaseModel):
 
