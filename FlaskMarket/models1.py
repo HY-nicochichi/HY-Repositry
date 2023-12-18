@@ -45,7 +45,7 @@ class User(BaseModel):
         if found_user == None:
             result['message'] = 'ユーザーが存在しません'
         elif check_password_hash(found_user.hashPASS, str(password)) == False:
-            result['message'] = 'PASSが誤っています'
+            result['message'] = 'パスワードが誤っています'
         else:
             result['message'] = 'successed'
             result['userid'] = found_user.id

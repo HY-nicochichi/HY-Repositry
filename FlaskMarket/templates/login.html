@@ -1,42 +1,47 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    ログイン
+  ログイン
 {% endblock %}
-    
+
+{% block navbar %}
+  <ul class="navbar-nav">
+    <li class="nav-item active">
+      <a type="button" class="btn btn-primary" href="/new_user">ユーザー登録</a>
+    </li>
+  </ul>
+{% endblock %}
+
 {% block content %}
-    <h2>
-        ログイン
-    </h2>
-    {% with message = get_flashed_messages() %}
-        {% if message %}
-            <div>
-                ※ {{ message[0] }}
-            </div>
-            <br>
-        {% endif %}
-    {% endwith %}
-    <div>
+  {% with message = get_flashed_messages() %}
+    {% if message %}
+      <div class="alert alert-danger" role="alert">
+        {{ message[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+  <div class="border border-primary col-5 ml-3 bg-light">
+    <br>
+    <h3><B>ログイン</B></h3>
+    <br>
+    <div class="row">
+      <div class="col-md">
         <form method="POST">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <div>
-                MAIL <input type="text" name="MAIL" required>
-            </div>
-            <div>
-                PASS <input type="password" name="PASS" required>
-            </div>
-            <br>
-            <div>
-                <input type="submit" value="ログイン">
-            </div>
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+          <div class="form-group">
+            <label>メールアドレス</label>
+            <input type="text" class="form-control border border-primary" name="mail" required>
+          </div>
+          <div class="form-group">
+            <label>パスワード</label>
+            <input type="password" class="form-control border border-primary" name="password" required>
+          </div>
+          <br>
+          <div class="form-group">
+            <input type="submit" class="btn btn-primary" value="ログイン">
+          </div>
         </form>
+      </div>
     </div>
-    <br>
-    <div>
-        <a href="/new_user">ユーザー登録</a>
-    </div>
-    <br>
-    <div>
-        <a href="/">TOPページ</a>
-    </div>
+  </div>
 {% endblock %}

@@ -9,7 +9,7 @@ import pytz
 db = SQLAlchemy()
 migrate = Migrate()
 csrf_protect = CSRFProtect()
-server_side_session = Session()
+server_session = Session()
 security_header = Talisman()
 
 class BaseModel(db.Model):
@@ -19,10 +19,11 @@ class BaseModel(db.Model):
     created_at = db.Column(
         db.DateTime(timezone=True),
         default = lambda:datetime.now(pytz.timezone('Asia/Tokyo')),
-        nullable = False)
-    
+        nullable = False
+    )
     updated_at = db.Column(
         db.DateTime(timezone=True),
         default = lambda:datetime.now(pytz.timezone('Asia/Tokyo')),
         onupdate = lambda:datetime.now(pytz.timezone('Asia/Tokyo')),
-        nullable = False)
+        nullable = False
+    )

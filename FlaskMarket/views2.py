@@ -19,17 +19,15 @@ def new_item():
 
 @bp2.route('/items', methods=['GET'])
 def items():
-    if 'user' not in session:
-        return redirect('/login')
     tag = request.args.get(key='TAG', type=str, default='None')
     results = Item.tag_search(tag)
     return render_template('items.html', results=results)
 
 @bp2.route('/description', methods=['GET', 'POST'])
 def description():
-    if 'user' not in session:
-        return redirect('/login')
     if request.method == 'POST':
+        if 'user' not in session:
+            return redirect('/login')
         item = request.form.get('ITEM', type=str)
         session['cart'][item] = 1
         return redirect('/items')
@@ -41,7 +39,7 @@ def description():
             'name': item.itemname,
             'price': item.price,
             'stock': item.stock,
-            'incart': id in session['cart']
+            'incart': 'user' in session and id in session['cart']
         }
     return render_template('description.html', description=description)
 

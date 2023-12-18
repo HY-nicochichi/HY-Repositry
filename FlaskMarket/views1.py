@@ -6,7 +6,7 @@ bp1 = Blueprint('bp1', __name__)
 
 @bp1.route('/', methods=['GET'])
 def index():
-    auth_info = {'login':False, 'name':'未ログイン'}
+    auth_info = {'login': False}
     if 'user' in session:
         auth_info['login'] = True
         auth_info['name'] = User.search_by_id(session['user']).username
@@ -14,9 +14,12 @@ def index():
 
 @bp1.route('/new_user', methods=['GET', 'POST'])
 def new_user():
+    if 'user' in session:
+        flash('既にログイン済です')
+        return redirect('/')
     if request.method == 'POST':
-        mail = request.form.get('MAIL', type=str)
-        password = request.form.get('PASS', type=str)
+        mail = request.form.get('mail', type=str)
+        password = request.form.get('password', type=str)
         username = request.form.get('username', type=str)
         result = User.register(mail, password, username)
         if result['message'] == 'successed':
@@ -44,9 +47,12 @@ def delete_user():
 
 @bp1.route('/login', methods=['GET', 'POST'])
 def login():
+    if 'user' in session:
+        flash('既にログイン済です')
+        return redirect('/')
     if request.method == 'POST':
-        mail = request.form.get('MAIL', type=str)
-        password = request.form.get('PASS', type=str)
+        mail = request.form.get('mail', type=str)
+        password = request.form.get('password', type=str)
         result = User.auth(mail, password)
         if result['message'] == 'successed':
             session.clear()

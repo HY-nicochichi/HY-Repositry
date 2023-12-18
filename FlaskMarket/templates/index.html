@@ -1,56 +1,51 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Flask Market
+  Flask Market
+{% endblock %}
+
+{% block navbar %}
+  <ul class="navbar-nav">
+    {% if auth_info['login'] == False %}
+      <li class="nav-item active">
+        <a type="button" class="btn btn-primary" href="/login">ログイン</a>
+      </li>
+      <li class="nav-item active">
+        <a type="button" class="btn btn-primary ml-2" href="/new_user">ユーザー登録</a>
+      </li>
+    {% else %}
+      <li class="nav-item active">
+        <a type="button" class="btn btn-primary" href="/logout">ログアウト</a>
+      </li>
+      <li class="nav-item active">
+        <a type="button" class="btn btn-primary ml-2" href="/delete_user">アカウント削除</a>
+      </li>
+    {% endif %}
+  </ul>
 {% endblock %}
 
 {% block content %}
-    <!-- ナビゲーションメニュー -->
-    <nav class="navbar navbar-expand-sm navbar-dark bg-dark mt-3 mb-3">
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav4" aria-controls="navbarNav4" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <a class="navbar-brand" href="/">Flask Market</a>
-        <div class="collapse navbar-collapse justify-content-end">
-            <ul class="navbar-nav">
-                {% if auth_info['login'] == False %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/login">ログイン</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/new_user">ユーザー登録</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/logout">ログアウト</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/delete_user">アカウント削除</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
-    </nav>
-    <div>
-        <B>'{{auth_info['name']}}'</B> 様　※ 7日サイトにアクセスしないとログアウトします
+  {% with message = get_flashed_messages() %}
+    {% if message %}
+      <div class="alert alert-danger" role="alert">
+        {{ message[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+  {% if auth_info['login'] == True %}
+    <div class="ml-3">
+      <h4><B>{{auth_info['name']}}</B> 様</h4>
+      <div class="text-danger">※ 7日間アクセスが無ければ自動ログアウトします</div>
     </div>
     <br>
-    <div>
-        <a href="/shopping_cart">ショッピングカート</a>
-    </div>
-    <br>
-    <div>
-        <a href="/items">商品リスト</a>
-    </div>
-    <br>
-    <div>
-        <a href="/new_item">商品登録</a>
-    </div>
-    <br>
-    <div>
-        <a href="/update_items">出品アイテム</a>
-    </div>
-    <br>
-    <br>
-
+  {% endif %}
+  <div class="ml-3">
+    <a href="/shopping_cart">ショッピングカート</a>
+    <br><br>
+    <a href="/items">商品リスト</a>
+    <br><br>
+    <a href="/new_item">商品登録</a>
+    <br><br>
+    <a href="/update_items">出品アイテム</a>
+  </div>
 {% endblock %}

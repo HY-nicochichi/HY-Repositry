@@ -2,7 +2,7 @@ from flask import Flask
 from views1 import bp1
 from views2 import bp2
 from extensions import (
-    db, migrate, server_side_session,
+    db, migrate, server_session,
     csrf_protect, security_header
 )
 
@@ -15,7 +15,7 @@ app.register_blueprint(bp2)
 
 db.init_app(app)
 migrate.init_app(app, db)
-server_side_session.init_app(app)
+server_session.init_app(app)
 csrf_protect.init_app(app)
 # security_header.init_app(app)
 
