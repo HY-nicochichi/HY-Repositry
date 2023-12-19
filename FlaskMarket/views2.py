@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, session
+from models1 import User
 from models2 import Item
 
 bp2 = Blueprint('bp2', __name__)
@@ -19,27 +20,32 @@ def new_item():
 
 @bp2.route('/items', methods=['GET'])
 def items():
-    tag = request.args.get(key='TAG', type=str, default='None')
+    auth_info = {'login': False}
+    if 'user' in session:
+        auth_info['login'] = True
+    tag = request.args.get(key='tag', type=str, default='None')
     results = Item.tag_search(tag)
-    return render_template('items.html', results=results)
+    return render_template('items.html', results=results, auth_info=auth_info)
 
 @bp2.route('/description', methods=['GET', 'POST'])
 def description():
+    if 'user' not in session:
+        return redirect('/login')
     if request.method == 'POST':
-        if 'user' not in session:
-            return redirect('/login')
         item = request.form.get('ITEM', type=str)
         session['cart'][item] = 1
         return redirect('/items')
     else:
         id = request.args.get(key='id', type=str)
         item = Item.search_by_id(id)
+        seller = User.search_by_id(item.seller)
         description = {
             'id': id,
             'name': item.itemname,
             'price': item.price,
             'stock': item.stock,
-            'incart': 'user' in session and id in session['cart']
+            'seller': seller.username,
+            'incart': id in session['cart']
         }
     return render_template('description.html', description=description)
 

@@ -8,17 +8,17 @@
   <ul class="navbar-nav">
     {% if auth_info['login'] == False %}
       <li class="nav-item active">
-        <a type="button" class="btn btn-primary" href="/login">ログイン</a>
+        <a type="button" class="nav-link mr-2" href="/login">ログイン</a>
       </li>
       <li class="nav-item active">
-        <a type="button" class="btn btn-primary ml-2" href="/new_user">ユーザー登録</a>
+        <a type="button" class="nav-link" href="/new_user">ユーザー登録</a>
       </li>
     {% else %}
       <li class="nav-item active">
-        <a type="button" class="btn btn-primary" href="/logout">ログアウト</a>
+        <a type="button" class="nav-link mr-2" href="/logout">ログアウト</a>
       </li>
       <li class="nav-item active">
-        <a type="button" class="btn btn-primary ml-2" href="/delete_user">アカウント削除</a>
+        <a type="button" class="nav-link" href="/delete_user">アカウント削除</a>
       </li>
     {% endif %}
   </ul>
