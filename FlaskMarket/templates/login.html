@@ -13,9 +13,6 @@
 {% endblock %}
 
 {% block content %}
-  <h4 class="ml-3">
-    <b>ログイン</b>
-  </h4>
   {% with message = get_flashed_messages() %}
     {% if message %}
       <div class="alert alert-danger" role="alert">
@@ -23,7 +20,10 @@
       </div>
     {% endif %}
   {% endwith %}
-  <div class="col-sm-9 col-md-7 col-lg-5 ml-3 mr-3 border border-primary bg-light">
+  <h4>
+    <b>ログイン</b>
+  </h4>
+  <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light">
     <div class="row">
       <div class="col mt-3">
         <form method="POST">

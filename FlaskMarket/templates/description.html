@@ -16,31 +16,29 @@
 {% endblock %}
 
 {% block content %}
-  <div class="mx-3 mb-3">
-    <h4>
-        詳細：<b>{{description['name']}}</b>
-    </h4>
-    <br>
-    <div class="mb-2">
-      価格：{{description['price']}}円
-    </div>
-    <div class="mb-2">
-      在庫：{{description['stock']}}点
-    </div>
-    <div>
-      販売者：{{description['seller']}}
-    </div>
-    {% if not description['incart'] %}
-      <br>
-      <form method="POST">
-        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-        <input type="hidden" name="ITEM" value="{{description['id']}}">
-        <div>
-          <input type="submit" class="btn btn-primary" value="カートに追加">
-        </div>
-      </form>
-    {% endif %}
-    <br><br>
-    <a href="/items">商品リスト</a>
+  <h4>
+    詳細：<b>{{description['name']}}</b>
+  </h4>
+  <br>
+  <div class="mb-2">
+    価格：{{description['price']}}円
   </div>
+  <div class="mb-2">
+    在庫：{{description['stock']}}点
+  </div>
+  <div>
+    販売者：{{description['seller']}}
+  </div>
+  {% if not description['incart'] %}
+    <br>
+    <form method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <input type="hidden" name="ITEM" value="{{description['id']}}">
+      <div>
+        <input type="submit" class="btn btn-primary" value="カートに追加">
+      </div>
+    </form>
+  {% endif %}
+  <br><br>
+  <a href="/items">商品リスト</a>
 {% endblock %}

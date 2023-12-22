@@ -33,19 +33,17 @@
     {% endif %}
   {% endwith %}
   {% if auth_info['login'] == True %}
-    <div class="ml-3">
-      <h4><B>{{auth_info['name']}}</B> 様</h4>
-      <div class="text-danger">※ 7日間アクセスが無ければ自動ログアウトします</div>
-    </div>
-    <br>
+  <h4>
+    <B>{{auth_info['name']}}</B> 様
+  </h4>
+  <div class="text-danger">※ 7日間アクセスが無ければ自動ログアウトします</div>
+  <br>
   {% endif %}
-  <div class="ml-3">
-    <a href="/shopping_cart">ショッピングカート</a>
-    <br><br>
-    <a href="/items">商品リスト</a>
-    <br><br>
-    <a href="/new_item">商品登録</a>
-    <br><br>
-    <a href="/update_items">出品アイテム</a>
-  </div>
+  <a href="/shopping_cart">ショッピングカート</a>
+  <br><br>
+  <a href="/items">商品リスト</a>
+  <br><br>
+  <a href="/new_item">商品登録</a>
+  <br><br>
+  <a href="/update_items">出品アイテム</a>
 {% endblock %}
