@@ -1,18 +1,16 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    アカウント削除
+  サービス退会
 {% endblock %}
 
 {% block content %}
-    <div>
-        本当に削除しますか？
-    </div>
-    <br>
-    <div>
-        <a href="/">いいえ</a>
-    </div>
-    <div>
-        <a href="/delete_user?state=confirmed">はい</a>
-    </div>
+  <div>
+    <b>本当に退会しますか？</b>
+  </div>
+  <br>
+  <div>
+    <a href="/profile" class="btn btn-primary mr-5">戻る</a>
+    <a href="/delete_user?state=confirmed" class="btn btn-danger">退会</a>
+  </div>
 {% endblock %}

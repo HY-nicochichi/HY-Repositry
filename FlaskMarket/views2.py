@@ -9,86 +9,91 @@ def new_item():
     if 'user' not in session:
         return redirect('/login')
     if request.method == 'POST':
-        itemname = request.form.get('NAME', type=str)
-        price = request.form.get('PRICE', type=int)
-        stock = request.form.get('STOCK', type=int)
-        tag = request.form.get('TAG', type=str)
+        itemname = request.form.get('itemname', type=str)
+        price = request.form.get('price', type=int)
+        stock = request.form.get('stock', type=int)
+        tag = request.form.get('tag', type=str)
         seller = session['user']
         Item.register(itemname, price, stock, tag, seller)
-        return redirect('/items')
-    return render_template('new_item.html')
-
-@bp2.route('/items', methods=['GET'])
-def items():
-    auth_info = {'login': False}
-    if 'user' in session:
-        auth_info['login'] = True
-    tag = request.args.get(key='tag', type=str, default='None')
-    results = Item.tag_search(tag)
-    return render_template('items.html', results=results, auth_info=auth_info)
+        return redirect('/')
+    user_info = {
+        'login': True, 
+        'name': User.search_by_id(session['user']).username
+    }
+    return render_template('new_item.html', user_info=user_info)
 
 @bp2.route('/description', methods=['GET', 'POST'])
 def description():
     if 'user' not in session:
         return redirect('/login')
     if request.method == 'POST':
-        item = request.form.get('ITEM', type=str)
-        session['cart'][item] = 1
-        return redirect('/items')
-    else:
-        id = request.args.get(key='id', type=str)
-        item = Item.search_by_id(id)
-        seller = User.search_by_id(item.seller)
-        description = {
-            'id': id,
-            'name': item.itemname,
-            'price': item.price,
-            'stock': item.stock,
-            'seller': seller.username,
-            'incart': id in session['cart']
-        }
-    return render_template('description.html', description=description)
+        item = request.form.get('item', type=str)
+        session['basket'][item] = 1
+        return redirect('/')
+    id = request.args.get(key='id', type=str)
+    item = Item.search_by_id(id)
+    seller = User.search_by_id(item.seller)
+    description = {
+        'id': id,
+        'name': item.itemname,
+        'price': item.price,
+        'stock': item.stock,
+        'seller': seller.username,
+        'in_basket': id in session['basket']
+    }
+    user_info = {
+        'login': True, 
+        'name': User.search_by_id(session['user']).username
+    }
+    return render_template('description.html', user_info=user_info, description=description)
 
-@bp2.route('/shopping_cart', methods=['GET', 'POST'])
-def shopping_cart():
+@bp2.route('/basket', methods=['GET', 'POST'])
+def basket():
     if 'user' not in session:
         return redirect('/login')
-    cart = []
-    sum = 0
+    basket = {'content': [], 'sum': 0}
     if request.method == 'POST':
-        for key in list(session['cart'].keys()):
-            session['cart'][key] = request.form.get(key, type=int)
-            if session['cart'][key] == 0 or Item.search_by_id(key) == None:
-                del session['cart'][key]
-        if request.form.get('ACT', type=str) == 'order':
-            for key in session['cart']:
-                new_stock = Item.search_by_id(key).stock - session['cart'][key]
+        for key in list(session['basket'].keys()):
+            session['basket'][key] = request.form.get(key, type=int)
+            if session['basket'][key] == 0 or Item.search_by_id(key) == None:
+                del session['basket'][key]
+        if request.form.get('act', type=str) == 'order':
+            for key in session['basket']:
+                new_stock = Item.search_by_id(key).stock - session['basket'][key]
                 Item.update_stock(key, new_stock)
-            session['cart'].clear()
-        return redirect('/shopping_cart')
-    for key in list(session['cart'].keys()):
+            session['basket'].clear()
+        return redirect('/basket')
+    for key in list(session['basket'].keys()):
         item = Item.search_by_id(key)
         if item == None:
-            del session['cart'][key]
+            del session['basket'][key]
         else:
-            cart.append({'id': key, 'name': item.itemname, 
-            'num': session['cart'][key], 'stock': item.stock, 'price': item.price})
-            sum += session['cart'][key] * item.price
-    return render_template('shopping_cart.html', cart=cart, sum=sum)
+            basket['content'].append({'id': key, 'name': item.itemname, 
+            'num': session['basket'][key], 'stock': item.stock, 'price': item.price})
+            basket['sum'] += session['basket'][key] * item.price
+    user_info = {
+        'login': True, 
+        'name': User.search_by_id(session['user']).username
+    }
+    return render_template('basket.html', user_info=user_info, basket=basket)
 
 @bp2.route('/update_items', methods=['GET', 'POST'])
 def update_items():
     if 'user' not in session:
         return redirect('/login')
     if request.method == 'POST':
-        id = request.form.get('ID', type=str)
-        if request.form.get('ACT', type=str) == 'delete':
+        id = request.form.get('id', type=str)
+        if request.form.get('act', type=str) == 'delete':
             Item.delete_by_id(id)
         else:
-            price = request.form.get('PRICE', type=int)
-            stock = request.form.get('STOCK', type=int)
+            price = request.form.get('price', type=int)
+            stock = request.form.get('stock', type=int)
             Item.update_price(id, price)
             Item.update_stock(id, stock)
         return redirect('/update_items')
     items = Item.seller_search(session['user'])
-    return render_template('update_items.html', items=items)
+    user_info = {
+        'login': True, 
+        'name': User.search_by_id(session['user']).username
+    }
+    return render_template('update_items.html', user_info=user_info, items=items)

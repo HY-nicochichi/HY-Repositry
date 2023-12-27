@@ -6,11 +6,15 @@ bp1 = Blueprint('bp1', __name__)
 
 @bp1.route('/', methods=['GET'])
 def index():
-    auth_info = {'login': False}
+    user_info = {'login': False}
     if 'user' in session:
-        auth_info['login'] = True
-        auth_info['name'] = User.search_by_id(session['user']).username
-    return render_template('index.html', auth_info=auth_info)
+        user_info = {
+            'login': True, 
+            'name': User.search_by_id(session['user']).username
+        }
+    tag = request.args.get(key='tag', type=str, default='None')
+    items = Item.tag_search(tag)
+    return render_template('index.html', user_info=user_info, items=items)
 
 @bp1.route('/new_user', methods=['GET', 'POST'])
 def new_user():
@@ -25,12 +29,13 @@ def new_user():
         if result['message'] == 'successed':
             session.clear()
             session['user'] = result['userid']
-            session['cart'] = {}
+            session['basket'] = {}
             session.permanent = True
             return redirect('/')
         flash(result['message'])
         return redirect('/new_user')
-    return render_template('new_user.html')
+    user_info = {'login': False}
+    return render_template('new_user.html', user_info=user_info)
 
 @bp1.route('/delete_user', methods=['GET'])
 def delete_user():
@@ -42,8 +47,11 @@ def delete_user():
         User.delete(session['user'])
         session.clear()
         return redirect('/')
-    else:
-        return render_template('delete_user.html')
+    user_info = {
+        'login': True, 
+        'name': User.search_by_id(session['user']).username
+    }
+    return render_template('delete_user.html', user_info=user_info)
 
 @bp1.route('/login', methods=['GET', 'POST'])
 def login():
@@ -57,12 +65,13 @@ def login():
         if result['message'] == 'successed':
             session.clear()
             session['user'] = result['userid']
-            session['cart'] = {}
+            session['basket'] = {}
             session.permanent = True
             return redirect('/')
         flash(result['message'])
         return redirect('/login')
-    return render_template('login.html')
+    user_info = {'login': False}
+    return render_template('login.html', user_info=user_info)
 
 @bp1.route('/logout', methods=['GET'])
 def logout():
@@ -70,3 +79,39 @@ def logout():
         return redirect('/login')
     session.clear()
     return redirect('/')
+
+@bp1.route('/profile', methods=['GET'])
+def profile():
+    if 'user' not in session:
+        return redirect('/login')
+    user_info = {
+        'login': True, 
+        'name': User.search_by_id(session['user']).username,
+        'mail': User.search_by_id(session['user']).mail
+    }
+    return render_template('profile.html', user_info=user_info)
+
+@bp1.route('/update_profile', methods=['GET', 'POST'])
+def update_profile():
+    if 'user' not in session:
+        return redirect('/login')
+    param = request.args.get('param', type=str, default='default')
+    if request.method == 'POST':
+        current_value = request.form.get(f'現{param}', type=str)
+        new_value = request.form.get(f'新{param}', type=str)
+        check_value = request.form.get(f'新{param}(確認)', type=str)
+        if param == 'メールアドレス':
+            result = User.update_mail(session['user'], current_value, new_value, check_value)
+        elif param == 'パスワード':
+            result = User.update_password(session['user'], current_value, new_value, check_value)
+        elif param == 'ユーザーネーム':
+            result = User.update_username(session['user'], current_value, new_value, check_value)
+        if result == 'success':
+            return redirect('/profile')
+        flash(result)
+        return redirect(f'/update_profile?param={param}')
+    user_info = {
+        'login': True, 
+        'name': User.search_by_id(session['user']).username
+    }
+    return render_template('update_profile.html', user_info=user_info, param=param)

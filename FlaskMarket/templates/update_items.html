@@ -1,40 +1,49 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    出品アイテム
+  出品アイテム
 {% endblock %}
     
 {% block content %}
-    <h2>
-        出品アイテム
-    </h2>
-    <div>
-        {% for item in items %}
-            <form method="POST">
-                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-                <div>
-                    {{item.itemname}}
-                </div>
-                <input type="hidden" name="ID" value="{{item.id}}">
-                <div>
-                    価格：<input type="number" name="PRICE" 
-                        value="{{item.price}}" min="0" required>円
-                </div>
-                <div>
-                    在庫：<input type="number" name="STOCK" 
-                        value="{{item.stock}}" min="0" required>点
-                </div>
-                <div>
-                    変更内容 <select name="ACT" required>
-                                <option value="update">商品情報を更新</option>
-                                <option value="delete">この商品を削除</option>
-                             </select>
-                </div>
-                <div>
-                    <input type="submit" value="変更">
-                </div>
-            </form>
-            <br>    
-        {% endfor %}
-    </div>
+  <h4>
+    <b>出品アイテム</b>
+  </h4>
+  <br>
+  <div>
+    <a href="/new_item" class="mb-2 btn btn-primary">新規アイテムの登録</a>
+  </div>
+  <br>
+  <div>
+    {% for item in items %}
+      <form method="POST" name="item_form">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input type="hidden" name="act" value="delete">
+        <div class="col-11 col-sm-8 col-md-6 col-lg-4 border border-primary px-2.5 py-2 bg-light">
+          <div>
+            <b>{{item.itemname}}</b>
+          </div>
+          <input type="hidden" name="id" value="{{item.id}}">
+          <div class="mt-2">
+            価格：<input type="number" name="price" class="mr-1"
+            value="{{item.price}}" min="0" required>円
+          </div>
+          <div class="mt-2">
+            在庫：<input type="number" name="stock" class="mr-1" 
+            value="{{item.stock}}" min="0" required>点
+          </div>
+          <div class="mt-3">
+            <button onclick="update_item()" class="btn btn-primary mr-4">情報更新</button>
+            <input type="submit" class="btn btn-danger" value="商品削除">
+          </div>
+        </div>
+      </form>
+      <script>
+        function update_item() {
+          document.item_form.act.value = "update";
+          document.item_form.submit();
+        };
+      </script>
+      <br>    
+    {% endfor %}
+  </div>
 {% endblock %}

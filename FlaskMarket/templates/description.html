@@ -29,16 +29,14 @@
   <div>
     販売者：{{description['seller']}}
   </div>
-  {% if not description['incart'] %}
+  {% if not description['in_basket'] %}
     <br>
     <form method="POST">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      <input type="hidden" name="ITEM" value="{{description['id']}}">
+      <input type="hidden" name="item" value="{{description['id']}}">
       <div>
-        <input type="submit" class="btn btn-primary" value="カートに追加">
+        <input type="submit" class="btn btn-primary" value="買い物カゴに入れる">
       </div>
     </form>
   {% endif %}
-  <br><br>
-  <a href="/items">商品リスト</a>
 {% endblock %}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  会員様情報
+{% endblock %}
+
+{% block content %}
+  <h4 class="mb-3">
+    <b>会員様情報</b>
+  </h4>
+  <div class="col-sm-9 col-md-6 col-lg-4 border border-primary mt-4 px-3 py-2 bg-light">
+    ユーザーネーム：{{user_info['name']}}
+    <br>
+    <a href="/update_profile?param=ユーザーネーム" class="btn btn-primary my-2">変更</a>
+    <br>
+    <hr class="border-primary">
+    メールアドレス：{{user_info['mail']}}
+    <br>
+    <a href="/update_profile?param=メールアドレス" class="btn btn-primary my-2">変更</a>
+    <br>
+    <hr class="border-primary">
+    パスワード：＊＊＊＊＊＊
+    <br>
+    <a href="/update_profile?param=パスワード" class="btn btn-primary my-2">変更</a>
+  </div>
+  <br>
+  <div class="my-2">
+    <a href="/update_items" class="btn btn-info">出品アイテム一覧</a>
+  </div>
+  <br>
+  <a href="/delete_user" class="btn btn-danger">サービス退会</a>
+  <br><br>
+{% endblock %}
