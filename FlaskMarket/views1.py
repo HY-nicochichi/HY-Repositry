@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, session, flash
+from uuid import uuid4
 from models1 import User
 from models2 import Item
 
@@ -27,7 +28,7 @@ def new_user():
         username = request.form.get('username', type=str)
         result = User.register(mail, password, username)
         if result['message'] == 'successed':
-            session.clear()
+            session.sid = str(uuid4())
             session['user'] = result['userid']
             session['basket'] = {}
             session.permanent = True
@@ -63,7 +64,7 @@ def login():
         password = request.form.get('password', type=str)
         result = User.auth(mail, password)
         if result['message'] == 'successed':
-            session.clear()
+            session.sid = str(uuid4())
             session['user'] = result['userid']
             session['basket'] = {}
             session.permanent = True
