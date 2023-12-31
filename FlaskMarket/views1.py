@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, request, session, flash
 from uuid import uuid4
-from models1 import User
-from models2 import Item
+from models1 import UserHelper
+from models2 import ItemHelper
 
 bp1 = Blueprint('bp1', __name__)
 
@@ -11,10 +11,10 @@ def index():
     if 'user' in session:
         user_info = {
             'login': True, 
-            'name': User.search_by_id(session['user']).username
+            'name': UserHelper.search_by_id(session['user']).username
         }
     tag = request.args.get(key='tag', type=str, default='None')
-    items = Item.tag_search(tag)
+    items = ItemHelper.tag_search(tag)
     return render_template('index.html', user_info=user_info, items=items)
 
 @bp1.route('/new_user', methods=['GET', 'POST'])
@@ -26,12 +26,11 @@ def new_user():
         mail = request.form.get('mail', type=str)
         password = request.form.get('password', type=str)
         username = request.form.get('username', type=str)
-        result = User.register(mail, password, username)
+        result = UserHelper.register(mail, password, username)
         if result['message'] == 'successed':
             session.sid = str(uuid4())
             session['user'] = result['userid']
             session['basket'] = {}
-            session.permanent = True
             return redirect('/')
         flash(result['message'])
         return redirect('/new_user')
@@ -44,13 +43,13 @@ def delete_user():
         return redirect('/login')
     state = request.args.get('state', type=str, default='default')
     if state == 'confirmed':
-        Item.delete_by_seller(session['user'])
-        User.delete(session['user'])
+        ItemHelper.delete_by_seller(session['user'])
+        UserHelper.delete(session['user'])
         session.clear()
         return redirect('/')
     user_info = {
         'login': True, 
-        'name': User.search_by_id(session['user']).username
+        'name': UserHelper.search_by_id(session['user']).username
     }
     return render_template('delete_user.html', user_info=user_info)
 
@@ -62,12 +61,11 @@ def login():
     if request.method == 'POST':
         mail = request.form.get('mail', type=str)
         password = request.form.get('password', type=str)
-        result = User.auth(mail, password)
+        result = UserHelper.auth(mail, password)
         if result['message'] == 'successed':
             session.sid = str(uuid4())
             session['user'] = result['userid']
             session['basket'] = {}
-            session.permanent = True
             return redirect('/')
         flash(result['message'])
         return redirect('/login')
@@ -87,8 +85,8 @@ def profile():
         return redirect('/login')
     user_info = {
         'login': True, 
-        'name': User.search_by_id(session['user']).username,
-        'mail': User.search_by_id(session['user']).mail
+        'name': UserHelper.search_by_id(session['user']).username,
+        'mail': UserHelper.search_by_id(session['user']).mail
     }
     return render_template('profile.html', user_info=user_info)
 
@@ -102,17 +100,17 @@ def update_profile():
         new_value = request.form.get(f'新{param}', type=str)
         check_value = request.form.get(f'新{param}(確認)', type=str)
         if param == 'メールアドレス':
-            result = User.update_mail(session['user'], current_value, new_value, check_value)
+            result = UserHelper.update_mail(session['user'], current_value, new_value, check_value)
         elif param == 'パスワード':
-            result = User.update_password(session['user'], current_value, new_value, check_value)
+            result = UserHelper.update_password(session['user'], current_value, new_value, check_value)
         elif param == 'ユーザーネーム':
-            result = User.update_username(session['user'], current_value, new_value, check_value)
+            result = UserHelper.update_username(session['user'], current_value, new_value, check_value)
         if result == 'success':
             return redirect('/profile')
         flash(result)
         return redirect(f'/update_profile?param={param}')
     user_info = {
         'login': True, 
-        'name': User.search_by_id(session['user']).username
+        'name': UserHelper.search_by_id(session['user']).username
     }
     return render_template('update_profile.html', user_info=user_info, param=param)

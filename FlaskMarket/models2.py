@@ -17,6 +17,8 @@ class Item(BaseModel):
         db_orm.CheckConstraint(stock >= 0, name='stock_positive'),
     )
 
+class ItemHelper():
+
     def tag_search(tag='None'):
         if str(tag) == 'None':
             return Item.query.filter_by().all()
@@ -37,23 +39,23 @@ class Item(BaseModel):
         return
 
     def delete_by_id(id):
-        db_orm.session.delete(Item.search_by_id(id))
+        db_orm.session.delete(ItemHelper.search_by_id(id))
         db_orm.session.commit()
         return
     
     def delete_by_seller(seller):
-        items = Item.seller_search(seller)
+        items = ItemHelper.seller_search(seller)
         for item in items:
            db_orm.session.delete(item)
         db_orm.session.commit()
         return
     
     def update_stock(id, new_stock):
-        Item.search_by_id(id).stock = int(new_stock)
+        ItemHelper.search_by_id(id).stock = int(new_stock)
         db_orm.session.commit()
         return
 
     def update_price(id, new_price):
-        Item.search_by_id(id).price = int(new_price)
+        ItemHelper.search_by_id(id).price = int(new_price)
         db_orm.session.commit()
         return

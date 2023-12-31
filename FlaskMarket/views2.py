@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, request, session
-from models1 import User
-from models2 import Item
+from models1 import UserHelper
+from models2 import ItemHelper
 
 bp2 = Blueprint('bp2', __name__)
 
@@ -14,11 +14,11 @@ def new_item():
         stock = request.form.get('stock', type=int)
         tag = request.form.get('tag', type=str)
         seller = session['user']
-        Item.register(itemname, price, stock, tag, seller)
+        ItemHelper.register(itemname, price, stock, tag, seller)
         return redirect('/')
     user_info = {
         'login': True, 
-        'name': User.search_by_id(session['user']).username
+        'name': UserHelper.search_by_id(session['user']).username
     }
     return render_template('new_item.html', user_info=user_info)
 
@@ -31,8 +31,8 @@ def description():
         session['basket'][item] = 1
         return redirect('/')
     id = request.args.get(key='id', type=str)
-    item = Item.search_by_id(id)
-    seller = User.search_by_id(item.seller)
+    item = ItemHelper.search_by_id(id)
+    seller = UserHelper.search_by_id(item.seller)
     description = {
         'id': id,
         'name': item.itemname,
@@ -43,7 +43,7 @@ def description():
     }
     user_info = {
         'login': True, 
-        'name': User.search_by_id(session['user']).username
+        'name': UserHelper.search_by_id(session['user']).username
     }
     return render_template('description.html', user_info=user_info, description=description)
 
@@ -55,16 +55,16 @@ def basket():
     if request.method == 'POST':
         for key in list(session['basket'].keys()):
             session['basket'][key] = request.form.get(key, type=int)
-            if session['basket'][key] == 0 or Item.search_by_id(key) == None:
+            if session['basket'][key] == 0 or ItemHelper.search_by_id(key) == None:
                 del session['basket'][key]
         if request.form.get('act', type=str) == 'order':
             for key in session['basket']:
-                new_stock = Item.search_by_id(key).stock - session['basket'][key]
-                Item.update_stock(key, new_stock)
+                new_stock = ItemHelper.search_by_id(key).stock - session['basket'][key]
+                ItemHelper.update_stock(key, new_stock)
             session['basket'].clear()
         return redirect('/basket')
     for key in list(session['basket'].keys()):
-        item = Item.search_by_id(key)
+        item = ItemHelper.search_by_id(key)
         if item == None:
             del session['basket'][key]
         else:
@@ -73,7 +73,7 @@ def basket():
             basket['sum'] += session['basket'][key] * item.price
     user_info = {
         'login': True, 
-        'name': User.search_by_id(session['user']).username
+        'name': UserHelper.search_by_id(session['user']).username
     }
     return render_template('basket.html', user_info=user_info, basket=basket)
 
@@ -84,16 +84,16 @@ def update_items():
     if request.method == 'POST':
         id = request.form.get('id', type=str)
         if request.form.get('act', type=str) == 'delete':
-            Item.delete_by_id(id)
+            ItemHelper.delete_by_id(id)
         else:
             price = request.form.get('price', type=int)
             stock = request.form.get('stock', type=int)
-            Item.update_price(id, price)
-            Item.update_stock(id, stock)
+            ItemHelper.update_price(id, price)
+            ItemHelper.update_stock(id, stock)
         return redirect('/update_items')
-    items = Item.seller_search(session['user'])
+    items = ItemHelper.seller_search(session['user'])
     user_info = {
         'login': True, 
-        'name': User.search_by_id(session['user']).username
+        'name': UserHelper.search_by_id(session['user']).username
     }
     return render_template('update_items.html', user_info=user_info, items=items)
