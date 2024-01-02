@@ -15,7 +15,14 @@ def index():
         }
     tag = request.args.get(key='tag', type=str, default='None')
     items = ItemHelper.tag_search(tag)
-    return render_template('index.html', user_info=user_info, items=items)
+    itemList = []
+    for item in items:
+        itemList.append({
+            'id': item.id,
+            'name': item.itemname,
+            'price': item.price
+        })
+    return render_template('index.html', user_info=user_info, items=itemList)
 
 @bp1.route('/new_user', methods=['GET', 'POST'])
 def new_user():

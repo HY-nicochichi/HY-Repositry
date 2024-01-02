@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block title %}
-  詳細：{{description['name']}}
+  詳細：
 {% endblock %}
 
 {% block navbar %}
@@ -17,26 +17,33 @@
 
 {% block content %}
   <h4>
-    詳細：<b>{{description['name']}}</b>
+    詳細：<b>[(description['name'])]</b>
   </h4>
   <br>
   <div class="mb-2">
-    価格：{{description['price']}}円
+    価格：[(description['price'])]円
   </div>
   <div class="mb-2">
-    在庫：{{description['stock']}}点
+    在庫：[(description['stock'])]点
   </div>
   <div>
-    販売者：{{description['seller']}}
+    販売者：[(description['seller'])]
   </div>
-  {% if not description['in_basket'] %}
-    <br>
-    <form method="POST">
-      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-      <input type="hidden" name="item" value="{{description['id']}}">
-      <div>
-        <input type="submit" class="btn btn-primary" value="買い物カゴに入れる">
-      </div>
-    </form>
-  {% endif %}
+  <br>
+  <form v-if="description['in_basket'] == false" method="POST">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="hidden" name="item" :value="description['id']">
+    <div>
+    <input type="submit" class="btn btn-primary" value="買い物カゴに入れる">
+    </div>
+  </form>
+{% endblock %}
+
+{% block json_data %}
+  user_info: {{user_info|tojson}},
+  description: {{description|tojson}}
+{% endblock %}
+
+{% block opt_script %}
+  document.title = document.title + vueApp.description['name'];
 {% endblock %}

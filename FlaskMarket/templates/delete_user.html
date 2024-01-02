@@ -14,3 +14,10 @@
     <a href="/delete_user?state=confirmed" class="btn btn-danger">退会</a>
   </div>
 {% endblock %}
+
+{% block json_data %}
+  user_info: {{user_info|tojson}}
+{% endblock %}
+
+{% block opt_script %}
+{% endblock %}

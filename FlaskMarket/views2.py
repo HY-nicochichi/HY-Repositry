@@ -83,17 +83,27 @@ def update_items():
         return redirect('/login')
     if request.method == 'POST':
         id = request.form.get('id', type=str)
-        if request.form.get('act', type=str) == 'delete':
-            ItemHelper.delete_by_id(id)
-        else:
-            price = request.form.get('price', type=int)
-            stock = request.form.get('stock', type=int)
-            ItemHelper.update_price(id, price)
-            ItemHelper.update_stock(id, stock)
+        price = request.form.get('price', type=int)
+        stock = request.form.get('stock', type=int)
+        ItemHelper.update_price(id, price)
+        ItemHelper.update_stock(id, stock)
         return redirect('/update_items')
-    items = ItemHelper.seller_search(session['user'])
+    state = request.args.get('state', type=str, default='default')
+    if state == 'delete':
+        del_id = request.args.get('del_id', type=str)
+        ItemHelper.delete_by_id(del_id)
+        return redirect('/update_items')
     user_info = {
         'login': True, 
         'name': UserHelper.search_by_id(session['user']).username
     }
-    return render_template('update_items.html', user_info=user_info, items=items)
+    items = ItemHelper.seller_search(session['user'])
+    itemList = []
+    for item in items:
+        itemList.append({
+            'id': item.id,
+            'name': item.itemname,
+            'price': item.price,
+            'stock': item.stock
+        })
+    return render_template('update_items.html', user_info=user_info, items=itemList)
