@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, redirect, request, session, flash
-from uuid import uuid4
 from models1 import UserHelper
 from models2 import ItemHelper
 
@@ -35,9 +34,7 @@ def new_user():
         username = request.form.get('username', type=str)
         result = UserHelper.register(mail, password, username)
         if result['message'] == 'successed':
-            session.sid = str(uuid4())
-            session['user'] = result['userid']
-            session['basket'] = {}
+            UserHelper.log_in(result['user_id'])
             return redirect('/')
         flash(result['message'])
         return redirect('/new_user')
@@ -70,9 +67,7 @@ def login():
         password = request.form.get('password', type=str)
         result = UserHelper.auth(mail, password)
         if result['message'] == 'successed':
-            session.sid = str(uuid4())
-            session['user'] = result['userid']
-            session['basket'] = {}
+            UserHelper.log_in(result['user_id'])
             return redirect('/')
         flash(result['message'])
         return redirect('/login')

@@ -1,3 +1,5 @@
+from flask import session
+from sqlalchemy import text
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
 from extensions import db_orm, BaseModel
@@ -32,7 +34,7 @@ class UserHelper():
             db_orm.session.add(new_user)
             db_orm.session.commit()
             result['message'] = 'successed'
-            result['userid'] = UserHelper.search_by_mail(mail).id
+            result['user_id'] = UserHelper.search_by_mail(mail).id
         return result
 
     def delete(id):
@@ -50,7 +52,7 @@ class UserHelper():
             result['message'] = 'パスワードが誤っています'
         else:
             result['message'] = 'successed'
-            result['userid'] = found_user.id
+            result['user_id'] = found_user.id
         return result
 
     def update_mail(id, current_mail, new_mail, check_mail):
@@ -87,3 +89,12 @@ class UserHelper():
             db_orm.session.commit()
             result = 'success'
         return result
+    
+    def log_in(user_id):
+        session_ID = 'session:' + session.sid
+        del_SQL = text('delete from sessions where session_id=:session_ID')
+        db_orm.session.execute(del_SQL, {'session_ID': session_ID})
+        db_orm.session.commit()
+        session.sid = str(uuid4())
+        session['user'] = user_id
+        session['basket'] = {}
