@@ -15,7 +15,7 @@
   <br>
   <div>
     <div v-for="item in items">
-      <form method="POST" name="item_form">
+      <form method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
         <input type="hidden" name="act" value="update">
         <div class="col-11 col-sm-8 col-md-6 col-lg-4 border border-primary px-2.5 py-2 bg-light">
@@ -43,6 +43,9 @@
 {% block json_data %}
   user_info: {{user_info|tojson}},
   items: {{items|tojson}}
+{% endblock %}
+
+{% block vue_func %}
 {% endblock %}
 
 {% block opt_script %}

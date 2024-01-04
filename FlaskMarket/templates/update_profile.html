@@ -66,6 +66,12 @@
   param: {{param|tojson}}
 {% endblock %}
 
+{% block vue_func %}
+  changeTitle() {
+    document.title = this.param + document.title;
+  }
+{% endblock %}
+
 {% block opt_script %}
-  document.title = vueApp.param + document.title;
+  vueApp.changeTitle();
 {% endblock %}

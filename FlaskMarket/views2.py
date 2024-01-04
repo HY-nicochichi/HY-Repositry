@@ -51,7 +51,7 @@ def description():
 def basket():
     if 'user' not in session:
         return redirect('/login')
-    basket = {'content': [], 'sum': 0}
+    basket = []
     if request.method == 'POST':
         for key in list(session['basket'].keys()):
             session['basket'][key] = request.form.get(key, type=int)
@@ -68,9 +68,8 @@ def basket():
         if item == None:
             del session['basket'][key]
         else:
-            basket['content'].append({'id': key, 'name': item.itemname, 
+            basket.append({'id': key, 'name': item.itemname, 
             'num': session['basket'][key], 'stock': item.stock, 'price': item.price})
-            basket['sum'] += session['basket'][key] * item.price
     user_info = {
         'login': True, 
         'name': UserHelper.search_by_id(session['user']).username

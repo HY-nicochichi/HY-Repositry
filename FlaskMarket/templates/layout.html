@@ -66,15 +66,19 @@
   <!-- Vue3.JS -->
   <script src="https://cdn.jsdelivr.net/npm/vue@3.2"></script>
   <script>
-    var vueApp = Vue.createApp({
+    let vueApp = Vue.createApp({
       data() {
         return {
           {% block json_data %}
           {% endblock %}
         }
       },
-      delimiters: ['[(', ')]']
-    }).mount('#vueApp')
+      delimiters: ['[(', ')]'],
+      methods: {
+        {% block vue_func %}
+        {% endblock %}
+      }
+    }).mount('#vueApp');
     {% block opt_script %}
     {% endblock %}
   </script>

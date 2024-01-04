@@ -44,6 +44,12 @@
   description: {{description|tojson}}
 {% endblock %}
 
+{% block vue_func %}
+  changeTitle() {
+    document.title = document.title + this.description['name'];
+  }
+{% endblock %}
+
 {% block opt_script %}
-  document.title = document.title + vueApp.description['name'];
+  vueApp.changeTitle();
 {% endblock %}
