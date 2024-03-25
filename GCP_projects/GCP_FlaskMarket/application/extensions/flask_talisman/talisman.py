@@ -1,20 +1,16 @@
 # Copyright 2015 Google Inc.
-#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
+# http://www.apache.org/licenses/LICENSE-2.0
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 from collections import OrderedDict
-
 import flask
-
 
 DENY = 'DENY'
 SAMEORIGIN = 'SAMEORIGIN'
@@ -23,12 +19,14 @@ ONE_YEAR_IN_SECS = 31556926
 
 DEFAULT_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
-# Content_Security_Policy のデフォルト値を変更しました
+# DEFAULT_CSP_POLICY のデフォルト値を変更しました。
 DEFAULT_CSP_POLICY = {
     'default-src': [
         '\'self\'',
         '\'unsafe-inline\'',
         '\'unsafe-eval\'',
+        'stackpath.bootstrapcdn.com',
+        'code.jquery.com',
         'cdn.jsdelivr.net'
     ]
 }
@@ -63,11 +61,9 @@ DEFAULT_FEATURE_POLICY = {
 
 NONCE_LENGTH = 32
 
-
 class Talisman(object):
-    """
-    Talisman is a Flask extension for HTTP security headers.
-    """
+
+    # Talisman is a Flask extension for HTTP security headers.
 
     def __init__(self, app=None, **kwargs):
         if app is not None:

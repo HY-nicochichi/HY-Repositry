@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from uuid import uuid4
-from extensions import db_orm
-from models import User
+from application.extensions import db_orm
+from application.models import User
 
 class UserHelper():
 

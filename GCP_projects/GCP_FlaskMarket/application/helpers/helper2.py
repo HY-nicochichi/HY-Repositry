@@ -1,6 +1,6 @@
 from uuid import uuid4
-from extensions import db_orm
-from models import Item
+from application.extensions import db_orm
+from application.models import Item
 
 class ItemHelper():
 

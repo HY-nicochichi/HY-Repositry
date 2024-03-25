@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, request, session
-from helpers import UserHelper, ItemHelper
+from application.helpers import UserHelper, ItemHelper
 
 bp2 = Blueprint('bp2', __name__, template_folder='../templates/temp2')
 

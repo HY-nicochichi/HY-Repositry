@@ -1,4 +1,4 @@
-from extensions import db_orm, BaseModel
+from application.extensions import db_orm, BaseModel
 
 class User(BaseModel):
 
