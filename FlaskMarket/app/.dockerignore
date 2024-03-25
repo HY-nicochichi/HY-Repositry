@@ -1,0 +1,12 @@
+Dockerfile
+.dockerignore
+config/requirements_windows.txt
+config/crt.pem
+config/key.pem
+config/README.md
+FlaskApp/instance
+FlaskApp/venv
+FlaskApp/__pycache__
+FlaskApp/extensions/__pycache__
+FlaskApp/extensions/flask_beaker/__pycache__
+FlaskApp/extensions/flask_talisman/__pycache__

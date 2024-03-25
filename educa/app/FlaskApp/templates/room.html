@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/room.css" rel="stylesheet" type="text/css"/>
+    <title>ルーム_{{ roomDict.roomID }}</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>ルーム(ID：{{ roomDict.roomID }})</h2>
+        <div>
+            <a href="{{ url_for('room_top') }}">
+                <button>ルームトップ</button>
+            </a>
+        </div>      
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                <h3>ルームホスト：{{ roomDict.hostname }}</h3>
+                {% if roomDict.you == 'host' %}
+                    <div class="to_new_test">
+                        <a href="/new_test?roomID={{ roomDict.roomID }}">
+                            <button>新規テスト作成</button>
+                        </a>
+                    </div>
+                {% endif %}
+                <table border="1">
+                    <tr>
+                        <th class="test_title">テスト</th>
+                        <th class="test_term">期間</th>
+                        {% if roomDict.you == 'guest' %}
+                            <th class="test_result">得点</th>
+                        {% endif %}
+                    </tr>
+                    {% for x in range(testlist|length) %}
+                        <tr>
+                            <td id="testlink"><a href="/test?roomID={{ roomDict.roomID }}&testID={{ testlist[x].testID }}">{{ testlist[x].title }}</a></td>
+                            {% if roomDict.you == 'guest' %}
+                                <script>
+                                    var now = new Date();
+                                    var year = now.getFullYear();
+                                    var month = now.getMonth() + 1;
+                                    var day = now.getDate();
+                                    var hours = now.getHours();
+                                    var minutes = now.getMinutes();
+                                    var toTwoDigits = function (num, digit) {
+                                        num += '';
+                                        if (num.length < digit) {
+                                            num = '0' + num;
+                                        };
+                                        return num;
+                                    };
+                                    var yearStr = toTwoDigits(year, 4);
+                                    var monthStr = toTwoDigits(month, 2);
+                                    var dayStr = toTwoDigits(day, 2);
+                                    var hoursStr = toTwoDigits(hours, 2);
+                                    var minutesStr = toTwoDigits(minutes, 2);
+                                    var today_Str = "" + yearStr + monthStr + dayStr;
+                                    var current_time_Str = "" + hoursStr + minutesStr;
+                                    var startDay = {{ testlist[x].startDay|tojson }};
+                                    var startTime = {{ testlist[x].startTime|tojson }};
+                                    var endDay = {{ testlist[x].endDay|tojson }};
+                                    var endTime = {{ testlist[x].endTime|tojson }};
+                                    if (today_Str < startDay) {
+                                        document.getElementById('testlink').innerHTML = "{{ testlist[x].title }}";
+                                    }
+                                    else if (today_Str == startDay && current_time_Str < startTime) {
+                                        document.getElementById('testlink').innerHTML = "{{ testlist[x].title }}";
+                                    }
+                                    else if (today_Str > endDay) {
+                                        document.getElementById('testlink').innerHTML = "{{ testlist[x].title }}";
+                                    }
+                                    else if (today_Str == endDay && current_time_Str >= endTime) {
+                                        document.getElementById('testlink').innerHTML = "{{ testlist[x].title }}";
+                                    };
+                                    document.getElementById('testlink').id = "link";
+                                </script>
+                            {% endif %}
+                            <td>{{ testlist[x].testTerm }}</td>
+                            {% if roomDict.you == 'guest' %}
+                                <td>
+                                    {% if testlist[x].quizresult == -1 %}
+                                        未回答
+                                    {% else %}
+                                        {{ testlist[x].quizresult }}
+                                    {% endif %}
+                                </td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                </table>
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</body>
+</html>

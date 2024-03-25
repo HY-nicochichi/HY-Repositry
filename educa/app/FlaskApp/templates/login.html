@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/login.css" rel="stylesheet" type="text/css"/>
+    <title>ログイン</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>educaIDでログイン</h2>
+        <div>
+            <a href="{{ url_for('index') }}">
+                <button>サービスTOP</button>
+            </a>
+        </div>        
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                {% if state == 'IDerror' %}
+                    <div class="error_message">※ IDが存在しません。</div>
+                {% elif state == 'PASSerror' %}
+                    <div class="error_message">※ パスワードが正しくありません。</div>
+                {% endif %}
+                <div class="login_form">
+                    <form method="POST">
+                        <div>
+                            <h3>educaID</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box" type="id" name="educaID" placeholder="半角英数字" required>
+                        </div>
+                        <div>
+                            <h3>パスワード</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box" type="password" name="password" placeholder="半角英数字" required>
+                        </div>
+                        <div class="button_line">
+                            <input class="submit_button" type="submit" value="ログイン">
+                        </div>
+                    </form>
+                </div>
+                <div class="to_new_user">
+                    <a href="{{ url_for('new_user') }}">
+                        <button>ユーザー登録がお済みでない場合はこちら</button>
+                    </a>
+                </div>
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</body>
+</html>

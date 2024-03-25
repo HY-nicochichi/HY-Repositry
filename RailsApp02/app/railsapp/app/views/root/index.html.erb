@@ -1,0 +1,8 @@
+<% provide(:title, "RailsApp02") %>
+
+<% flash.each do |message_type, message| %>
+ <div class="alert alert-<%= message_type %>"><%= message %></div>
+<% end %>
+<h4>
+  <B>RailsApp02 (ユーザー認証システム)</B>
+<h4>

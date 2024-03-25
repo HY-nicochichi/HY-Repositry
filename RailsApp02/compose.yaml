@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+
+  db:
+    build: ./db
+    volumes:
+      - volume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+    networks:
+      - network
+
+  app:
+    build: ./app
+    volumes:
+      - ./app/cmd.sh:/cmd.sh
+    command: sh /cmd.sh
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - network
+
+volumes:
+  volume:
+
+networks:
+  network:

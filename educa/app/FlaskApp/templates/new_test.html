@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/new_test.css" rel="stylesheet" type="text/css"/>
+    <title>テスト作成</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>新規テスト作成</h2>
+        <div>
+            <a href="/room?ID={{ roomID }}">
+                <button>ルーム</button>
+            </a> 
+        </div>      
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                {% if state == 'IDerror' %}
+                    <div class="error_message">※ 違うテストIDにしてください。</div>
+                {% endif %}
+                <div class="new_test_form">
+                    <form method="POST">
+                        <input type="hidden" name="roomID" value="{{ roomID }}">
+                        <div>
+                            <h3>テストID</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box" type="id" name="testID" placeholder="半角英数字" required>
+                        </div>
+                        <div>
+                            <h3>テスト名</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box" type="text" name="testname" placeholder="テキスト" required>
+                        </div>
+                        <div>
+                            <h3>科目</h3>
+                        </div>
+                        <div class="select_line">
+                            <select id="dropdown" name="subject">
+                                <option value="english">英単語</option>
+                                <option value="kobun">古文単語</option>
+                            </select>
+                        </div>
+                        <div>
+                            <h3>リストNo</h3>
+                        </div>
+                        <div class="box_line">
+                            <input id="listNo" type="number" min="1" max="3" name="listNo" placeholder="数字を入力/選択" required>
+                        </div>
+                        <div>
+                            <h3>利用可能期間(分単位)</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box3" id="starttime" type="datetime-local" name="starttime" required>
+                            ～
+                            <input class="input_box3" id="endtime" type="datetime-local" name="endtime" required>
+                            <p>※ 開始・終了時刻は０秒が基準</p>
+                        </div>
+                        <div class="button_line">
+                            <input class="submit_button" type="submit" value="テスト作成">
+                        </div>
+                    </form>
+                </div>
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+    <script src="../static/js/new_test.js" type="text/javascript"></script>
+</body>
+</html>

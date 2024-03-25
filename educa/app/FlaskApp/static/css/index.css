@@ -1,0 +1,46 @@
+* {
+    margin: 0%;
+    padding: 0%;
+}
+
+body {
+    background-color: white; 
+}
+
+.contents_title {
+    padding: 1%;
+    background-color: darkmagenta;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.contents_title h2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.options {
+    margin: 3% 1%;
+    padding: 1% 0%;
+    letter-spacing: -.4em;
+    background-color: rgb(245, 200, 245);
+    width: 30%;
+    border-color: darkmagenta;
+    border-style: solid;
+}
+
+.options div a {
+    margin: 3.5%;
+}
+
+.options div a button {
+    width: 40%;
+    height: 50%;
+    background-color: darkmagenta;
+    color: white;
+    font-size: medium;
+    font-weight: bold;
+    border-color: transparent;
+}

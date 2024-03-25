@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/index.css" rel="stylesheet" type="text/css"/>
+    <title>サービスTOP</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>educaサービスTOP</h2>        
+    </div>
+    <div class="main">
+        <center>
+            <div class="options">
+                <div>
+                    <a href="{{ url_for('login') }}">
+                        <button>ログイン</button>
+                    </a>
+                    <a href="{{ url_for('new_user') }}">
+                        <button>ユーザー登録</button>
+                    </a>    
+                </div>
+            </div>
+        </center>
+    </div>
+</body>
+</html>

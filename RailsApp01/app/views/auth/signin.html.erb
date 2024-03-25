@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>アカウント登録</title>
+</head>
+<body>
+    <h2>アカウント登録</h2>
+    <% flash.each do |message_type, message| %>
+        <div><%= message %></div>
+        <br>
+    <% end %>
+    <div>
+        <%= form_with url: '/signin', method: :post do |form| %>
+            <div>
+                メールアドレス <%= form.text_field :email, required: true %>
+            </div>
+            <div>
+                パスワード&emsp;&emsp; <%= form.password_field :pass, required: true %>
+            </div>
+            <div>
+                ユーザーネーム <%= form.text_field :name, required: true %>
+            </div>
+            <br>
+            <div>
+                <%= form.submit '新規登録' %>
+            </div>
+        <% end %>
+    </div>
+    <br>
+    <div>
+        <a href="/login">ログイン</a>
+    </div>
+</body>
+</html>
