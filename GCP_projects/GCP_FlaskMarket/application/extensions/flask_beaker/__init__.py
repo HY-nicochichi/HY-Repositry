@@ -1,9 +1,6 @@
 '''
     flaskext.beaker
-    ---------------
-    
     A Flask extension providing beaker session interface.
-    
     :copyright: (c) 2012 by Syrus Akbary.
     :license: MIT, see LICENSE for more details.
 '''
@@ -11,12 +8,7 @@
 __version__ = '0.2.0' # 一部コードを改造いたしました。
 
 from flask.sessions import SessionInterface
-
-try:
-    from beaker.middleware import SessionMiddleware
-except ImportError as e:
-    print('Beaker package is required to use Flask-Beaker')
-    raise e
+from beaker.middleware import SessionMiddleware
 
 class BeakerSessionInterface(SessionInterface):
 

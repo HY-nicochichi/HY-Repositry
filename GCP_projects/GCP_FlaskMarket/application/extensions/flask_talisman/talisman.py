@@ -29,8 +29,6 @@ DEFAULT_CSP_POLICY = {
         '\'self\'',
         '\'unsafe-inline\'',
         '\'unsafe-eval\'',
-        'stackpath.bootstrapcdn.com',
-        'code.jquery.com',
         'cdn.jsdelivr.net'
     ]
 }
