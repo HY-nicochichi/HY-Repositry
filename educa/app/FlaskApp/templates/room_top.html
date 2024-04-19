@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/room_top.css" rel="stylesheet" type="text/css"/>
+    <title>ルームトップ</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>educaルーム</h2>
+        <div>
+            <input type="button" onclick="window.close();" value="終了する"> 
+        </div>       
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                {% for x in range(roomlist|length) %}
+                    <div class="to_room">
+                        <a href="/room?ID={{ roomlist[x].roomID }}">
+                            <button>ルーム：{{ roomlist[x].roomname }}</button>
+                        </a>
+                    </div>
+                {% endfor %}
+                <div class="to_room">
+                    <a href="{{ url_for('new_room')}}">
+                        <button>ルームを作成</button>
+                    </a>
+                </div>
+                <div class="to_room">
+                    <a href="{{ url_for('join_room')}}">
+                        <button>ルームに参加</button>
+                    </a>
+                </div>
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</body>
+</html>

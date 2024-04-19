@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/test.css" rel="stylesheet" type="text/css"/>
+    <title>テスト(ID：{{ testDict.testID }})</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>テスト：{{ testDict.testname }}</h2>
+        <div>
+            <a href="/room?ID={{ testDict.roomID }}">
+                <button>ルーム</button>
+            </a>
+        </div>        
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                <div class="testTerm">期間：{{ testDict.testTerm }}</div>
+                {% if testDict.you == 'guest' %}
+                    <div class="test_form">
+                        <form method="POST" name="testform">
+                            <input type="hidden" name="roomID" value="{{ testDict.roomID }}">
+                            <input type="hidden" name="testID" value="{{ testDict.testID }}">
+                            <input type="hidden" name="subject" value="{{ testDict.subject }}">
+                            <input type="hidden" name="listNo" value="{{ testDict.listNo }}">
+                            <input type="hidden" id="timeLimit" name="timeLimit" value="0">
+                            {% for x in range(quizlist|length) %}
+                                <div class="box_line">
+                                    <h4>問{{ x+1 }}：{{ quizlist[x] }}</h4>
+                                    <input class="input_box" type="text" name="answer{{ x }}" placeholder="解答を入力">
+                                </div>
+                            {% endfor %}
+                            <div class="button_line">
+                                <button id="submit_button">解答送信</button>
+                            </div>
+                        </form>
+                        <script>
+                            var button = document.getElementById('submit_button');
+                            var startDay = {{ testDict.startDay|tojson }};
+                            var startTime = {{ testDict.startTime|tojson }};
+                            var endDay = {{ testDict.endDay|tojson }};
+                            var endTime = {{ testDict.endTime|tojson }};
+                            var toTwoDigits = function (num, digit) {
+                                num += '';
+                                if (num.length < digit) {
+                                    num = '0' + num;
+                                };
+                                return num;
+                            };
+                            button.addEventListener('click', function() {
+                                document.testform.submit();
+                            });
+                            window.onload = function () {
+                                function timeCheck() {
+                                    var now = new Date();
+                                    var year = now.getFullYear();
+                                    var month = now.getMonth() + 1;
+                                    var day = now.getDate();
+                                    var hours = now.getHours();
+                                    var minutes = now.getMinutes();
+                                    var yearStr = toTwoDigits(year, 4);
+                                    var monthStr = toTwoDigits(month, 2);
+                                    var dayStr = toTwoDigits(day, 2);
+                                    var hoursStr = toTwoDigits(hours, 2);
+                                    var minutesStr = toTwoDigits(minutes, 2);
+                                    var today_Str = "" + yearStr + monthStr + dayStr;
+                                    var current_time_Str = "" + hoursStr + minutesStr;
+                                    if (today_Str > endDay) {
+                                        clearInterval(timeChecker);
+                                        document.getElementById('timeLimit').value = "1";
+                                        document.testform.submit();
+                                    }
+                                    else if (today_Str == endDay && current_time_Str >= endTime) {
+                                        clearInterval(timeChecker);
+                                        document.getElementById('timeLimit').value = "1";
+                                        document.testform.submit();
+                                    };
+                                };
+                                timeChecker = setInterval(timeCheck, 3000);
+                            };
+                        </script>
+                    </div>
+                {% else %}
+                    <table border="1">
+                        <tr>
+                            <th class="member">メンバー</th>
+                            <th class="quizresult">得点(最高)</th>
+                        </tr>
+                        {% for x in range(resultlist|length) %}
+                            <tr>
+                                <td>{{ resultlist[x].member }}</td>
+                                {% if resultlist[x].quizresult == -1 %}  
+                                    <td>未回答</td>
+                                {% else %}
+                                    <td>{{ resultlist[x].quizresult }}</td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+                {% endif %}
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</body>
+</html>

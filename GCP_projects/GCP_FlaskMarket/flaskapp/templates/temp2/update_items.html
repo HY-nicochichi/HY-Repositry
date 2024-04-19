@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  出品アイテム
+{% endblock %}
+    
+{% block content %}
+  <h4>
+    <b>出品アイテム</b>
+  </h4>
+  <br>
+  <div>
+    <a href="/new_item" class="mb-2 btn btn-primary">新規アイテムの登録</a>
+  </div>
+  <br>
+  <div>
+    <div v-for="item in items">
+      <form method="POST">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+        <input type="hidden" name="act" value="update">
+        <div class="col-11 col-sm-8 col-md-6 col-lg-4 border border-primary px-2.5 py-2 bg-light">
+          <div>
+            <b>[(item['name'])]</b>
+          </div>
+          <input type="hidden" name="item_id" :value="item['item_id']">
+          <div class="mt-2">
+            価格：<input type="number" name="price" class="mr-1" :value="item['price']" min="0" required>円
+          </div>
+          <div class="mt-2">
+            在庫：<input type="number" name="stock" class="mr-1" :value="item['stock']" min="0" required>点
+          </div>
+          <div class="mt-3">
+            <input type="submit" class="btn btn-primary mr-4" value="情報更新">
+            <a :href="'/update_items?state=delete&del_id=' + item['item_id']" class="btn btn-danger" @click="confirmDeleteItem()">商品削除</a>
+          </div>
+        </div>
+      </form>
+      <br>
+    </div>
+  </div>
+{% endblock %}
+
+{% block json_data %}
+  user_info: {{user_info|tojson}},
+  items: {{items|tojson}}
+{% endblock %}
+
+{% block vue_func %}
+  confirmDeleteItem() {
+    let isConfirmed = confirm("商品を削除しますか？")
+    if (!isConfirmed) {
+      event.preventDefault();
+    }
+  }
+{% endblock %}
+
+{% block vue_mounted %}
+{% endblock %}

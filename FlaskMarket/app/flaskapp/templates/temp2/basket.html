@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  買い物カゴ
+{% endblock %}
+
+{% block content %}
+  <h4>
+    <b>買い物カゴ</b>
+  </h4>
+  <div class="text-danger">
+    ※ ログアウトすると空になります
+  </div>
+  <br>
+  <form method="POST" ref="orderForm">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+    <input type="hidden" name="act" value="order">
+    <div v-for="content in basket" class="mb-3 d-flex align-items-center">
+      <div class="px-3 py-2 co1-7 col-sm-6 col-md-5 col-lg-4 bg-light border border-primary">
+        [(content['name'])] ([(content['price'])]円)
+      </div>
+      <input type="number" class="ml-3 mr-1 border border-primary" :name="content['item_id']" 
+      :value="content['num']" min="0" :max="content['stock']" @change="updateBasket()" required>点
+    </div>   
+    <div>
+      合計：<b>[(sum)]</b> 円
+    </div>
+    <br>
+    <div class="d-flex align-items-center">
+      <input type="submit" class="btn btn-primary" value="注文">
+    </div>
+  </form>
+{% endblock %}
+
+{% block json_data %}
+  user_info: {{user_info|tojson}},
+  basket: {{basket|tojson}},
+  sum: 0
+{% endblock %}
+
+{% block vue_func %}
+  calculateSum() {
+    for (let content of this.basket) {
+      this.sum += content['price'] * content['num'];
+    };
+  },
+  updateBasket() {
+    this.$refs.orderForm.act.value = "update";
+    this.$refs.orderForm.submit();
+  }
+{% endblock %}
+
+{% block vue_mounted %}
+  this.calculateSum();
+{% endblock %}

@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  db:
+    container_name: educa_db
+    build: ./db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/init:/docker-entrypoint-initdb.d
+      - volume:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "educa_pass"
+      POSTGRES_DB: "educa_db"
+    networks:
+      - network
+
+  app:
+    container_name: educa_app
+    build: ./app
+    expose:
+      - "3031"
+    depends_on:
+      - db
+    command: uwsgi --ini /flaskapp/config/uwsgi.ini
+    networks:
+      - network
+
+  web:
+    container_name: educa_web
+    build: ./web
+    volumes:
+      - ./web/nginx.conf:/etc/nginx/nginx.conf
+      - ./key.pem:/root/ssl/key.pem
+      - ./crt.pem:/root/ssl/crt.pem
+    depends_on:
+      - app
+    ports:
+      - "443:443"
+    networks:
+      - network
+
+networks:
+  network:
+
+volumes:
+  volume:

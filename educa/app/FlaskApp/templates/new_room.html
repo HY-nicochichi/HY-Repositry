@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/new_room.css" rel="stylesheet" type="text/css"/>
+    <title>ルーム作成</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>新規ルーム作成</h2>
+        <div>
+            <a href="{{ url_for('room_top') }}">
+                <button>ルームTOP</button>
+            </a> 
+        </div>      
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                {% if state == 'IDerror' %}
+                    <div class="error_message">※ 違うルームIDにしてください。</div>
+                {% endif %}
+                <div class="new_room_form">
+                    <form method="POST">
+                        <div>
+                            <h3>ルームID</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box" type="id" name="roomID" placeholder="半角英数字" required>
+                        </div>
+                        <div>
+                            <h3>パスワード</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box" type="password" name="roomPASS" placeholder="半角英数字" required>
+                        </div>
+                        <div>
+                            <h3>ルーム名</h3>
+                        </div>
+                        <div class="box_line">
+                            <input class="input_box" type="text" name="roomname" placeholder="テキスト" required>
+                        </div>
+                        <div class="button_line">
+                            <input class="submit_button" type="submit" value="ルーム作成">
+                        </div>
+                    </form>
+                </div>
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</body>
+</html>

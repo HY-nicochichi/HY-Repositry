@@ -1,0 +1,1 @@
+from coreApp import app

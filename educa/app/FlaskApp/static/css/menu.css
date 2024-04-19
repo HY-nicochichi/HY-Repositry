@@ -1,0 +1,51 @@
+* {
+    margin: 0%;
+    padding: 0%;
+}
+
+body {
+    background-color: white; 
+}
+
+.contents_title {
+    padding: 1%;
+    background-color: darkmagenta;
+    color: white;
+    display: flex;
+    align-items: center;
+}
+
+.contents_title h2 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.contents_title div {
+    position: absolute;
+    right: 1%;
+    width: 12%;
+}
+
+.contents_title div a {
+    width: 100%;
+}
+
+.contents_title div a button {
+    width: 100%;
+    height: 2em;
+    background-color: white;
+    color: black;
+    font-size: medium;
+    font-weight: bold;
+    border-color: transparent;
+}
+
+.options {
+    margin: 3% 2%;
+    letter-spacing: -.4em;
+}
+
+.options a {
+    margin: 1%;
+}

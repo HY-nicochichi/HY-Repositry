@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block title %}
+  Flask Market
+{% endblock %}
+
+{% block content %}
+  {% with message = get_flashed_messages() %}
+    {% if message %}
+      <div class="alert alert-danger" role="alert">
+        {{ message[0] }}
+      </div>
+    {% endif %}
+  {% endwith %}
+  <h4>
+    <b>Flask Market</b>
+  </h4>
+  <br>
+  <form method="GET">
+    <div class="d-flex align-items-center">
+      商品をタグで検索
+      <select class="border border-primary ml-2" name="tag" required>
+        <option value="None">指定しない</option>
+        <option value="fish">鮮魚</option>
+        <option value="meat">精肉</option>
+        <option value="vegetable">青果</option>
+        <option value="other">その他</option>
+      </select>
+      <input type="submit" class="btn btn-primary ml-3" value="検索">
+    </div>
+  </form>
+  <br>
+  <div v-for="item in items" class="mb-3 px-3 py-2 col-sm-9 col-md-7 col-lg-5 bg-light border border-primary d-flex align-items-center">
+    <a class="btn btn-info btn-right mr-2" :href="'/description?item_id=' + item['item_id']">見る</a>
+    [(item['name'])] ([(item['price'])]円)
+  </div>
+{% endblock %}
+
+{% block json_data %}
+  user_info: {{user_info|tojson}},
+  items: {{items|tojson}}
+{% endblock %}
+
+{% block vue_func %}
+{% endblock %}
+
+{% block vue_mounted %}
+{% endblock %}

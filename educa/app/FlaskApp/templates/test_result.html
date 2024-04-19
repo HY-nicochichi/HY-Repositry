@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/test_result.css" rel="stylesheet" type="text/css"/>
+    <title>テスト結果</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>テスト結果</h2>
+        <div>
+            <a href="/room?ID={{ roomID }}">
+                <button>ルーム</button>
+            </a>
+        </div>        
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                <h3>今回の得点：{{ QuizResult }}</h3>
+                <table border="1">
+                    <tr>
+                        <th class="No">問</th>
+                        <th class="yourAnswer">答案</th>
+                        <th class="Result">正誤</th>
+                        <th class="rightAnswer">正解</th>
+                    </tr>
+                    {% for x in range(testResultList|length) %}
+                        <tr>
+                            <td>{{ x+1 }}</td>
+                            <td>{{ testResultList[x].yourAnswer }}</td>
+                            <td>{{ testResultList[x].Result }}</td>
+                            <td>{{ testResultList[x].rightAnswer }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</body>
+</html>

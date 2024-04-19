@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>記事編集</title>
+</head>
+<body>
+    <h2>記事編集</h2>
+    <div>
+        <%= form_with url: '/edit_article', method: :post do |form| %>
+            <%= form.hidden_field :id, value: @article.id %>
+            <div>
+                タイトル <%= form.text_field :title, value: @article.title,
+                maxlength: 255, required: true %>
+            </div>
+            <div>
+                内容 <%= form.text_field :body, value: @article.body,
+                maxlength: 255, required: true %>
+            </div>
+            <br>
+            <div>
+                <%= form.submit '編集内容を反映' %>
+            </div>
+        <% end %>
+    </div>
+    <br>
+    <div>
+        <a href="/articles">記事一覧</a>
+    </div>
+</body>
+</html>

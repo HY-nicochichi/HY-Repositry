@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../static/css/kobun_wordlist.css" rel="stylesheet" type="text/css"/>
+    <title>古文単語リスト : List-{{ listNo }}</title>
+    <link rel="icon" href="../static/images/educaファビコン.png">
+</head>
+<body>
+    <div class="contents_title">
+        <img src="../static/images/educaアイコン.png" width="5%">
+        <h2>古文単語リスト : List-{{ listNo }}(単語{{ wordlist[0].No }}～{{ wordlist[4].No }})</h2>
+        <div>
+            <a href="{{ url_for('kobun_top') }}">
+                <button>古文単語トップ</button>
+            </a>
+        </div>      
+    </div>
+    <div class="main">
+        <div class="left">
+        </div>
+        <div class="center">
+            <center>
+                <table border="1">
+                    <tr>
+                        <th class="No">番号</th>
+                        <th class="Word">単語</th>
+                        <th class="Meaning">意味</th>
+                    </tr>
+                    {% for x in range(wordlist|length) %}
+                        <tr>
+                            <td>{{ wordlist[x].No }}</td>
+                            <td>{{ wordlist[x].Word }}</td>
+                            <td>{{ wordlist[x].Meaning }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+                <div class="options">
+                    <div>
+                        {% if listNo == 1 %}
+                        <a href="/kobun_wordlist?listNo=3">
+                            <button>List-2</button>
+                        </a>
+                        <a href="/kobun_wordlist?listNo={{ 1+(listNo|int) }}">
+                            <button>次のリスト</button>
+                        </a>
+                        {% elif listNo == 2 %}
+                        <a href="/kobun_wordlist?listNo={{ -1+(listNo|int) }}">
+                            <button>前のリスト</button>
+                        </a>
+                        <a href="/kobun_wordlist?listNo=1">
+                            <button>List-1</button>
+                        </a>
+                        {% else %}
+                        <a href="/kobun_wordlist?listNo={{ -1+(listNo|int) }}">
+                            <button>前のリスト</button>
+                        </a>
+                        <a href="/kobun_wordlist?listNo={{ 1+(listNo|int) }}">
+                            <button>次のリスト</button>
+                        </a>
+                        {% endif %}    
+                    </div>
+                </div>
+                <div class="listNo_form">
+                    <form method="GET">
+                        <div>
+                            List-
+                            <input class="input_box" type="number" min="1" max="2" 
+                            name="listNo" placeholder="1～2の数字" required>
+                            へ
+                            <input class="submit_button" type="submit" value="移動">
+                        </div>
+                    </form>
+                </div>
+            </center>
+        </div>
+        <div class="right">
+        </div>
+    </div>
+</body>
+</html>
