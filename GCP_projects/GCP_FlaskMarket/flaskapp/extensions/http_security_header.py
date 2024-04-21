@@ -37,7 +37,7 @@ class SecurityHeader(Talisman):
             'x_content_type_options': True,
             'x_xss_protection': False
         }
-        self._header_conf = app.config['SECURITY_HEADER']
+        self._header_conf = app.config.get('SECURITY_HEADER', {})
         super().init_app(
             app,
             feature_policy=self.set_param('feature_policy'),

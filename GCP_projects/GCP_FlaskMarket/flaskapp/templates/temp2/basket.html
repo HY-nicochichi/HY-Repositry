@@ -42,7 +42,7 @@
   calculateSum() {
     for (let content of this.basket) {
       this.sum += content['price'] * content['num'];
-    };
+    }
   },
   updateBasket() {
     this.$refs.orderForm.act.value = "update";

@@ -47,7 +47,7 @@
 
 {% block vue_func %}
   confirmDeleteItem() {
-    let isConfirmed = confirm("商品を削除しますか？")
+    let isConfirmed = confirm("商品を削除しますか？");
     if (!isConfirmed) {
       event.preventDefault();
     }

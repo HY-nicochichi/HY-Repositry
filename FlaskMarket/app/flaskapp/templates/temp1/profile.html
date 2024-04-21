@@ -28,7 +28,7 @@
     <a href="/update_items" class="btn btn-info">出品アイテム一覧</a>
   </div>
   <br>
-    <a href="/delete_user" class="btn btn-danger" @click="confirmDeleteUser()">サービス退会</a>
+  <a href="/delete_user" class="btn btn-danger" @click="confirmDeleteUser()">サービス退会</a>
   <br><br>
 {% endblock %}
 
@@ -38,7 +38,7 @@
 
 {% block vue_func %}
   confirmDeleteUser() {
-    let isConfirmed = confirm("本当に退会しますか？")
+    let isConfirmed = confirm("本当に退会しますか？");
     if (!isConfirmed) {
       event.preventDefault();
     }
