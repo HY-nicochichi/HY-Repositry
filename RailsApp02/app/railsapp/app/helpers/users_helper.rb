@@ -3,13 +3,13 @@ module UsersHelper
     def auth(email, pass)
         result = {}
         found_user = search_by_email(email)
-        if found_user.nil?
-            result[:message] = "※ ユーザーが存在しません"
+        if found_user.nil?()
+            result["message"] = "※ ユーザーが存在しません"
         elsif Digest::SHA256.hexdigest(pass) != found_user.pass
-            result[:message] = "※ パスワードが誤っています"
+            result["message"] = "※ パスワードが誤っています"
         else
-            result[:message] = "successed"
-            result[:user_id] = found_user.id
+            result["message"] = "successed"
+            result["user_id"] = found_user.id
         end
         return result
     end
@@ -27,12 +27,12 @@ module UsersHelper
     def register(email, pass, name)
         result = {}
         if search_by_email(email)
-            result[:message] = "※ メールアドレスの使用者が既に存在します"
+            result["message"] = "※ メールアドレスの使用者が既に存在します"
         else
             digestPASS = Digest::SHA256.hexdigest(pass)
             User.create(email: email, pass: digestPASS, name: name)
-            result[:message] = "successed"
-            result[:user_id] = search_by_email(email).id
+            result["message"] = "successed"
+            result["user_id"] = search_by_email(email).id
         end
         return result
     end

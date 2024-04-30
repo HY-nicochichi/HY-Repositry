@@ -6,14 +6,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <%= csrf_meta_tag %>
-    <%= javascript_include_tag "application", "data-turbolinks-track": "reload" %>
+    <%= csrf_meta_tag() %>
+    <%= javascript_include_tag("application", {"data-turbo-track"=>"reload"}) %>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    
+
     <title>
-      <%= full_title(yield(:title)) %>
+      <%= title(yield("title")) %>
     </title>
     
     <!--[if It IE 9]>
@@ -22,13 +22,13 @@
     <![endif]-->
 
     <%= favicon_link_tag("icon.png") %>
-    <%= javascript_importmap_tags %>
+    <%= javascript_importmap_tags() %>
 
   </head>
 
   <body>
 
-    <%= render "layouts/header" %>
+    <%= render("layouts/header") %>
 
     <div class="mx-3">
       <%= yield %>

@@ -1,10 +1,5 @@
 module ApplicationHelper
-    def full_title(page_title = '')
-        base_title = 'RailsApp02'
-        if page_title.empty?
-            base_title
-        else
-            page_title
-        end
+    def title(title="RailsApp02")
+        return title
     end
 end
