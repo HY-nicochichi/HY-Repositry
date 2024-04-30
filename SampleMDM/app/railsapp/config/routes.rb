@@ -1,0 +1,20 @@
+Rails.application.routes.draw() do
+    get("/", to: "others#index")
+    get("/auth/google_oauth2/callback", to: "others#auth")
+    get("/enterprises/:enterprise_name", to: "main#index")
+    get("/enterprises/:enterprise_name/call", to: "main#call_get")
+    post("/enterprises/:enterprise_name/call", to: "main#call_post")
+    get("/enterprises/:enterprise_name/applications", to: "main#app")
+    get("/enterprises/:enterprise_name/applications/:package_name", to: "main#app_packname")
+    get("/enterprises/:enterprise_name/policies/new", to: "main#pol_new")
+    get("/enterprises/:enterprise_name/policies/:identifier", to: "main#pol_get")
+    post("/enterprises/:enterprise_name/policies", to: "main#pol_post")
+    get("/enterprises/:enterprise_name/policies/:identifier/qr", to: "main#pol_qr")
+    get("/enterprises/:enterprise_name/devices/:identifier", to: "main#dev")
+    get("/enterprises/:enterprise_name/devices/:identifier/policy", to: "main#dev_pol_get")
+    post("/enterprises/:enterprise_name/devices/:identifier/policy", to: "main#dev_pol_post")
+    post("/pubsub", to: "others#pubsub")
+    # API
+    get("/api/enterprises/:enterprise_name/devices/:identifier/policy", to: "api#get")
+    patch("/api/enterprises/:enterprise_name/devices/:identifier/policy", to: "api#patch")
+end

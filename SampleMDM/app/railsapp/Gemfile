@@ -1,0 +1,49 @@
+source "https://rubygems.org"
+
+git_source(:github) do |repo|
+    "https://github.com/#{repo}.git"
+end
+
+ruby "3.2.3"
+
+# Rails_Default
+gem "rails", "~> 7.0.8", ">= 7.0.8.1"
+gem "sprockets-rails"
+gem "pg", "~> 1.1"
+gem "puma", "~> 5.0"
+gem "importmap-rails"
+gem "turbo-rails"
+gem "stimulus-rails"
+gem "jbuilder"
+gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem "bootsnap", require: false
+# MDM_Option
+gem 'data_class_factory'
+gem 'pry'
+gem 'rack'
+gem 'rack-contrib'
+gem 'tilt-jbuilder'
+gem 'zeitwerk'
+gem 'googleauth'
+gem 'omniauth'
+gem 'omniauth-google-oauth2'
+gem 'relax2', require: false
+
+group :development, :test do
+    # Rails_Default
+    gem "debug", platforms: %i[ mri mingw x64_mingw ]
+end
+
+group :development do
+    # Rails_Default
+    gem "web-console"
+    # MDM_Option
+    gem 'pry-byebug'
+    gem 'rubocop'
+end
+
+group :test do
+    # Rails_Default
+    gem "capybara"
+    gem "selenium-webdriver"
+end
