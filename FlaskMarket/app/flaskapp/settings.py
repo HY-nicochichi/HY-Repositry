@@ -6,7 +6,6 @@ database_url = 'postgresql+psycopg2://postgres:password@db:5432/postgres'
 
 cookie_life = timedelta(days=10.0)
 
-TESTING = True
 SCHEDULER_API_ENABLED = True
 SECRET_KEY = secret_key
 SQLALCHEMY_DATABASE_URI = database_url
@@ -25,8 +24,6 @@ SECURITY_HEADER = {
         'default-src': [
             "'self'",
             "'unsafe-eval'",
-            'stackpath.bootstrapcdn.com',
-            'code.jquery.com',
             'cdn.jsdelivr.net'
         ]
     },

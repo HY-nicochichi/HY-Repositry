@@ -7,25 +7,25 @@
 {% block content %}
   {% with message = get_flashed_messages() %}
     {% if message %}
-      <div class="alert alert-danger" role="alert">
-        {{ message[0] }}
+      <div class="alert alert-danger mb-3" role="alert">
+        ※ {{ message[0] }}
       </div>
     {% endif %}
   {% endwith %}
-  <h4>
-    <b>ログイン</b>
+  <h4 class="fw-bolder mb-3">
+    ログイン
   </h4>
-  <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light">
+  <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light p-3">
     <div class="row">
-      <div class="col mt-3">
+      <div class="col">
         <form method="POST">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-          <div class="form-group">
-            <label>メールアドレス</label>
+          <div class="form-group mb-4">
+            <label class="mb-2">メールアドレス</label>
             <input type="text" class="form-control border border-primary" name="mail" required>
           </div>
-          <div class="form-group">
-            <label>パスワード</label>
+          <div class="form-group mb-4">
+            <label class="mb-2">パスワード</label>
             <input type="password" class="form-control border border-primary" name="password" required>
           </div>
           <br>
@@ -39,7 +39,7 @@
 {% endblock %}
 
 {% block json_data %}
-  user_info: {{user_info|tojson}}
+  user_info: {{ resDict|tojson }}['user_info']
 {% endblock %}
 
 {% block vue_func %}

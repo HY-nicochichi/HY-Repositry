@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, redirect, request, session
+from flask import Blueprint, jsonify, redirect, request, session
 from helpers import SessionHelper, UserHelper, ItemHelper
 
-bp2 = Blueprint('bp2', __name__, template_folder='../templates/temp2')
+bp2 = Blueprint('bp2', __name__)
 
 @bp2.get('/new_item')
 def new_item_GET():
@@ -16,7 +16,7 @@ def new_item_GET():
         'name': current_user.username
     }
     resDict = {'user_info': user_info}
-    return render_template('new_item.html', resDict=resDict)
+    return jsonify(resDict)
 
 @bp2.post('/new_item')
 def new_item_POST():
@@ -58,7 +58,7 @@ def description_GET():
         'in_basket': item_id in session['basket']
     }
     resDict = {'user_info': user_info, 'description': description}
-    return render_template('description.html', resDict=resDict)
+    return jsonify(resDict)
 
 @bp2.post('/description')
 def description_POST():
@@ -93,7 +93,7 @@ def basket_GET():
             basket.append({'item_id': key, 'name': item.itemname, 
             'num': session['basket'][key], 'stock': item.stock, 'price': item.price})
     resDict = {'user_info': user_info, 'basket': basket}
-    return render_template('basket.html', resDict=resDict)
+    return jsonify(resDict)
 
 @bp2.post('/basket')
 def basket_POST():
@@ -141,7 +141,7 @@ def update_items_GET():
             'stock': item.stock
         })
     resDict = {'user_info': user_info, 'items': itemList}
-    return render_template('update_items.html', resDict=resDict)
+    return jsonify(resDict)
 
 @bp2.post('/update_items')
 def update_items_POST():

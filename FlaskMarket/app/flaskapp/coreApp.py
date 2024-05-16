@@ -24,6 +24,3 @@ csrf_protect.init_app(app)
 security_header.init_app(app)
 
 scheduler.start()
-
-with app.app_context():
-    db_orm.create_all()

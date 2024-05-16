@@ -5,7 +5,7 @@ from datetime import timedelta
 class ServerSessionInterface(SessionInterface):
 
     def open_session(self, app, request):
-        return request.environ['beaker.session']
+        return request.environ.get('beaker.session')
         
     def save_session(self, app, session, response):
         session.save()
@@ -13,6 +13,7 @@ class ServerSessionInterface(SessionInterface):
 class ServerSession():
     
     def init_app(self, app):
+        self.app = app
         self._session_conf = app.config.get('SERVER_SESSION', {})
         if 'session.key' not in self._session_conf:
             self._session_conf['session.key'] = 'session_id'

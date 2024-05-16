@@ -5,29 +5,29 @@
 {% endblock %}
 
 {% block content %}
-  <h4>
-    <b>商品登録</b>
+  <h4 class="fw-bolder mb-3">
+    商品登録
   </h4>
-  <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light">
+  <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light p-3">
     <div class="row">
-      <div class="col mt-3">
+      <div class="col">
         <form method="POST">
           <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-          <div class="form-group">
-            <label>商品名</label>
+          <div class="form-group mb-4">
+            <label class="mb-2">商品名</label>
             <input type="text" class="form-control border border-primary" name="itemname" required>
           </div>
-          <div class="form-group">
-            <label>価格</label>
+          <div class="form-group mb-4">
+            <label class="mb-2">価格</label>
             <input type="number" class="form-control border border-primary" name="price" min="0" required>
           </div>
-          <div class="form-group">
-            <label>在庫</label>
+          <div class="form-group mb-4">
+            <label class="mb-2">在庫</label>
             <input type="number" class="form-control border border-primary" name="stock" min="1" required>
           </div>
-          <div class="form-group">
+          <div class="form-group mb-4">
             商品タグ
-            <select name="tag" class="ml-3 border border-primary" required>
+            <select name="tag" class="ms-3 border border-primary" required>
               <option value="fish">鮮魚</option>
               <option value="meat">精肉</option>
               <option value="vegetable">青果</option>
@@ -45,7 +45,7 @@
 {% endblock %}
 
 {% block json_data %}
-  user_info: {{user_info|tojson}}
+  user_info: {{ resDict|tojson }}['user_info']
 {% endblock %}
 
 {% block vue_func %}

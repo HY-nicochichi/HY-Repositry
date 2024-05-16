@@ -1,7 +1,7 @@
-from flask import Blueprint, render_template, redirect, request, flash, session
+from flask import Blueprint, jsonify, redirect, request, session
 from helpers import SessionHelper, UserHelper, ItemHelper
 
-bp0 = Blueprint('bp0', __name__, template_folder='../templates/temp0')
+bp0 = Blueprint('bp0', __name__)
 
 @bp0.get('/')
 def index_GET():
@@ -25,7 +25,7 @@ def index_GET():
             'price': item.price
         })
     resDict = {'user_info': user_info, 'items': itemList}
-    return render_template('index.html', resDict=resDict)
+    return jsonify(resDict)
 
 @bp0.get('/login')
 def login_GET():
@@ -34,11 +34,10 @@ def login_GET():
         if current_user == None:
             SessionHelper.log_out()
             return redirect('/login')
-        flash('既にログイン済です')
         return redirect('/')
     user_info = {'login': False}
     resDict = {'user_info': user_info}
-    return render_template('login.html', resDict=resDict)
+    return jsonify(resDict)
 
 @bp0.post('/login')
 def login_POST():
@@ -46,9 +45,7 @@ def login_POST():
         current_user = UserHelper.search_by_id(session['user'])
         if current_user == None:
             SessionHelper.log_out()
-            flash('ユーザーが存在しません')
             return redirect('/login')
-        flash('既にログイン済です')
         return redirect('/')
     mail = request.form.get('mail', type=str)
     password = request.form.get('password', type=str)
@@ -56,7 +53,6 @@ def login_POST():
     if result['message'] == 'successed':
         SessionHelper.log_in(result['user_id'])
         return redirect('/')
-    flash(result['message'])
     return redirect('/login')
 
 @bp0.get('/logout')

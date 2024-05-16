@@ -5,10 +5,10 @@
 {% endblock %}
 
 {% block content %}
-  <h4 class="mb-3">
-    <b>会員様情報</b>
+  <h4 class="fw-bolder mb-3">
+    会員様情報
   </h4>
-  <div class="col-sm-9 col-md-6 col-lg-4 border border-primary mt-4 px-3 py-2 bg-light">
+  <div class="col-sm-9 col-md-6 col-lg-4 border border-primary bg-light mt-4 p-3">
     ユーザーネーム：[(user_info['name'])]
     <br>
     <a href="/update_profile?param=ユーザーネーム" class="btn btn-primary my-2">変更</a>
@@ -25,7 +25,9 @@
   </div>
   <br>
   <div class="my-2">
-    <a href="/update_items" class="btn btn-info">出品アイテム一覧</a>
+    <a href="/update_items" class="btn btn-info">
+      <span class="text-light">出品アイテム一覧</span>
+    </a>
   </div>
   <br>
   <a href="/delete_user" class="btn btn-danger" @click="confirmDeleteUser()">サービス退会</a>
@@ -33,7 +35,7 @@
 {% endblock %}
 
 {% block json_data %}
-  user_info: {{user_info|tojson}}
+  user_info: {{ resDict|tojson }}['user_info']
 {% endblock %}
 
 {% block vue_func %}
