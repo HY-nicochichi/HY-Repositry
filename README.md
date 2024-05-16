@@ -4,7 +4,7 @@
 初めて製作したWEBアプリ(Flaskで作成)。　クラス単位でのWEB試験もできる単語アプリ。　Dockerコンテナで動く(run.shを実行)。　起動後にブラウザでアクセス ⇒ https://localhost:443
 
 ## FlaskMarket
-Flask(MVCモデル, O/Rマッパー, DBマイグレーション, ServerSideセッション, CSRFトークン, httpセキュリティヘッダ, Module分割, スケジューラー, 自動テスト)とBootstrapとVue3.JSとOpenSSLによるhttps化の勉強用に作成。　簡単な食品ECサイトのアプリ。　Dockerコンテナで動く(run.shを実行)。　起動後にブラウザでアクセス ⇒ https://localhost:443
+Flask(MVCモデル, O/Rマッパー, DBマイグレーション, ServerSideセッション, CSRFトークン, httpセキュリティヘッダ, Module分割, スケジューラー, 自動テスト)とBootstrap5とVue3.JSとOpenSSLによるhttps化の勉強用に作成。　簡単な食品ECサイトのアプリ。　Dockerコンテナで動く(run.shを実行)。　起動後にブラウザでアクセス ⇒ https://localhost:443
 
 ## RailsApp01
 Railsの勉強のためにお試しで作ったブログアプリ。　Windows上で動かしMySQLと連携している。　起動後にブラウザでアクセス ⇒ http://localhost:3000
