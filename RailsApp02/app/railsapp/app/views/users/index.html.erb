@@ -1,0 +1,16 @@
+<% provide("title", "All Users") %>
+<div class="center jumbotron">
+  <h1>Welcome to the Sample App</h1>
+
+  <h4>
+    <% @users.each() do |user| %>
+      <div>
+        <div><b><%= user.email %></b></div>
+        <div><%= user.username %></div>
+      </div>
+      <br>
+    <% end %>
+  </h4>
+
+  <%= link_to("Sign up now!", '#', class: "btn btn-lg btn-primary") %>
+</div>

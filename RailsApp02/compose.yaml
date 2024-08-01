@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+
+  db:
+    container_name: railsapp02_db
+    build: ./db
+    ports:
+      - "5432:5432"
+    volumes:
+      - volume:/var/lib/postgresql/data
+    networks:
+      - network
+
+  app:
+    container_name: railsapp02_app
+    build: ./app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    networks:
+      - network
+
+volumes:
+  volume:
+
+networks:
+  network:
