@@ -1,7 +1,8 @@
-FROM node:22.2-bookworm-slim
+FROM nginx:1.27-alpine
 
-COPY . /
+EXPOSE 8080
 
-WORKDIR /vueapp
+COPY vueapp/dist /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d
 
-CMD exec npm run serve
+CMD ["nginx", "-g", "daemon off;"]

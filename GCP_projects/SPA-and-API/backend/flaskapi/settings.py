@@ -9,7 +9,7 @@ environ['GOOGLE_APPLICATION_CREDENTIALS'] = '/fake_service_account_key.json'
 client = SecretManagerServiceClient()
 connector = Connector(ip_type=IPTypes.PUBLIC)
 
-name = client.secret_version_path('project_id', 'secret_name', 'latest')
+name = client.secret_version_path('project_id', 'secret_name', 'version')
 response = client.access_secret_version(name=name)
 secret_dict = loads(response.payload.data.decode('UTF-8'))
 
