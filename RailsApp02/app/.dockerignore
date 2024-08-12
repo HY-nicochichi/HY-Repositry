@@ -1,5 +1,0 @@
-.dockerignore
-Dockerfile
-railsapp/.gitattributes
-railsapp/.gitignore
-railsapp/.git

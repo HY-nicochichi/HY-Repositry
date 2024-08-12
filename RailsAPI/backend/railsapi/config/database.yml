@@ -1,0 +1,20 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  username: postgres
+  password: password
+  host: database
+  port: 5432
+  pool: 5
+
+development:
+  <<: *default
+  database: railsapi_development
+
+test:
+  <<: *default
+  database: railsapi_test
+
+production:
+  <<: *default
+  database: railsapi_production
