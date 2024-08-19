@@ -1,3 +1,73 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import AccessAPI from '../functions/AccessAPI'
+import ManageJWT from '../functions/ManageJWT'
+import NavBar from '../components/NavBar.vue'
+import AlertBox from '../components/AlertBox.vue'
+
+const router = useRouter()
+
+const { getUserInfo, postJWTCreate } = AccessAPI()
+const { setJWT } = ManageJWT()
+
+let user = ref({
+  login: false,
+  name: ''
+})
+
+let alert = ref({
+  show: false,
+  msg: ''
+})
+
+let mail = ref('')
+let password = ref('')
+
+async function checkLoggedIn() {
+  const response = await getUserInfo()
+  if (response.status === 200) {
+    router.push({name: 'index'})
+  }
+  else {
+    setJWT('')
+  }
+}
+
+async function tryLogin() {
+  if (mail.value === '' || password.value === '') {
+    alert.value = {
+      show: true,
+      msg: '未入力の項目がありました'
+    }
+    mail.value = ''
+    password.value = ''
+  }
+  else {
+    const response = await postJWTCreate(
+      mail.value, password.value
+    )
+    if (response.status === 200) {
+      setJWT(response.json.access_token)
+      router.push({name: 'index'})
+    }
+    else if (response.status === 401) {
+      alert.value = {
+        show: true,
+        msg: response.json.msg
+      }
+      mail.value = ''
+      password.value = ''
+    }
+  }
+}
+
+onMounted(() => {
+  document.title = 'ログイン'
+  checkLoggedIn()
+})
+</script>
+
 <template>
   <NavBar v-bind:user="user"/>
   <div class="p-3">
@@ -10,11 +80,11 @@
         <div class="col">
           <div class="mb-4">
             <label class="mb-2">メールアドレス</label>
-            <input type="text" class="form-control border border-primary" ref="mail"/>
+            <input type="text" class="form-control border border-primary" v-model="mail"/>
           </div>
           <div class="mb-4">
             <label class="mb-2">パスワード</label>
-            <input type="password" class="form-control border border-primary" ref="password"/>
+            <input type="password" class="form-control border border-primary" v-model="password"/>
           </div>
           <br>
           <div>
@@ -25,76 +95,3 @@
     </div>
   </div>
 </template>
-
-<script>
-import AccessAPI from '../mixins/AccessAPI'
-import ManageJWT from '../mixins/ManageJWT'
-import NavBar from '../components/NavBar.vue'
-import AlertBox from '../components/AlertBox.vue'
-  
-export default {
-  name: 'LoginView',
-  mixins: [
-    AccessAPI,
-    ManageJWT
-  ],
-  components: {
-    NavBar,
-    AlertBox
-  },
-  data() {
-    return {
-      user: {
-        login: false,
-        name: ''
-      },
-      alert: {
-        show: false,
-        msg: ''
-      }
-    }
-  },
-  methods: {
-    async checkLoggedIn() {
-      const response = await this.getUserInfo()
-      if (response.status === 200) {
-        this.$router.push({name: 'index'})
-      }
-      else {
-        this.setJWT('')
-      }
-    },
-    async tryLogin() {
-      if (this.$refs.mail.value === '' || this.$refs.password.value === '') {
-        this.alert = {
-          show: true,
-          msg: '未入力の項目がありました'
-        }
-        this.$refs.mail.value = ''
-        this.$refs.password.value = ''
-      }
-      else {
-        const response = await this.postJWTCreate(
-          this.$refs.mail.value, this.$refs.password.value
-        )
-        if (response.status === 200) {
-          this.setJWT(response.json.access_token)
-          this.$router.push({name: 'index'})
-        }
-        else if (response.status === 401) {
-          this.alert = {
-            show: true,
-            msg: response.json.msg
-          }
-          this.$refs.mail.value = ''
-          this.$refs.password.value = ''
-        }
-      }
-    }
-  },
-  mounted() {
-    document.title = 'ログイン'
-    this.checkLoggedIn()
-  }
-}
-</script>

@@ -1,3 +1,79 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import AccessAPI from '../functions/AccessAPI'
+import ManageJWT from '../functions/ManageJWT'
+import NavBar from '../components/NavBar.vue'
+import AlertBox from '../components/AlertBox.vue'
+
+const router = useRouter()
+
+const { getUserInfo, postJWTCreate, postUserCreate } = AccessAPI()
+const { setJWT } = ManageJWT()
+
+let user = ref({
+  login: false,
+  name: ''
+})
+
+let alert = ref({
+  show: false,
+  msg: ''
+})
+
+let mail = ref('')
+let password = ref('')
+let username = ref('')
+
+async function checkLoggedIn() {
+  const response = await getUserInfo()
+  if (response.status === 200) {
+    router.push({name: 'index'})
+  }
+  else {
+    setJWT('')
+  }
+}
+
+async function tryCreateUser() {
+  if (mail.value === '' || password.value === '' || username.value === '') {
+    alert.value = {
+      show: true,
+      msg: '未入力の項目がありました'
+    }
+    mail.value = ''
+    password.value = ''
+    username.value = ''
+  }
+  else {
+    const response1 = await postUserCreate(
+      mail.value, password.value, username.value
+    )
+    if (response1.status === 200) {
+      const response2 = await postJWTCreate(
+        mail.value, password.value
+      )
+      setJWT(response2.json.access_token)
+      router.push({name: 'index'})
+    }
+    else if (response1.status === 401) {
+      alert.value = {
+        show: true,
+        msg: response1.json.msg
+      }
+      mail.value = ''
+      password.value = ''
+      username.value = ''
+    }
+  }
+}
+
+onMounted(() => {
+  document.title = '会員登録'
+  checkLoggedIn()
+})
+</script>
+
 <template>
   <NavBar v-bind:user="user"/>
   <div class="p-3">
@@ -10,15 +86,15 @@
         <div class="col">
           <div class="mb-4">
             <label class="mb-2">メールアドレス</label>
-            <input type="text" class="form-control border border-primary" ref="mail"/>
+            <input type="text" class="form-control border border-primary" v-model="mail"/>
           </div>
           <div class="mb-4">
             <label class="mb-2">パスワード</label>
-            <input type="password" class="form-control border border-primary" ref="password"/>
+            <input type="password" class="form-control border border-primary" v-model="password"/>
           </div>
           <div class="mb-4">
             <label class="mb-2">ユーザーネーム</label>
-            <input type="text" class="form-control border border-primary" ref="username"/>
+            <input type="text" class="form-control border border-primary" v-model="username"/>
           </div>
           <br>
           <div>
@@ -29,81 +105,3 @@
     </div>
   </div>
 </template>
-  
-<script>
-import AccessAPI from '../mixins/AccessAPI'
-import ManageJWT from '../mixins/ManageJWT'
-import NavBar from '../components/NavBar.vue'
-import AlertBox from '../components/AlertBox.vue'
-
-export default {
-  name: 'NewUserView',
-  mixins: [
-    AccessAPI,
-    ManageJWT
-  ],
-  components: {
-    NavBar,
-    AlertBox
-  },
-  data() {
-    return {
-      user: {
-        login: false,
-        name: ''
-      },
-      alert: {
-        show: false,
-        msg: ''
-      }
-    }
-  },
-    methods: {
-      async checkLoggedIn() {
-        const response = await this.getUserInfo()
-        if (response.status === 200) {
-          this.$router.push({name: 'index'})
-        }
-        else {
-          this.setJWT('')
-        }
-      },
-      async tryCreateUser() {
-        if (this.$refs.mail.value === '' || this.$refs.password.value === '' || this.$refs.username.value === '') {
-          this.alert = {
-            show: true,
-            msg: '未入力の項目がありました'
-          }
-          this.$refs.mail.value = ''
-          this.$refs.password.value = ''
-          this.$refs.username.value = ''
-        }
-        else {
-          const response1 = await this.postUserCreate(
-            this.$refs.mail.value, this.$refs.password.value, this.$refs.username.value
-          )
-          if (response1.status === 200) {
-            const response2 = await this.postJWTCreate(
-              this.$refs.mail.value, this.$refs.password.value
-            )
-            this.setJWT(response2.json.access_token)
-            this.$router.push({name: 'index'})
-          }
-          else if (response1.status === 401) {
-            this.alert = {
-              show: true,
-              msg: response1.json.msg
-            }
-            this.$refs.mail.value = ''
-            this.$refs.password.value = ''
-            this.$refs.username.value = ''
-          }
-        }
-      }
-    },
-    mounted() {
-      document.title = '会員登録'
-      this.checkLoggedIn()
-    }
-}
-</script>

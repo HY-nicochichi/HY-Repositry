@@ -1,3 +1,87 @@
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import AccessAPI from '../functions/AccessAPI'
+import ManageJWT from '../functions/ManageJWT'
+import NavBar from '../components/NavBar.vue'
+import AlertBox from '../components/AlertBox.vue'
+
+const router = useRouter()
+const route = useRoute()
+
+const { getUserInfo, postUserUpdate } = AccessAPI()
+const { setJWT } = ManageJWT()
+
+let user = ref({
+  login: false,
+  name: ''
+})
+
+let alert = ref({
+  show: false,
+  msg: ''
+})
+
+let param = ref(route.query.param)
+
+let type = ref('password')
+
+let current_value = ref('')
+let new_value= ref('')
+let check_value = ref('')
+
+async function setUserInfo() {
+  const response = await getUserInfo()
+  if (response.status === 200) {
+    user.value = {
+      login: true,
+      name: response.json.username
+    }
+  }
+  else {
+    setJWT('')
+    router.push({name: 'login'})
+  }
+}
+
+async function tryUpdateUser() {
+  if (current_value.value === '' || new_value.value === '' || check_value.value === '') {
+    alert.value = {
+      show: true,
+      msg: '未入力の項目がありました'
+    }
+    current_value.value = ''
+    new_value.value = ''
+    check_value.value = ''
+  }
+  else {
+    const response = await postUserUpdate(
+      param.value, current_value.value, new_value.value, check_value.value
+    )
+    if (response.status === 200) {
+      router.push({name: 'profile'})
+    }
+    else if (response.status === 401) {
+      alert.value = {
+        show: true,
+        msg: response.json.msg
+      }
+      current_value.value = ''
+      new_value.value = ''
+      check_value.value = ''
+    }
+  }
+}
+
+onMounted(() => {
+  document.title = param.value + 'の変更'
+  if (param.value !== 'パスワード') {
+    type.value = 'text'
+  }
+  setUserInfo()
+})
+</script>
+
 <template>
   <NavBar v-bind:user="user"/>
   <div class="p-3">
@@ -10,15 +94,15 @@
         <div class="col">
           <div class="mb-4">
             <label class="mb-2">現{{ param }}</label>
-            <input v-bind:type="type" class="form-control border border-primary" ref="current_value">
+            <input v-bind:type="type" class="form-control border border-primary" v-model="current_value">
           </div>
           <div class="mb-4">
             <label class="mb-2">新{{ param }}</label>
-            <input v-bind:type="type" class="form-control border border-primary" ref="new_value">
+            <input v-bind:type="type" class="form-control border border-primary" v-model="new_value">
           </div>
           <div class="mb-4">
             <label class="mb-2">新{{ param }}(確認)</label>
-            <input v-bind:type="type" class="form-control border border-primary" ref="check_value">
+            <input v-bind:type="type" class="form-control border border-primary" v-model="check_value">
           </div>
           <br>
           <div>
@@ -29,86 +113,3 @@
     </div>
   </div>
 </template>
- 
-<script>
-import AccessAPI from '../mixins/AccessAPI'
-import ManageJWT from '../mixins/ManageJWT'
-import NavBar from '../components/NavBar.vue'
-import AlertBox from '../components/AlertBox.vue'
-  
-export default {
-  name: 'UpdateProfileView',
-  mixins: [
-    AccessAPI,
-    ManageJWT
-  ],
-  components: {
-    NavBar,
-    AlertBox
-  },
-  data() {
-    return {
-      user: {
-        login: false,
-        name: ''
-      },
-      alert: {
-        show: false,
-        msg: ''
-      },
-      param: this.$route.query.param,
-      type: 'password'
-    }
-  },
-  methods: {
-    async setUserInfo() {
-      const response = await this.getUserInfo()
-      if (response.status === 200) {
-        this.user = {
-          login: true,
-          name: response.json.user_info.username
-        }
-      }
-      else {
-        this.setJWT('')
-        this.$router.push({name: 'login'})
-      }
-    },
-    async tryUpdateUser() {
-      if (this.$refs.current_value.value === '' || this.$refs.new_value.value === '' || this.$refs.check_value.value === '') {
-        this.alert = {
-          show: true,
-          msg: '未入力の項目がありました'
-        }
-        this.$refs.current_value.value = ''
-        this.$refs.new_value.value = ''
-        this.$refs.check_value.value = ''
-      }
-      else {
-        const response = await this.postUserUpdate(
-          this.param, this.$refs.current_value.value, this.$refs.new_value.value, this.$refs.check_value.value
-        )
-        if (response.status === 200) {
-          this.$router.push({name: 'profile'})
-        }
-        else if (response.status === 401) {
-          this.alert = {
-            show: true,
-            msg: response.json.msg
-          }
-          this.$refs.current_value.value = ''
-          this.$refs.new_value.value = ''
-          this.$refs.check_value.value = ''
-        }
-      }
-    }
-  },
-  mounted() {
-    document.title = this.param + 'の変更'
-    if (this.param !== 'パスワード') {
-      this.type = 'text'
-    }
-    this.setUserInfo()
-  }
-}
-</script>
