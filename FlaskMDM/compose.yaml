@@ -1,0 +1,31 @@
+version: '3.7'
+
+services:
+
+  database:
+    container_name: spa-and-api-database
+    build: ./database
+    volumes:
+      - volume-database:/var/lib/postgresql/data
+    networks:
+      - network
+
+  backend:
+    container_name: spa-and-api-backend
+    build: ./backend
+    volumes:
+      - volume-backend:/manager_keys
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    networks:
+      - network
+
+
+networks:
+  network:
+
+volumes:
+  volume-database:
+  volume-backend:
