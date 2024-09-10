@@ -3,7 +3,7 @@ version: '3.7'
 services:
 
   database:
-    container_name: spa-and-api-database
+    container_name: flaskmdm-database
     build: ./database
     volumes:
       - volume-database:/var/lib/postgresql/data
@@ -11,7 +11,7 @@ services:
       - network
 
   backend:
-    container_name: spa-and-api-backend
+    container_name: flaskmdm-backend
     build: ./backend
     volumes:
       - volume-backend:/manager_keys
