@@ -13,4 +13,4 @@ SPA-and-APIと同じ構造のWEBサイトを、バックエンドをRailsに置�
 初めて作った簡素なAndroid用ネイティブアプリ("Kotlin ＋ Android Studio"を使用)。　英語の５文型を当てるクイズアプリ。
 
 ## FlaskMDM
-Android Management API を利用した簡単なMDMサービス。　現時点ではバックエンドAPI(Flask)のみを実装済み。
+Android Management API を利用した簡単なMDMアプリ。　現時点ではバックエンドAPI(Flask)のみを実装済み。
