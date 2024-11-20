@@ -1,10 +1,14 @@
-from extensions import db_orm, BaseModel
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column
+)
+from extensions import TimeStampModel
 
-class User(BaseModel):
+class User(TimeStampModel):
 
     __tablename__ = 'users'
 
-    user_id = db_orm.Column(db_orm.String(255), unique=True, nullable=False)
-    mail = db_orm.Column(db_orm.String(255), unique=True, nullable=False)
-    hashPASS = db_orm.Column(db_orm.String(255), nullable=False)
-    username = db_orm.Column(db_orm.String(255), nullable=False)
+    user_id: Mapped[str] = mapped_column(nullable=False, primary_key=True)
+    mail_address: Mapped[str] = mapped_column(nullable=False, unique=True)
+    encrypted_pass: Mapped[str] = mapped_column(nullable=False)
+    user_name: Mapped[str] = mapped_column(nullable=False)

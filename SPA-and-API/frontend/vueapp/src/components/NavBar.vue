@@ -1,3 +1,36 @@
+<script setup lang="ts">
+import { defineProps } from 'vue'
+import { useRouter, useRoute, Router, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
+import ManageJWT from '../functions/ManageJWT'
+
+interface User {
+  login: boolean
+  name: string
+  mail: string
+}
+
+interface Props {
+  user: User
+}
+
+defineProps<Props>()
+
+const router: Router = useRouter()
+const route: RouteLocationNormalizedLoadedGeneric = useRoute()
+
+const { setJWT } = ManageJWT()
+
+function tryLogout(): void {
+  setJWT('')
+  if (route.path === '/') {
+    router.go(0)
+  }
+  else {
+    router.push({name: 'index'})
+  }
+}
+</script>
+
 <template>
   <div class="pt-3">
     <nav class="navbar navbar-expand-sm navbar-dark bg-primary px-3 py-2">
@@ -16,7 +49,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a type="button" class="nav-link active" href="/logout">ログアウト</a>
+            <a type="button" class="nav-link active" v-on:click="tryLogout">ログアウト</a>
           </li>
         </ul>
         <ul v-else class="navbar-nav">
@@ -31,15 +64,6 @@
     </nav>
   </div>
 </template>
-
-<script>
-export default {
-  name: 'NavBar',
-  props: [
-    'user'
-  ]
-}
-</script>
 
 <style scoped>
 .flash-item {

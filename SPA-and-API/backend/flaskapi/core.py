@@ -3,7 +3,7 @@ from views import bps
 from extensions import (
     db_orm,
     jwt_manager,
-    security_header
+    cross_origin
 )
 
 app = Flask(__name__)
@@ -15,7 +15,7 @@ for bp in bps:
 
 db_orm.init_app(app)
 jwt_manager.init_app(app)
-security_header.init_app(app)
+cross_origin.init_app(app)
 
 with app.app_context():
     db_orm.create_all()

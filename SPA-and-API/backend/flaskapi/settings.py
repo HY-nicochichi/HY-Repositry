@@ -11,8 +11,3 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 # jwt_manager
 JWT_SECRET_KEY = 'jwt_secret_key'
 JWT_ACCESS_TOKEN_EXPIRES = timedelta(days=7.0)
-
-# security_header
-SECURITY_HEADER = {
-    'force_https': False
-}

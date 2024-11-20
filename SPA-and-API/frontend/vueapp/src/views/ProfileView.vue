@@ -1,3 +1,50 @@
+<script setup lang="ts">
+import { ref, onMounted, Ref } from 'vue'
+import { useRouter, Router } from 'vue-router'
+import AccessAPI from '../functions/AccessAPI'
+import ManageJWT from '../functions/ManageJWT'
+import NavBar from '../components/NavBar.vue'
+
+const router: Router = useRouter()
+
+const { getUserInfo, getUserDelete } = AccessAPI()
+const { setJWT } = ManageJWT()
+
+let user: Ref = ref({
+  login: false,
+  name: '',
+  mail: ''
+})
+
+async function setUserInfo(): Promise<void> {
+  const response: {status: number, json: any} = await getUserInfo()
+  if (response.status === 200) {
+    user.value = {
+      login: true,
+      name: response.json.user_name,
+      mail: response.json.mail_address
+    }
+  }
+  else {
+    setJWT('')
+    router.push({name: 'login'})
+  }
+}
+
+function confirmDeleteUser(): void {
+  if (confirm('本当に退会しますか？') === true) {
+    getUserDelete()
+    setJWT('')
+    router.push({name: 'index'})
+  }
+}
+
+onMounted(() => {
+  document.title = '会員様情報'
+  setUserInfo()
+})
+</script>
+
 <template>
   <NavBar v-bind:user="user"/>
   <div class="p-3">
@@ -21,60 +68,8 @@
     </div>
     <br>
     <div class="my-2">
-      <a href="/delete_user" class="btn btn-danger" @click="confirmDeleteUser">サービス退会</a>
+      <a href="/delete_user" class="btn btn-danger" v-on:click.prevent="confirmDeleteUser">サービス退会</a>
     </div>
     <br>
   </div>
 </template>
-
-<script>
-import AccessAPI from '../mixins/AccessAPI'
-import ManageJWT from '../mixins/ManageJWT'
-import NavBar from '../components/NavBar.vue'
-  
-export default {
-  name: 'ProfileView',
-  mixins: [
-    AccessAPI,
-    ManageJWT
-  ],
-  components: {
-    NavBar
-  },
-  data() {
-    return {
-      user: {
-        login: false,
-        name: '',
-        mail: ''
-      }
-    }
-  },
-  methods: {
-    async setUserInfo() {
-      const response = await this.getUserInfo()
-      if (response.status === 200) {
-        this.user = {
-          login: true,
-          name: response.json.user_info.username,
-          mail: response.json.user_info.mail
-        }
-      }
-      else {
-        this.setJWT('')
-        this.$router.push({name: 'login'})
-      }
-    },
-    confirmDeleteUser() {
-      const isConfirmed = confirm('本当に退会しますか？')
-      if (isConfirmed === false) {
-        event.preventDefault()
-      }
-    }
-  },
-  mounted() {
-    document.title = '会員情報'
-    this.setUserInfo()
-  }
-}
-</script>
