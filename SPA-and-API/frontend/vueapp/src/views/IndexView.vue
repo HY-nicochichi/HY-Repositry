@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref } from 'vue'
+import { useRoute, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import AccessAPI from '../functions/AccessAPI'
 import ManageJWT from '../functions/ManageJWT'
 import NavBar from '../components/NavBar.vue'
+
+const route: RouteLocationNormalizedLoadedGeneric = useRoute()
 
 const { getUserInfo } = AccessAPI()
 const { setJWT } = ManageJWT()
@@ -13,8 +16,10 @@ let user: Ref = ref({
   mail: ''
 })
 
+const client: Ref = ref(route.query.client)
+
 async function setUserInfo(): Promise<void> {
-  const response: {status: number, json: any} = await getUserInfo()
+  const response: {status: number, json: any} = await getUserInfo(client.value)
   if (response.status === 200) {
     user.value = {
       login: true,
@@ -34,10 +39,13 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavBar v-bind:user="user"/>
+  <NavBar v-bind:user="user" v-bind:client="client"/>
   <div class="p-3">
-    <h4 class="fw-bolder">
+    <h4 v-if="client !== 'webview'" class="fw-bolder">
       SPA(Vue) & API(Flask) Auth App
+    </h4>
+    <h4 v-if="client === 'webview'" class="fw-bolder">
+      SPA(Vue) & API(Flask) Auth App Mobile
     </h4>
   </div>
 </template>

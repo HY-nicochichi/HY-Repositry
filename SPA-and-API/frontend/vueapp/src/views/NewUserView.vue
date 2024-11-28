@@ -1,15 +1,18 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref } from 'vue'
-import { useRouter, Router } from 'vue-router'
+import { useRouter, useRoute, Router, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import AccessAPI from '../functions/AccessAPI'
 import ManageJWT from '../functions/ManageJWT'
+import ManageQuery from '../functions/ManageQuery'
 import NavBar from '../components/NavBar.vue'
 import AlertBox from '../components/AlertBox.vue'
 
 const router: Router = useRouter()
+const route: RouteLocationNormalizedLoadedGeneric = useRoute()
 
 const { getUserInfo, postJWTCreate, postUserCreate } = AccessAPI()
 const { setJWT } = ManageJWT()
+const { pushRouter } = ManageQuery()
 
 let user: Ref = ref({
   login: false,
@@ -22,14 +25,16 @@ let alert: Ref = ref({
   msg: ''
 })
 
+const client: Ref = ref(route.query.client)
+
 let mail_address: Ref = ref('')
 let password: Ref = ref('')
 let user_name: Ref = ref('')
 
 async function checkLoggedIn(): Promise<void> {
-  const response: {status: number, json: any} = await getUserInfo()
+  const response: {status: number, json: any} = await getUserInfo(client.value)
   if (response.status === 200) {
-    router.push({name: 'index'})
+    router.push(pushRouter(client.value, '/'))
   }
   else {
     setJWT('')
@@ -48,14 +53,14 @@ async function tryCreateUser(): Promise<void> {
   }
   else {
     const response1: {status: number, json: any} = await postUserCreate(
-      mail_address.value, password.value, user_name.value
+      client.value, mail_address.value, password.value, user_name.value
     )
     if (response1.status === 200) {
       const response2: {status: number, json: any} = await postJWTCreate(
-        mail_address.value, password.value
+        client.value, mail_address.value, password.value
       )
       setJWT(response2.json.access_token)
-      router.push({name: 'index'})
+      router.push(pushRouter(client.value, '/'))
     }
     else if (response1.status === 401) {
       alert.value = {
@@ -76,7 +81,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavBar v-bind:user="user"/>
+  <NavBar v-bind:user="user" v-bind:client="client"/>
   <div class="p-3">
     <AlertBox v-bind:alert="alert"/>
     <h4 class="fw-bolder mb-3">

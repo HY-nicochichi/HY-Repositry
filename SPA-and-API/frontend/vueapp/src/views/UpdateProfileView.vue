@@ -3,6 +3,7 @@ import { ref, onMounted, Ref } from 'vue'
 import { useRouter, useRoute, Router, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
 import AccessAPI from '../functions/AccessAPI'
 import ManageJWT from '../functions/ManageJWT'
+import ManageQuery from '../functions/ManageQuery'
 import NavBar from '../components/NavBar.vue'
 import AlertBox from '../components/AlertBox.vue'
 
@@ -11,6 +12,7 @@ const route: RouteLocationNormalizedLoadedGeneric = useRoute()
 
 const { getUserInfo, postUserUpdate } = AccessAPI()
 const { setJWT } = ManageJWT()
+const { pushRouter } = ManageQuery()
 
 let user: Ref = ref({
   login: false,
@@ -23,7 +25,8 @@ let alert: Ref = ref({
   msg: ''
 })
 
-let param: Ref = ref(route.query.param)
+const client: Ref = ref(route.query.client)
+const param: Ref = ref(route.query.param)
 
 let type: Ref = ref('password')
 
@@ -32,7 +35,7 @@ let new_value: Ref = ref('')
 let check_value: Ref = ref('')
 
 async function setUserInfo(): Promise<void> {
-  const response: {status: number, json: any} = await getUserInfo()
+  const response: {status: number, json: any} = await getUserInfo(client.value)
   if (response.status === 200) {
     user.value = {
       login: true,
@@ -42,7 +45,7 @@ async function setUserInfo(): Promise<void> {
   }
   else {
     setJWT('')
-    router.push({name: 'login'})
+    router.push(pushRouter(client.value, '/login'))
   }
 }
 
@@ -58,10 +61,10 @@ async function tryUpdateUser(): Promise<void> {
   }
   else {
     const response: {status: number, json: any} = await postUserUpdate(
-      param.value, current_value.value, new_value.value, check_value.value
+      client.value, param.value, current_value.value, new_value.value, check_value.value
     )
     if (response.status === 200) {
-      router.push({name: 'profile'})
+      router.push(pushRouter(client.value, '/profile'))
     }
     else if (response.status === 401) {
       alert.value = {
@@ -85,7 +88,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <NavBar v-bind:user="user"/>
+  <NavBar v-bind:user="user" v-bind:client="client"/>
   <div class="p-3">
     <AlertBox v-bind:alert="alert"/>
     <h4 class="fw-bolder mb-3">
