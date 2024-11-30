@@ -1,15 +1,13 @@
 import ManageJWT from './ManageJWT'
-import ManageQuery from './ManageQuery'
 
 const { getJWT } = ManageJWT()
-const { getAPIHostName } = ManageQuery()
 
 export default function() {
 
-  const postJWTCreate: (client: any, mail_address: string, password: string) => Promise<{status: number, json: any}> 
-  = async(client, mail_address, password) => {
+  const postJWTCreate: (mail_address: string, password: string) => Promise<{status: number, json: any}> 
+  = async(mail_address, password) => {
     const resp: Response = await fetch(
-      'http://' + getAPIHostName(client) + ':5000/api/jwt/create', {
+      'http://localhost:5000/api/jwt/create', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -28,10 +26,10 @@ export default function() {
     return response
   }
 
-  const postUserCreate: (client: any, mail_address: string, password: string, user_name: string) => Promise<{status: number, json: any}>
-  = async(client, mail_address, password, user_name) => {
+  const postUserCreate: (mail_address: string, password: string, user_name: string) => Promise<{status: number, json: any}>
+  = async(mail_address, password, user_name) => {
     const resp: Response = await fetch(
-      'http://' + getAPIHostName(client) + ':5000/api/user/create', {
+      'http://localhost:5000/api/user/create', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -51,10 +49,10 @@ export default function() {
     return response
   }
 
-  const getUserInfo: (client: any) => Promise<{status: number, json: any}>
-  = async(client) => {
+  const getUserInfo: () => Promise<{status: number, json: any}>
+  = async() => {
     const resp: Response = await fetch(
-      'http://' + getAPIHostName(client) + ':5000/api/user/info', {
+      'http://localhost:5000/api/user/info', {
         method: 'GET',
         mode: 'cors',
         headers: {
@@ -69,10 +67,10 @@ export default function() {
     return response
   }
 
-  const postUserUpdate: (client: any, param: string, current_value: string, new_value: string, check_value: string) => Promise<{status: number, json: any}>
-  = async(client, param, current_value, new_value, check_value) => {
+  const postUserUpdate: (param: string, current_value: string, new_value: string, check_value: string) => Promise<{status: number, json: any}>
+  = async(param, current_value, new_value, check_value) => {
     const resp: Response = await fetch(
-      'http://' + getAPIHostName(client) + ':5000/api/user/update', {
+      'http://localhost:5000/api/user/update', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -94,10 +92,10 @@ export default function() {
     return response
   }
 
-  const getUserDelete: (client: any) => Promise<{status: number, json: any}>
-  = async(client) => {
+  const getUserDelete: () => Promise<{status: number, json: any}>
+  = async() => {
     const resp: Response = await fetch(
-      'http://' + getAPIHostName(client) + ':5000/api/user/delete', {
+      'http://localhost:5000/api/user/delete', {
         method: 'GET',
         mode: 'cors',
         headers: {

@@ -8,4 +8,4 @@ WORKDIR /flaskapi
 RUN pip install -r /requirements.txt
 
 CMD sleep 5 && \ 
-exec gunicorn --bind :5000 --workers 1 --threads 8 --timeout 0 core:app
+gunicorn core:app --bind :5000 --workers 1 --threads 8

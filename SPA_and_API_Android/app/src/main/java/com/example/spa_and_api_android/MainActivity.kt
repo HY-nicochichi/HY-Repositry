@@ -20,11 +20,12 @@ class MainActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val appWebView: WebView = findViewById<WebView>(R.id.AppWebView)
+        appWebView.settings.allowFileAccess = true
         appWebView.settings.javaScriptEnabled = true
         appWebView.settings.domStorageEnabled = true
         appWebView.webViewClient = AppWebViewClient()
         appWebView.webChromeClient = WebChromeClient()
-        appWebView.loadUrl("http://10.0.2.2:8080/?client=webview")
+        appWebView.loadUrl("file:///android_asset/index.html")
     }
     
 }
