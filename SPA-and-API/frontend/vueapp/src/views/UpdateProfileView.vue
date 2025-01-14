@@ -1,38 +1,36 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref } from 'vue'
 import { useRouter, useRoute, Router, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import AccessAPI from '../functions/AccessAPI'
-import ManageJWT from '../functions/ManageJWT'
+import { Response, User, Alert } from '../common/Interface'
+import { getUserInfo, postUserUpdate } from '../common/AccessAPI'
+import { setJWT } from '../common/ManageJWT'
 import NavBar from '../components/NavBar.vue'
 import AlertBox from '../components/AlertBox.vue'
 
 const router: Router = useRouter()
 const route: RouteLocationNormalizedLoadedGeneric = useRoute()
 
-const { getUserInfo, postUserUpdate } = AccessAPI()
-const { setJWT } = ManageJWT()
-
-let user: Ref = ref({
+let user: Ref<User, User> = ref({
   login: false,
   name: '',
   mail: ''
 })
 
-let alert: Ref = ref({
+let alert: Ref<Alert, Alert> = ref({
   show: false,
   msg: ''
 })
 
-let param: Ref = ref(route.query.param)
+let param: Ref<string, string> = ref(String(route.query.param))
 
-let type: Ref = ref('password')
+let type: Ref<string, string> = ref('password')
 
-let current_value: Ref = ref('')
-let new_value: Ref = ref('')
-let check_value: Ref = ref('')
+let current_value: Ref<string, string> = ref('')
+let new_value: Ref<string, string> = ref('')
+let check_value: Ref<string, string> = ref('')
 
 async function setUserInfo(): Promise<void> {
-  const response: {status: number, json: any} = await getUserInfo()
+  const response: Response = await getUserInfo()
   if (response.status === 200) {
     user.value = {
       login: true,
@@ -57,7 +55,7 @@ async function tryUpdateUser(): Promise<void> {
     check_value.value = ''
   }
   else {
-    const response: {status: number, json: any} = await postUserUpdate(
+    const response: Response = await postUserUpdate(
       param.value, current_value.value, new_value.value, check_value.value
     )
     if (response.status === 200) {

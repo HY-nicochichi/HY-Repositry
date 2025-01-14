@@ -1,32 +1,30 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref } from 'vue'
 import { useRouter, Router } from 'vue-router'
-import AccessAPI from '../functions/AccessAPI'
-import ManageJWT from '../functions/ManageJWT'
+import { Response, User, Alert } from '../common/Interface'
+import { getUserInfo, postJWTCreate } from '../common/AccessAPI'
+import { setJWT } from '../common/ManageJWT'
 import NavBar from '../components/NavBar.vue'
 import AlertBox from '../components/AlertBox.vue'
 
 const router: Router = useRouter()
 
-const { getUserInfo, postJWTCreate } = AccessAPI()
-const { setJWT } = ManageJWT()
-
-let user: Ref = ref({
+let user: Ref<User, User> = ref({
   login: false,
   name: '',
   mail: ''
 })
 
-let alert: Ref = ref({
+let alert: Ref<Alert, Alert> = ref({
   show: false,
   msg: ''
 })
 
-let mail_address: Ref = ref('')
-let password: Ref = ref('')
+let mail_address: Ref<string, string> = ref('')
+let password: Ref<string, string> = ref('')
 
 async function checkLoggedIn(): Promise<void> {
-  const response: {status: number, json: any} = await getUserInfo()
+  const response: Response = await getUserInfo()
   if (response.status === 200) {
     router.push({name: 'index'})
   }
@@ -45,7 +43,7 @@ async function tryLogin(): Promise<void> {
     password.value = ''
   }
   else {
-    const response: {status: number, json: any} = await postJWTCreate(
+    const response: Response = await postJWTCreate(
       mail_address.value, password.value
     )
     if (response.status === 200) {

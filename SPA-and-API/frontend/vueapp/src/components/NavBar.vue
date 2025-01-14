@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
 import { useRouter, useRoute, Router, RouteLocationNormalizedLoadedGeneric } from 'vue-router'
-import ManageJWT from '../functions/ManageJWT'
-
-interface User {
-  login: boolean
-  name: string
-  mail: string
-}
+import { User } from '../common/Interface'
+import { setJWT } from '../common/ManageJWT'
 
 interface Props {
   user: User
@@ -17,8 +12,6 @@ defineProps<Props>()
 
 const router: Router = useRouter()
 const route: RouteLocationNormalizedLoadedGeneric = useRoute()
-
-const { setJWT } = ManageJWT()
 
 function tryLogout(): void {
   setJWT('')

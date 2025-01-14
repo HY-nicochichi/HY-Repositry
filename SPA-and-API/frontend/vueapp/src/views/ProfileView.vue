@@ -1,23 +1,21 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref } from 'vue'
 import { useRouter, Router } from 'vue-router'
-import AccessAPI from '../functions/AccessAPI'
-import ManageJWT from '../functions/ManageJWT'
+import { Response, User } from '../common/Interface'
+import { getUserInfo, getUserDelete } from '../common/AccessAPI'
+import { setJWT } from '../common/ManageJWT'
 import NavBar from '../components/NavBar.vue'
 
 const router: Router = useRouter()
 
-const { getUserInfo, getUserDelete } = AccessAPI()
-const { setJWT } = ManageJWT()
-
-let user: Ref = ref({
+let user: Ref<User, User> = ref({
   login: false,
   name: '',
   mail: ''
 })
 
 async function setUserInfo(): Promise<void> {
-  const response: {status: number, json: any} = await getUserInfo()
+  const response: Response = await getUserInfo()
   if (response.status === 200) {
     user.value = {
       login: true,

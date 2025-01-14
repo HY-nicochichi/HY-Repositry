@@ -1,10 +1,6 @@
 <script setup lang="ts">
 import { defineProps } from 'vue'
-
-interface Alert {
-  show: boolean
-  msg: string
-}
+import { Alert } from '../common/Interface'
 
 interface Props {
   alert: Alert
