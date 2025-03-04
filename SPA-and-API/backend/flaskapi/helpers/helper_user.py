@@ -4,74 +4,79 @@ from werkzeug.security import (
     generate_password_hash,
     check_password_hash
 )
-from models import User
+from models import (
+    JWTPost,
+    User,
+    UserPost,
+    UserPut
+)
 from extensions import db_orm
 
 class UserHelper():
 
-    def search_by_id(self: Self, user_id: str) -> User | None:
-        return User.query.filter_by(user_id=user_id).one_or_none()
+    def search_by_id(self: Self, id: str) -> User | None:
+        return User.query.filter_by(id=id).one_or_none()
     
-    def search_by_mail(self: Self, mail_address: str) -> User | None:
-        return User.query.filter_by(mail_address=mail_address).one_or_none()
+    def search_by_mail(self: Self, mail: str) -> User | None:
+        return User.query.filter_by(mail=mail).one_or_none()
 
-    def create(self: Self, mail_address: str, password: str, user_name: str) -> str:
-        if self.search_by_mail(mail_address):
+    def create(self: Self, data: UserPost) -> str:
+        if self.search_by_mail(data.mail):
             return 'メールアドレスの使用者が既に存在します'
         else: 
-            encrypted_pass: str = generate_password_hash(password)
+            password_hash: str = generate_password_hash(data.password)
             new_user = User(
-                user_id=str(uuid4()),
-                mail_address=mail_address,
-                encrypted_pass=encrypted_pass,
-                user_name=user_name
+                id=str(uuid4()),
+                mail=data.mail,
+                password_hash=password_hash,
+                name=data.name
             )
             db_orm.session.add(new_user)
             db_orm.session.commit()
             return '成功'
 
-    def authenticate(self: Self, mail_address: str, password: str) -> dict[str, str]:
-        found_user: User | None = self.search_by_mail(mail_address)
+    def authenticate(self: Self, data: JWTPost) -> dict[str, str]:
+        found_user: User | None = self.search_by_mail(data.mail)
         if found_user == None:
             return {'msg': 'メールアドレスが存在しません'}
-        elif check_password_hash(found_user.encrypted_pass, password) == False:
+        elif check_password_hash(found_user.password_hash, data.password) == False:
             return {'msg': 'パスワードが誤っています'}
         else:
-            return {'msg': '成功', 'user_id': found_user.user_id}
+            return {'msg': '成功', 'user_id': found_user.id}
 
-    def delete(self: Self, user_id: str) -> None:
-        delete_user: User | None = self.search_by_id(user_id)
+    def delete(self: Self, id: str) -> None:
+        delete_user: User | None = self.search_by_id(id)
         db_orm.session.delete(delete_user)
         db_orm.session.commit()
 
-    def update_mail_address(self: Self, user_id: str, current_mail: str, new_mail: str, check_mail: str) -> str:
-        if self.search_by_id(user_id).mail_address != current_mail:
-            return '現メールアドレスが誤っています'
-        elif new_mail != check_mail:
-            return '新メールアドレスと確認用が一致しません'
-        elif self.search_by_mail(new_mail) != None:
-            return '新メールアドレスの使用者が既に存在します'
+    def update_mail_address(self: Self, id: str, data: UserPut) -> dict[str, str | int]:
+        if self.search_by_id(id).mail != data.current_val:
+            return {'msg': '現メールアドレスが誤っています', 'status': 404}
+        elif data.new_val != data.check_val:
+            return {'msg': '新メールアドレスと確認用が一致しません', 'status': 422}
+        elif self.search_by_mail(data.new_val) != None:
+            return {'msg': '新メールアドレスの使用者が既に存在します', 'status': 409}
         else:
-            self.search_by_id(user_id).mail_address = new_mail
+            self.search_by_id(id).mail = data.new_val
             db_orm.session.commit()
-            return '成功'
+            return {'msg': '成功'}
     
-    def update_password(self: Self, user_id: str, current_pass: str, new_pass: str, check_pass: str) -> str:
-        if check_password_hash(self.search_by_id(user_id).encrypted_pass, current_pass) == False:
-            return '現パスワードが誤っています'
-        elif new_pass != check_pass:
-            return '新パスワードと確認用が一致しません'
+    def update_password(self: Self, id: str, data: UserPut) -> dict[str, str | int]:
+        if check_password_hash(self.search_by_id(id).password_hash, data.current_val) == False:
+            return {'msg': '現パスワードが誤っています', 'status': 404}
+        elif data.new_val != data.check_val:
+            return {'msg': '新パスワードと確認用が一致しません', 'status': 422}
         else:
-            self.search_by_id(user_id).encrypted_pass = generate_password_hash(new_pass)
+            self.search_by_id(id).password_hash = generate_password_hash(data.new_val)
             db_orm.session.commit()
-            return '成功'
+            return {'msg': '成功'}
 
-    def update_user_name(self: Self, user_id: str, current_name: str, new_name: str, check_name: str) -> str:
-        if self.search_by_id(user_id).user_name != current_name:
-            return '現ユーザーネームが誤っています'
-        elif new_name != check_name:
-            return '新ユーザーネームと確認用が一致しません'
+    def update_user_name(self: Self, id: str, data: UserPut) -> dict[str, str | int]:
+        if self.search_by_id(id).name != data.current_val:
+            return {'msg': '現ユーザーネームが誤っています', 'status': 404}
+        elif data.new_val != data.check_val:
+            return {'msg': '新ユーザーネームと確認用が一致しません', 'status': 422}
         else:
-            self.search_by_id(user_id).user_name = new_name
+            self.search_by_id(id).name = data.new_val
             db_orm.session.commit()
-            return '成功'
+            return {'msg': '成功'}

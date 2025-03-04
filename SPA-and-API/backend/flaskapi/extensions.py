@@ -8,16 +8,15 @@ from sqlalchemy.orm import (
     mapped_column
 )
 
-class BaseModel(DeclarativeBase):
+class ModelClass(DeclarativeBase):
     pass
 
-db_orm = SQLAlchemy(model_class=BaseModel)
+db_orm = SQLAlchemy(model_class=ModelClass)
 jwt_manager = JWTManager()
 cross_origin = CORS()
 
-class TimeStampModel(db_orm.Model):
-
+class TableBase(db_orm.Model):
     __abstract__ = True
-
-    created_time: Mapped[datetime] = mapped_column(default=datetime.now, nullable=False)
-    updated_time: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now, nullable=False)
+    id : Mapped[str] = mapped_column(nullable=False, primary_key=True)
+    created: Mapped[datetime] = mapped_column(default=datetime.now, nullable=False)
+    updated: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now, nullable=False)

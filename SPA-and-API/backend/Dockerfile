@@ -7,5 +7,4 @@ WORKDIR /flaskapi
 
 RUN pip install -r /requirements.txt
 
-CMD sleep 5 && \ 
-gunicorn core:app --bind :5000 --workers 1 --threads 8
+CMD ["sh", "/cmd.sh"]

@@ -1,14 +1,27 @@
+from typing import Literal
+from pydantic import (
+    BaseModel,
+    Field
+)
 from sqlalchemy.orm import (
     Mapped,
     mapped_column
 )
-from extensions import TimeStampModel
+from extensions import TableBase
 
-class User(TimeStampModel):
+class User(TableBase):
+    __tablename__ = 'user'
+    mail: Mapped[str] = mapped_column(nullable=False, unique=True)
+    password_hash: Mapped[str] = mapped_column(nullable=False)
+    name: Mapped[str] = mapped_column(nullable=False)
 
-    __tablename__ = 'users'
+class UserPost(BaseModel):
+    mail: str = Field(min_length=1)
+    password: str = Field(min_length=1)
+    name: str = Field(min_length=1)
 
-    user_id: Mapped[str] = mapped_column(nullable=False, primary_key=True)
-    mail_address: Mapped[str] = mapped_column(nullable=False, unique=True)
-    encrypted_pass: Mapped[str] = mapped_column(nullable=False)
-    user_name: Mapped[str] = mapped_column(nullable=False)
+class UserPut(BaseModel):
+    param: Literal['メールアドレス', 'パスワード', 'ユーザーネーム']
+    current_val: str = Field(min_length=1)
+    new_val: str = Field(min_length=1)
+    check_val: str = Field(min_length=1)

@@ -1,3 +1,4 @@
+from pydantic import ValidationError
 from flask import (
     Blueprint,
     jsonify,
@@ -6,64 +7,66 @@ from flask import (
 )
 from flask_jwt_extended import (
     jwt_required,
-    get_jwt_identity
+    current_user
 )
 from helpers import user_helper
-from models import User
+from models import (
+    UserPost,
+    UserPut
+)
 
-bp_user = Blueprint('bp_user', __name__, url_prefix='/api/user')
+bp_user = Blueprint('bp_user', __name__, url_prefix='/user')
 
-@bp_user.post('/create')
-def create() -> tuple[Response, int]:
-    mail_address: str = request.json['mail_address']
-    password: str = request.json['password']
-    user_name: str = request.json['user_name']
-    result: str = user_helper.create(mail_address, password, user_name)
-    res_json: Response = jsonify({'msg': result})
+@bp_user.get('/')
+@jwt_required()
+def user_get() -> tuple[Response, int]:
+    resp: Response = jsonify({
+        'mail': current_user.mail,
+        'name': current_user.name
+    })
+    return resp, 200
+
+@bp_user.post('/')
+def user_post() -> tuple[Response, int]:
+    try:
+        data: UserPost = UserPost.model_validate(request.get_json(silent=True))
+    except (TypeError, ValidationError):
+        resp: Response = jsonify({'msg': 'Content-TypeヘッダかJSONデータが誤っています'})
+        return resp, 400
+    result: str = user_helper.create(data)
     if result == '成功':
-        return res_json, 200
+        resp: Response = jsonify({'msg': '登録しました'})
+        return resp, 200
     else:
-        return res_json, 401
+        resp: Response = jsonify({'msg': result})
+        return resp, 409
 
-@bp_user.get('/info')
+@bp_user.put('/')
 @jwt_required()
-def info() -> tuple[Response, int]:
-    identity: str = get_jwt_identity()
-    current_user: User | None = user_helper.search_by_id(identity)
-    if current_user:
-        res_json: Response = jsonify({
-            'mail_address': current_user.mail_address,
-            'user_name': current_user.user_name
-        })
-        return res_json, 200
+def user_put() -> tuple[Response, int]:
+    try:
+        data: UserPut = UserPut.model_validate(request.get_json(silent=True))
+    except (TypeError, ValidationError):
+        resp: Response = jsonify({'msg': 'Content-TypeヘッダかJSONデータが誤っています'})
+        return resp, 400
+    match data.param:
+        case 'メールアドレス':
+            result: dict[str, str | int] = user_helper.update_mail_address(current_user.id, data)
+        case 'パスワード':
+            result: dict[str, str | int] = user_helper.update_password(current_user.id, data)
+        case 'ユーザーネーム':
+            result: dict[str, str | int] = user_helper.update_user_name(current_user.id, data)    
+    if result['msg'] == '成功':
+        resp: Response = jsonify({'msg': f'{data.param}を変更しました'})
+        return resp, 200
     else:
-        res_json: Response = jsonify({'msg': 'ユーザーが存在しません'})
-        return res_json, 401
+        resp: Response = jsonify({'msg': result['msg']})
+        status: int = result['status']
+        return resp, status
 
-@bp_user.post('/update')
+@bp_user.delete('/')
 @jwt_required()
-def update() -> tuple[Response, int]:
-    identity: str = get_jwt_identity()
-    param: str = request.json['param']
-    current_value: str = request.json['current_value']
-    new_value: str = request.json['new_value']
-    check_value: str = request.json['check_value']
-    if param == 'メールアドレス':
-        result: str = user_helper.update_mail_address(identity, current_value, new_value, check_value)
-    elif param == 'パスワード':
-        result: str = user_helper.update_password(identity, current_value, new_value, check_value)
-    elif param == 'ユーザーネーム':
-        result: str = user_helper.update_user_name(identity, current_value, new_value, check_value)
-    res_json: Response = jsonify({'msg': result})
-    if result == '成功':
-        return res_json, 200
-    else:
-        return res_json, 401
-
-@bp_user.get('/delete')
-@jwt_required()
-def delete() -> tuple[Response, int]:
-    identity: str = get_jwt_identity()
-    user_helper.delete(identity)
-    res_json: Response = jsonify({'msg': '成功'})
-    return res_json, 200
+def user_delete() -> tuple[Response, int]:
+    user_helper.delete(current_user.id)
+    resp: Response = jsonify({'msg': '退会しました'})
+    return resp, 200
