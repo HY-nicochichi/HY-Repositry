@@ -1,16 +1,16 @@
 import { Response } from './Interface'
 import { getJWT } from './ManageJWT'
 
-async function postJWTCreate(mail_address: string, password: string): Promise<Response> {
+async function accessJwtPost(mail: string, password: string): Promise<Response> {
   const resp: Response = await fetch(
-    'http://localhost:5000/api/jwt/create', {
+    'http://localhost:5000/jwt/', {
       method: 'POST',
       mode: 'cors',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        mail_address: mail_address, 
+        mail: mail, 
         password: password
       })
     }
@@ -22,31 +22,9 @@ async function postJWTCreate(mail_address: string, password: string): Promise<Re
   return response
 }
 
-async function postUserCreate(mail_address: string, password: string, user_name: string): Promise<Response> {
+async function accessUserGet(): Promise<Response> {
   const resp: Response = await fetch(
-    'http://localhost:5000/api/user/create', {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        mail_address: mail_address, 
-        password: password,
-        user_name: user_name
-      })
-    }
-  )
-  const response: Response = {
-    status: resp.status,
-    json: await resp.json()
-  }
-  return response
-}
-
-async function getUserInfo(): Promise<Response> {
-  const resp: Response = await fetch(
-    'http://localhost:5000/api/user/info', {
+    'http://localhost:5000/user/', {
       method: 'GET',
       mode: 'cors',
       headers: {
@@ -61,20 +39,18 @@ async function getUserInfo(): Promise<Response> {
   return response
 }
 
-async function postUserUpdate(param: string, current_value: string, new_value: string, check_value: string): Promise<Response> {
+async function accessUserPost(mail: string, password: string, name: string): Promise<Response> {
   const resp: Response = await fetch(
-    'http://localhost:5000/api/user/update', {
+    'http://localhost:5000/user/', {
       method: 'POST',
       mode: 'cors',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getJWT()
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        param: param,
-        current_value: current_value, 
-        new_value: new_value,
-        check_value: check_value
+        mail: mail, 
+        password: password,
+        name: name
       })
     }
   )
@@ -85,10 +61,34 @@ async function postUserUpdate(param: string, current_value: string, new_value: s
   return response
 }
 
-async function getUserDelete(): Promise<Response> {
+async function accessUserPut(param: string, current_val: string, new_val: string, check_val: string): Promise<Response> {
   const resp: Response = await fetch(
-    'http://localhost:5000/api/user/delete', {
-      method: 'GET',
+    'http://localhost:5000/user/', {
+      method: 'PUT',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getJWT()
+      },
+      body: JSON.stringify({
+        param: param,
+        current_val: current_val, 
+        new_val: new_val,
+        check_val: check_val
+      })
+    }
+  )
+  const response: Response = {
+    status: resp.status,
+    json: await resp.json()
+  }
+  return response
+}
+
+async function accessUserDelete(): Promise<Response> {
+  const resp: Response = await fetch(
+    'http://localhost:5000/user/', {
+      method: 'DELETE',
       mode: 'cors',
       headers: {
         'Authorization': 'Bearer ' + getJWT()
@@ -103,5 +103,5 @@ async function getUserDelete(): Promise<Response> {
 }
 
 export {
-  postJWTCreate, postUserCreate, getUserInfo, postUserUpdate, getUserDelete
+  accessJwtPost, accessUserGet, accessUserPost, accessUserPut, accessUserDelete
 }

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, Ref } from 'vue'
 import { Response, User } from '../common/Interface'
-import { getUserInfo } from '../common/AccessAPI'
+import { accessUserGet } from '../common/AccessAPI'
 import { setJWT } from '../common/ManageJWT'
 import NavBar from '../components/NavBar.vue'
 
@@ -12,12 +12,12 @@ let user: Ref<User, User> = ref({
 })
 
 async function setUserInfo(): Promise<void> {
-  const response: Response = await getUserInfo()
+  const response: Response = await accessUserGet()
   if (response.status === 200) {
     user.value = {
       login: true,
-      name: response.json.user_name,
-      mail: response.json.mail_address
+      name: response.json.name,
+      mail: response.json.mail
     }
   }
   else {

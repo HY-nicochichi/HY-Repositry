@@ -111,7 +111,7 @@ def test_user_put() -> None:
         password_hash = generate_password_hash('foo'),
         name = 'foo'
     )
-    # userテーブルにサンプルデータを用意
+    # userテーブルにサンプルデータを用意 ＋ JWTを用意
     with app.app_context():
         db_orm.session.add(sample_user)
         db_orm.session.commit()

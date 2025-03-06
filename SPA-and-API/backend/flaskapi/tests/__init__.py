@@ -11,8 +11,8 @@ app = Flask('test')
 
 app.config.from_pyfile('/flaskapi/settings.py')
 app.config['TESTING'] = True
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////flaskapi/test.db'
-app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=10)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////test.db'
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(seconds=7.0)
 
 for bp in bps:
     app.register_blueprint(bp)

@@ -2,7 +2,7 @@
 import { ref, onMounted, Ref } from 'vue'
 import { useRouter, Router } from 'vue-router'
 import { Response, User, Alert } from '../common/Interface'
-import { getUserInfo, postJWTCreate } from '../common/AccessAPI'
+import { accessJwtPost, accessUserGet } from '../common/AccessAPI'
 import { setJWT } from '../common/ManageJWT'
 import NavBar from '../components/NavBar.vue'
 import AlertBox from '../components/AlertBox.vue'
@@ -20,11 +20,11 @@ let alert: Ref<Alert, Alert> = ref({
   msg: ''
 })
 
-let mail_address: Ref<string, string> = ref('')
+let mail: Ref<string, string> = ref('')
 let password: Ref<string, string> = ref('')
 
 async function checkLoggedIn(): Promise<void> {
-  const response: Response = await getUserInfo()
+  const response: Response = await accessUserGet()
   if (response.status === 200) {
     router.push({name: 'index'})
   }
@@ -34,28 +34,28 @@ async function checkLoggedIn(): Promise<void> {
 }
 
 async function tryLogin(): Promise<void> {
-  if (mail_address.value === '' || password.value === '') {
+  if (mail.value === '' || password.value === '') {
     alert.value = {
       show: true,
       msg: '未入力の項目がありました'
     }
-    mail_address.value = ''
+    mail.value = ''
     password.value = ''
   }
   else {
-    const response: Response = await postJWTCreate(
-      mail_address.value, password.value
+    const response: Response = await accessJwtPost(
+      mail.value, password.value
     )
     if (response.status === 200) {
       setJWT(response.json.access_token)
       router.push({name: 'index'})
     }
-    else if (response.status === 401) {
+    else {
       alert.value = {
         show: true,
         msg: response.json.msg
       }
-      mail_address.value = ''
+      mail.value = ''
       password.value = ''
     }
   }
@@ -79,7 +79,7 @@ onMounted(() => {
         <div class="col">
           <div class="mb-4">
             <label class="mb-2">メールアドレス</label>
-            <input type="text" class="form-control border border-primary" v-model="mail_address"/>
+            <input type="text" class="form-control border border-primary" v-model="mail"/>
           </div>
           <div class="mb-4">
             <label class="mb-2">パスワード</label>

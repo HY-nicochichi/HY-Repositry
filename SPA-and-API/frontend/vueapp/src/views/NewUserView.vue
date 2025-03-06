@@ -2,7 +2,7 @@
 import { ref, onMounted, Ref } from 'vue'
 import { useRouter, Router } from 'vue-router'
 import { Response, User, Alert } from '../common/Interface'
-import { getUserInfo, postJWTCreate, postUserCreate } from '../common/AccessAPI'
+import { accessJwtPost, accessUserGet, accessUserPost } from '../common/AccessAPI'
 import { setJWT } from '../common/ManageJWT'
 import NavBar from '../components/NavBar.vue'
 import AlertBox from '../components/AlertBox.vue'
@@ -20,12 +20,12 @@ let alert: Ref<Alert, Alert> = ref({
   msg: ''
 })
 
-let mail_address: Ref<string, string> = ref('')
+let mail: Ref<string, string> = ref('')
 let password: Ref<string, string> = ref('')
-let user_name: Ref<string, string> = ref('')
+let name: Ref<string, string> = ref('')
 
 async function checkLoggedIn(): Promise<void> {
-  const response: Response = await getUserInfo()
+  const response: Response = await accessUserGet()
   if (response.status === 200) {
     router.push({name: 'index'})
   }
@@ -35,34 +35,34 @@ async function checkLoggedIn(): Promise<void> {
 }
 
 async function tryCreateUser(): Promise<void> {
-  if (mail_address.value === '' || password.value === '' || user_name.value === '') {
+  if (mail.value === '' || password.value === '' || name.value === '') {
     alert.value = {
       show: true,
       msg: '未入力の項目がありました'
     }
-    mail_address.value = ''
+    mail.value = ''
     password.value = ''
-    user_name.value = ''
+    name.value = ''
   }
   else {
-    const response1: Response = await postUserCreate(
-      mail_address.value, password.value, user_name.value
+    const response1: Response = await accessUserPost(
+      mail.value, password.value, name.value
     )
     if (response1.status === 200) {
-      const response2: Response = await postJWTCreate(
-        mail_address.value, password.value
+      const response2: Response = await accessJwtPost(
+        mail.value, password.value
       )
       setJWT(response2.json.access_token)
       router.push({name: 'index'})
     }
-    else if (response1.status === 401) {
+    else {
       alert.value = {
         show: true,
         msg: response1.json.msg
       }
-      mail_address.value = ''
+      mail.value = ''
       password.value = ''
-      user_name.value = ''
+      name.value = ''
     }
   }
 }
@@ -85,7 +85,7 @@ onMounted(() => {
         <div class="col">
           <div class="mb-4">
             <label class="mb-2">メールアドレス</label>
-            <input type="text" class="form-control border border-primary" v-model="mail_address"/>
+            <input type="text" class="form-control border border-primary" v-model="mail"/>
           </div>
           <div class="mb-4">
             <label class="mb-2">パスワード</label>
@@ -93,7 +93,7 @@ onMounted(() => {
           </div>
           <div class="mb-4">
             <label class="mb-2">ユーザーネーム</label>
-            <input type="text" class="form-control border border-primary" v-model="user_name"/>
+            <input type="text" class="form-control border border-primary" v-model="name"/>
           </div>
           <br>
           <div>

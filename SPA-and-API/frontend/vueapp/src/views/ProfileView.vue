@@ -2,7 +2,7 @@
 import { ref, onMounted, Ref } from 'vue'
 import { useRouter, Router } from 'vue-router'
 import { Response, User } from '../common/Interface'
-import { getUserInfo, getUserDelete } from '../common/AccessAPI'
+import { accessUserGet, accessUserDelete } from '../common/AccessAPI'
 import { setJWT } from '../common/ManageJWT'
 import NavBar from '../components/NavBar.vue'
 
@@ -15,12 +15,12 @@ let user: Ref<User, User> = ref({
 })
 
 async function setUserInfo(): Promise<void> {
-  const response: Response = await getUserInfo()
+  const response: Response = await accessUserGet()
   if (response.status === 200) {
     user.value = {
       login: true,
-      name: response.json.user_name,
-      mail: response.json.mail_address
+      name: response.json.name,
+      mail: response.json.mail
     }
   }
   else {
@@ -31,7 +31,7 @@ async function setUserInfo(): Promise<void> {
 
 function confirmDeleteUser(): void {
   if (confirm('本当に退会しますか？') === true) {
-    getUserDelete()
+    accessUserDelete()
     setJWT('')
     router.push({name: 'index'})
   }
