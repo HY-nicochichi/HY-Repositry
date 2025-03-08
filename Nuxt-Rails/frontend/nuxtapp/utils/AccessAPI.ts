@@ -1,4 +1,4 @@
-import { Response } from './Interface'
+import type { Response } from './Interface'
 import { getJWT } from './ManageJWT'
 
 const jwt_api_route = 'http://localhost:5000/jwt/'

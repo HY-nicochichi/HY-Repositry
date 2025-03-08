@@ -1,8 +1,0 @@
-Dockerfile
-.dockerignore
-README.md
-vueapp/.git
-vueapp/.gitignore
-vueapp/README.md
-vueapp/node_modules
-vueapp/dist

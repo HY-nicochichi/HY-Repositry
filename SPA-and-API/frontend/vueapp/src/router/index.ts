@@ -1,9 +1,10 @@
 import { createRouter, createWebHistory, RouteRecordRaw, Router } from 'vue-router'
 import IndexView from '../views/IndexView.vue'
-import LoginView from '../views/LoginView.vue'
-import NewUserView from '../views/NewUserView.vue'
-import ProfileView from '../views/ProfileView.vue'
-import UpdateProfileView from '../views/UpdateProfileView.vue'
+import UserAuthView from '../views/UserAuthView.vue'
+import UserNewView from '../views/UserNewView.vue'
+import UserInfoView from '../views/UserInfoView.vue'
+import UserUpdateView from '../views/UserUpdateView.vue'
+import NotFoundView from '../views/NotFoundView.vue'
 
 const routes: RouteRecordRaw[] = [
   {
@@ -12,24 +13,29 @@ const routes: RouteRecordRaw[] = [
     component: IndexView
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView
+    path: '/user/auth',
+    name: 'user-auth',
+    component: UserAuthView
   },
   {
-    path: '/new_user',
-    name: 'new_user',
-    component: NewUserView
+    path: '/user/new',
+    name: 'user-new',
+    component: UserNewView
   },
   {
-    path: '/profile',
-    name: 'profile',
-    component: ProfileView
+    path: '/user/info',
+    name: 'user-info',
+    component: UserInfoView
   },
   {
-    path: '/update_profile',
-    name: 'update_profile',
-    component: UpdateProfileView
+    path: '/user/update/:param',
+    name: 'user-update',
+    component: UserUpdateView
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'not-found',
+    component: NotFoundView
   }
 ]
 
