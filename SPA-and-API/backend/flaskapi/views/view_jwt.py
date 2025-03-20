@@ -20,7 +20,7 @@ def jwt_post() -> tuple[Response, int]:
         return resp, 400
     result: dict[str, str] = user_helper.authenticate(data)
     if result['msg'] == '成功':
-        access_token: str = create_access_token(identity=result['user_id'])
+        access_token: str = create_access_token(identity=result['id'])
         resp: Response = jsonify({'access_token': access_token})
         return resp, 200
     else:

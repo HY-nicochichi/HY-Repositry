@@ -13,5 +13,5 @@ bps: list[Blueprint] = [
 ]
 
 @jwt_manager.user_lookup_loader
-def lookup_user(header: dict, data: dict) -> User | None:
+def lookup_user(header: dict, data: dict) -> User|None:
     return user_helper.search_by_id(data['sub'])

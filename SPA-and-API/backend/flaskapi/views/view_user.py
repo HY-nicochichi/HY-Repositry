@@ -51,11 +51,11 @@ def user_put() -> tuple[Response, int]:
         return resp, 400
     match data.param:
         case 'メールアドレス':
-            result: dict[str, str | int] = user_helper.update_mail_address(current_user.id, data)
+            result: dict[str, str|int] = user_helper.update_mail(data)
         case 'パスワード':
-            result: dict[str, str | int] = user_helper.update_password(current_user.id, data)
+            result: dict[str, str|int] = user_helper.update_password(data)
         case 'ユーザーネーム':
-            result: dict[str, str | int] = user_helper.update_user_name(current_user.id, data)    
+            result: dict[str, str|int] = user_helper.update_name(data)    
     if result['msg'] == '成功':
         resp: Response = jsonify({'msg': f'{data.param}を変更しました'})
         return resp, 200
@@ -67,6 +67,6 @@ def user_put() -> tuple[Response, int]:
 @bp_user.delete('/')
 @jwt_required()
 def user_delete() -> tuple[Response, int]:
-    user_helper.delete(current_user.id)
+    user_helper.delete()
     resp: Response = jsonify({'msg': '退会しました'})
     return resp, 200

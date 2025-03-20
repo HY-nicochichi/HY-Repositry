@@ -8,5 +8,5 @@ bp_doc = get_swaggerui_blueprint(
 )
 
 @bp_doc.get('/swagger.json')
-def swagger_yaml():
+def swagger_json():
     return send_from_directory('/', 'swagger.json')
