@@ -1,0 +1,61 @@
+<% provide(:title, "#{@param}の変更") %>
+
+<% content_for(:nav_items) do %>
+  <li class="nav-item">
+    <a type="button" class="nav-link active me-2" href="<%= user_show_path %>">
+      "<span class="fw-bolder"><%= @user.name %></span>" 様
+    </a>
+  </li>
+  <li class="nav-item">
+    <%= link_to("ログアウト", session_destroy_path, data: {turbo_method: :delete}, class: "nav-link active") %>
+  </li>
+<% end %>
+
+<div>
+  <h4 class="fw-bolder mb-3">
+    <%= @param %>の変更
+  </h4>
+  <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light p-3">
+    <div class="row">
+      <div class="col">
+        <%= form_with(url: user_update_path, method: :put) do |f| %>
+          <%= f.hidden_field(:param, value: @param) %>
+          <div class="mb-4 form-group">
+            <%= f.label("現#{@param}", class: "mb-2") %>
+            <% if @param == "メールアドレス" %>
+              <%= f.email_field(:current_val, class: "form-control border border-primary") %>
+            <% elsif @param == "パスワード" %>
+              <%= f.password_field(:current_val, class: "form-control border border-primary") %>
+            <% elsif @param == "ユーザーネーム" %>
+              <%= f.text_field(:current_val, class: "form-control border border-primary") %>
+            <% end %>
+          </div>
+          <div class="mb-4 form-group">
+            <%= f.label("新#{@param}", class: "mb-2") %>
+            <% if @param == "メールアドレス" %>
+              <%= f.email_field(:new_val, class: "form-control border border-primary") %>
+            <% elsif @param == "パスワード" %>
+              <%= f.password_field(:new_val, class: "form-control border border-primary") %>
+            <% elsif @param == "ユーザーネーム" %>
+              <%= f.text_field(:new_val, class: "form-control border border-primary") %>
+            <% end %>
+          </div>
+          <div class="mb-4 form-group">
+            <%= f.label("新#{@param}(確認)", class: "mb-2") %>
+            <% if @param == "メールアドレス" %>
+              <%= f.email_field(:check_val, class: "form-control border border-primary") %>
+            <% elsif @param == "パスワード" %>
+              <%= f.password_field(:check_val, class: "form-control border border-primary") %>
+            <% elsif @param == "ユーザーネーム" %>
+              <%= f.text_field(:check_val, class: "form-control border border-primary") %>
+            <% end %>
+          </div>
+          <br>
+          <div class="form-group">
+            <%= f.submit("#{@param}更新", class: "btn btn-primary") %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

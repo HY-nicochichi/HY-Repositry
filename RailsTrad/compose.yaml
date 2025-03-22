@@ -1,0 +1,25 @@
+services:
+
+  database:
+    container_name: railstrad-database
+    build: ./database
+    volumes:
+      - volume:/var/lib/postgresql/data
+    networks:
+      - network
+
+  main:
+    container_name: railstrad-main
+    build: ./main
+    ports:
+      - "3000:3000"
+    depends_on:
+      - database
+    networks:
+      - network
+
+volumes:
+  volume:
+
+networks:
+  network:

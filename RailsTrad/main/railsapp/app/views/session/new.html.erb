@@ -1,0 +1,36 @@
+<% provide(:title, "ログイン") %>
+
+<% content_for(:nav_items) do %>
+  <li class="nav-item">
+    <a type="button" class="nav-link active me-2" href="<%= session_new_path %>">ログイン</a>
+  </li>
+  <li class="nav-item">
+    <a type="button" class="nav-link active" href="<%= user_new_path %>">会員登録</a>
+  </li>
+<% end %>
+
+<div>
+  <h4 class="fw-bolder mb-3">
+    ログイン
+  </h4>
+  <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light p-3">
+    <div class="row">
+      <div class="col">
+        <%= form_with(url: session_create_path, method: :post) do |f| %>
+          <div class="mb-4 form-group">
+            <%= f.label("メールアドレス", class: "mb-2") %>
+            <%= f.email_field(:mail, class: "form-control border border-primary") %>
+          </div>
+          <div class="mb-4 form-group">
+            <%= f.label("パスワード", class: "mb-2") %>
+            <%= f.password_field(:password, class: "form-control border border-primary") %>
+          </div>
+          <br>
+          <div class="form-group">
+            <%= f.submit("ログイン", class: "btn btn-primary") %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

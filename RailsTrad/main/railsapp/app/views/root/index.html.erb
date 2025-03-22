@@ -1,0 +1,27 @@
+<% provide(:title, "Rails Trad") %>
+
+<% content_for(:nav_items) do %>
+  <% if @user.nil?() %>
+    <li class="nav-item">
+      <a type="button" class="nav-link active me-2" href="<%= session_new_path %>">ログイン</a>
+    </li>
+    <li class="nav-item">
+      <a type="button" class="nav-link active" href="<%= user_new_path %>">会員登録</a>
+    </li>
+  <% else %>
+    <li class="nav-item">
+      <a type="button" class="nav-link active me-2" href="<%= user_show_path %>">
+        "<span class="fw-bolder"><%= @user.name %></span>" 様
+      </a>
+    </li>
+    <li class="nav-item">
+      <%= link_to("ログアウト", session_destroy_path, data: {turbo_method: :delete}, class: "nav-link active") %>
+    </li>
+  <% end %>
+<% end %>
+
+<div>
+  <h4 class="fw-bolder">
+    Traditional Rails App
+  </h4>
+</div>

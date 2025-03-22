@@ -6,6 +6,9 @@ Vue(フロントエンド)とFlask(バックエンド)で作ったWEBサイト(�
 ## Nuxt-Rails
 SPA-and-APIと同じサイトを、Nuxt(フロントエンド)とRails(バックエンド)に置き換えたもの。　起動後にブラウザでアクセス ⇒ http://localhost:3000
 
+## RailsTrad
+SPA-and-APIやNuxt-Railsと同じサイトを、Railsチュートリアルを参考に、伝統的なRailsアプリとして作成したもの。　起動後にブラウザでアクセス ⇒ http://localhost:3000
+
 ## ReadEN
 初めて作った簡素なAndroid用ネイティブアプリ("Kotlin ＋ Android Studio"を使用)。　英語の５文型を当てるクイズアプリ。
 

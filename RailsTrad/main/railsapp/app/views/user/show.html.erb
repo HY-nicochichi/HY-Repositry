@@ -1,0 +1,38 @@
+<% provide(:title, "会員様情報") %>
+
+<% content_for(:nav_items) do %>
+  <li class="nav-item">
+    <a type="button" class="nav-link active me-2" href="<%= user_show_path %>">
+      "<span class="fw-bolder"><%= @user.name %></span>" 様
+    </a>
+  </li>
+  <li class="nav-item">
+    <%= link_to("ログアウト", session_destroy_path, data: {turbo_method: :delete}, class: "nav-link active") %>
+  </li>
+<% end %>
+
+<div>
+  <h4 class="fw-bolder mb-3">
+    会員様情報
+  </h4>
+  <div class="col-sm-9 col-md-6 col-lg-4 border border-primary bg-light mt-4 p-3">
+    ユーザーネーム：<%= @user.name %>
+    <br>
+    <a href="<%= user_edit_path(param: "ユーザーネーム") %>" class="btn btn-primary my-2">変更</a>
+    <br>
+    <hr class="border-primary">
+    メールアドレス：<%= @user.mail %>
+    <br>
+    <a href="<%= user_edit_path(param: "メールアドレス") %>" class="btn btn-primary my-2">変更</a>
+    <br>
+    <hr class="border-primary">
+    パスワード：＊＊＊＊＊＊
+    <br>
+    <a href="<%= user_edit_path(param: "パスワード") %>" class="btn btn-primary my-2">変更</a>
+  </div>
+  <br>
+  <div class="my-2">
+    <%= link_to("サービス退会", user_destroy_path, data: {turbo_method: :delete, turbo_confirm: "本当に退会しますか？"}, class: "btn btn-danger") %>
+  </div>
+  <br>
+</div>
