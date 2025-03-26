@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_bar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:gravity="center_vertical">
+
+    <LinearLayout
+        android:id="@+id/nav_bar_main"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="16dp"
+        android:paddingHorizontal="16dp"
+        android:background="@color/LightBlue">
+
+        <ImageButton
+            android:id="@+id/nav_bar_logo"
+            style="@style/NavBarContent"
+            android:src="@drawable/ic_android"
+            android:contentDescription="Android Icon"/>
+
+        <Button
+            android:id="@+id/nav_bar_title"
+            style="@style/NavBarContent"
+            android:paddingStart="8dp"
+            android:text="SPA &amp; API Mobile"
+            android:textColor="@color/White"
+            android:textSize="24dp"/>
+
+        <View
+            style="@style/NavBarContent"
+            android:layout_weight="1"/>
+
+        <ImageButton
+            android:id="@+id/nav_bar_toggle"
+            style="@style/NavBarContent"
+            android:src="@drawable/ic_menu"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/nav_bar_collapse"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:background="@color/LightBlue"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/nav_bar_link1"
+            style="@style/NavBarLink"
+            android:text="ログイン"
+            android:textColor="@color/White"
+            android:textSize="18dp"/>
+
+        <Button
+            android:id="@+id/nav_bar_link2"
+            style="@style/NavBarLink"
+            android:text="会員登録"
+            android:textColor="@color/White"
+            android:textSize="18dp"/>
+
+    </LinearLayout>
+
+</LinearLayout>
+

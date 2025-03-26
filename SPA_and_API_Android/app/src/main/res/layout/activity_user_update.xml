@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/WholeView">
+
+    <include
+        layout="@layout/nav_bar" />
+
+    <LinearLayout
+        style="@style/MainContent">
+
+        <include
+            layout="@layout/alert_box"/>
+
+        <TextView
+            android:id="@+id/update_page_title"
+            style="@style/PageTitle"
+            android:text="メールアドレスの変更"/>
+
+        <LinearLayout
+            style="@style/ContentBoard">
+
+            <EditText
+                android:id="@+id/current_val"
+                style="@style/InputField"
+                android:inputType="textEmailAddress"
+                android:hint="現メールアドレス"/>
+
+            <EditText
+                android:id="@+id/new_val"
+                style="@style/InputField"
+                android:inputType="textEmailAddress"
+                android:hint="新メールアドレス"/>
+
+            <EditText
+                android:id="@+id/check_val"
+                style="@style/InputField"
+                android:inputType="textEmailAddress"
+                android:hint="新メールアドレス(確認)"/>
+
+            <include
+                layout="@layout/submit_button"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

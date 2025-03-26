@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/WholeView">
+
+    <include
+        layout="@layout/nav_bar" />
+
+    <LinearLayout
+        style="@style/MainContent">
+
+        <TextView
+            style="@style/PageTitle"
+            android:text="会員様情報"/>
+
+        <LinearLayout
+            style="@style/ContentBoard">
+
+            <TextView
+                android:id="@+id/user_name"
+                style="@style/UserInfo"
+                android:text="ユーザーネーム："/>
+
+            <Button
+                android:id="@+id/button_update_name"
+                style="@style/UpdateButton"/>
+
+            <View
+                style="@style/SeparateLine"/>
+
+            <TextView
+                android:id="@+id/mail_address"
+                style="@style/UserInfo"
+                android:text="メールアドレス："/>
+
+            <Button
+                android:id="@+id/button_update_mail"
+                style="@style/UpdateButton"/>
+
+            <View
+                style="@style/SeparateLine"/>
+
+            <TextView
+                style="@style/UserInfo"
+                android:text="パスワード：＊＊＊＊＊＊"/>
+
+            <Button
+                android:id="@+id/button_update_password"
+                style="@style/UpdateButton"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/button_user_delete"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="@color/Red"
+            android:textSize="18dp"
+            android:textColor="@color/White"
+            android:text="サービス退会"/>
+
+    </LinearLayout>
+
+</LinearLayout>

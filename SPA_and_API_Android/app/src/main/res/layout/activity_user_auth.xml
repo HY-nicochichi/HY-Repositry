@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/WholeView">
+
+    <include
+        layout="@layout/nav_bar"/>
+
+    <LinearLayout
+        style="@style/MainContent">
+
+        <include
+            layout="@layout/alert_box"/>
+
+        <TextView
+            style="@style/PageTitle"
+            android:text="ログイン"/>
+
+        <LinearLayout
+            style="@style/ContentBoard">
+
+            <include
+                layout="@layout/input_mail"/>
+
+            <include
+                layout="@layout/input_password"/>
+
+            <include
+                layout="@layout/submit_button"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

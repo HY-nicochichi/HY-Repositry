@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+
+    <style name="WholeView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/White</item>
+    </style>
+
+    <style name="NavBarContent">
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:background">@color/TransParent</item>
+    </style>
+
+    <style name="NavBarLink">
+        <item name="android:padding">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@color/TransParent</item>
+    </style>
+
+    <style name="MainContent">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">16dp</item>
+    </style>
+
+    <style name="PageTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:textColor">@color/Black</item>
+        <item name="android:textSize">21dp</item>
+    </style>
+
+    <style name="InputField">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:backgroundTint">@color/LightBlue</item>
+        <item name="android:textColorHint">@color/Gray</item>
+        <item name="android:textColor">@color/Black</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:text">""</item>
+    </style>
+
+    <style name="SubmitButton">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:backgroundTint">@color/LightBlue</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:text">"送信"</item>
+    </style>
+
+    <style name="ContentBoard">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingHorizontal">12dp</item>
+        <item name="android:paddingVertical">8dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@drawable/board_shape</item>
+    </style>
+
+    <style name="SeparateLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginVertical">8dp</item>
+        <item name="android:background">@color/LightBlue</item>
+    </style>
+
+    <style name="UserInfo">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:textColor">@color/Black</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="UpdateButton">
+        <item name="android:layout_width">90dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">0dp</item>
+        <item name="android:backgroundTint">@color/LightBlue</item>
+        <item name="android:textColor">@color/White</item>
+        <item name="android:textSize">18dp</item>
+        <item name="android:text">"変更"</item>
+    </style>
+
+</resources>

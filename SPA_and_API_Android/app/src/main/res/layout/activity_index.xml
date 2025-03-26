@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/WholeView">
+
+    <include
+        layout="@layout/nav_bar" />
+
+    <LinearLayout
+        style="@style/MainContent">
+
+        <TextView
+            style="@style/PageTitle"
+            android:text="SPA(Vue) &amp; API(Flask)\nAndroid Version"/>
+
+    </LinearLayout>
+
+</LinearLayout>
