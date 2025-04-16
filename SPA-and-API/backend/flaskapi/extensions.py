@@ -14,5 +14,5 @@ cross_origin = CORS()
 class TableBase(db_orm.Model):
     __abstract__ = True
     id : Mapped[str] = mapped_column(primary_key=True)
-    created: Mapped[datetime] = mapped_column(default=lambda:datetime.now(), nullable=False)
-    updated: Mapped[datetime] = mapped_column(default=lambda:datetime.now(), onupdate=lambda:datetime.now(), nullable=False)
+    created: Mapped[datetime] = mapped_column(default=datetime.now, nullable=False)
+    updated: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now, nullable=False)

@@ -1,9 +1,7 @@
 from pydantic import ValidationError
 from flask import (
     Blueprint,
-    jsonify,
-    request,
-    Response
+    request
 )
 from flask_jwt_extended import (
     jwt_required,
@@ -19,36 +17,28 @@ bp_user = Blueprint('bp_user', __name__, url_prefix='/user')
 
 @bp_user.get('/')
 @jwt_required()
-def user_get() -> tuple[Response, int]:
-    resp: Response = jsonify({
-        'mail': current_user.mail,
-        'name': current_user.name
-    })
-    return resp, 200
+def user_get() -> tuple[dict, int]:
+    return {'mail': current_user.mail, 'name': current_user.name}, 200
 
 @bp_user.post('/')
-def user_post() -> tuple[Response, int]:
+def user_post() -> tuple[dict, int]:
     try:
         data: UserPost = UserPost.model_validate(request.get_json(silent=True))
     except (TypeError, ValidationError):
-        resp: Response = jsonify({'msg': 'Content-TypeヘッダかJSONデータが誤っています'})
-        return resp, 400
+        return {'msg': 'Content-TypeヘッダかJSONデータが誤っています'}, 400
     result: str = user_helper.create(data)
     if result == '成功':
-        resp: Response = jsonify({'msg': '登録しました'})
-        return resp, 200
+        return {'msg': '登録しました'}, 200
     else:
-        resp: Response = jsonify({'msg': result})
-        return resp, 409
+        return {'msg': result}, 409
 
 @bp_user.put('/')
 @jwt_required()
-def user_put() -> tuple[Response, int]:
+def user_put() -> tuple[dict, int]:
     try:
         data: UserPut = UserPut.model_validate(request.get_json(silent=True))
     except (TypeError, ValidationError):
-        resp: Response = jsonify({'msg': 'Content-TypeヘッダかJSONデータが誤っています'})
-        return resp, 400
+        return {'msg': 'Content-TypeヘッダかJSONデータが誤っています'}, 400
     match data.param:
         case 'メールアドレス':
             result: dict[str, str|int] = user_helper.update_mail(data)
@@ -57,16 +47,12 @@ def user_put() -> tuple[Response, int]:
         case 'ユーザーネーム':
             result: dict[str, str|int] = user_helper.update_name(data)    
     if result['msg'] == '成功':
-        resp: Response = jsonify({'msg': f'{data.param}を変更しました'})
-        return resp, 200
+        return {'msg': f'{data.param}を変更しました'}, 200
     else:
-        resp: Response = jsonify({'msg': result['msg']})
-        status: int = result['status']
-        return resp, status
+        return {'msg': result['msg']}, result['status']
 
 @bp_user.delete('/')
 @jwt_required()
-def user_delete() -> tuple[Response, int]:
+def user_delete() -> tuple[dict, int]:
     user_helper.delete()
-    resp: Response = jsonify({'msg': '退会しました'})
-    return resp, 200
+    return {'msg': '退会しました'}, 200
