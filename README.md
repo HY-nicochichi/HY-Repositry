@@ -6,6 +6,9 @@ Vue(フロントエンド)とFlask(バックエンド)で作ったWEBサイト(�
 ## Nuxt-Rails
 SPA-and-APIと同じサイトを、Nuxt(フロントエンド)とRails(バックエンド)に置き換えたもの。　起動後にブラウザでアクセス ⇒ http://localhost:3000
 
+## Nuxt-Flask
+SPA-and-APIと同じサイトを、Nuxt(フロントエンド)とFlask(バックエンド)に置き換えたもの。　起動後にブラウザでアクセス ⇒ http://localhost:8080
+
 ## RailsTrad
 SPA-and-APIやNuxt-Railsと同じサイトを、Railsチュートリアルを参考に、伝統的なRailsアプリとして作成したもの。　起動後にブラウザでアクセス ⇒ http://localhost:3000
 
