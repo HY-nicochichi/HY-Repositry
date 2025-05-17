@@ -1,4 +1,4 @@
-FROM nginx:1.27.2-alpine3.20
+FROM nginx:1.27.5-alpine
 
 COPY nuxtapp/.output/public /usr/share/nginx/html
 COPY default.conf /etc/nginx/conf.d

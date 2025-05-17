@@ -75,25 +75,21 @@ onBeforeMount(() => {
       会員登録
     </h4>
     <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light p-3">
-      <div class="row">
-        <div class="col">
-          <div class="mb-4">
-            <label class="mb-2">メールアドレス</label>
-            <input type="text" class="form-control border border-primary" v-model="mail"/>
-          </div>
-          <div class="mb-4">
-            <label class="mb-2">パスワード</label>
-            <input type="password" class="form-control border border-primary" v-model="password"/>
-          </div>
-          <div class="mb-4">
-            <label class="mb-2">ユーザーネーム</label>
-            <input type="text" class="form-control border border-primary" v-model="name"/>
-          </div>
-          <br>
-          <div>
-            <button class="btn btn-primary" v-on:click="tryCreateUser">会員登録</button>
-          </div>
-        </div>
+      <div class="mb-4">
+        <label class="mb-2">メールアドレス</label>
+        <input type="text" class="form-control border border-primary" v-model="mail"/>
+      </div>
+      <div class="mb-4">
+        <label class="mb-2">パスワード</label>
+        <input type="password" class="form-control border border-primary" v-model="password"/>
+      </div>
+      <div class="mb-4">
+        <label class="mb-2">ユーザーネーム</label>
+        <input type="text" class="form-control border border-primary" v-model="name"/>
+      </div>
+      <br>
+      <div>
+        <button class="btn btn-primary" v-on:click="tryCreateUser">会員登録</button>
       </div>
     </div>
   </div>

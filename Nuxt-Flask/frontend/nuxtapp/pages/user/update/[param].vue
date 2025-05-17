@@ -88,32 +88,28 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <NavBar v-bind:user="user" />
+  <NavBar v-bind:user="user"/>
   <div class="p-3">
-    <AlertBox v-bind:alert="alert" />
+    <AlertBox v-bind:alert="alert"/>
     <h4 class="fw-bolder mb-3">
       {{ param }}の変更
     </h4>
     <div class="col-sm-9 col-md-7 col-lg-5 border border-primary bg-light p-3">
-      <div class="row">
-        <div class="col">
-          <div class="mb-4">
-            <label class="mb-2">現{{ param }}</label>
-            <input v-bind:type="type" class="form-control border border-primary" v-model="current_val" />
-          </div>
-          <div class="mb-4">
-            <label class="mb-2">新{{ param }}</label>
-            <input v-bind:type="type" class="form-control border border-primary" v-model="new_val" />
-          </div>
-          <div class="mb-4">
-            <label class="mb-2">新{{ param }}(確認)</label>
-            <input v-bind:type="type" class="form-control border border-primary" v-model="check_val" />
-          </div>
-          <br />
-          <div>
-            <button class="btn btn-primary" v-on:click="tryUpdateUser">{{ param }}更新</button>
-          </div>
-        </div>
+      <div class="mb-4">
+        <label class="mb-2">現{{ param }}</label>
+        <input v-bind:type="type" class="form-control border border-primary" v-model="current_val"/>
+      </div>
+      <div class="mb-4">
+        <label class="mb-2">新{{ param }}</label>
+        <input v-bind:type="type" class="form-control border border-primary" v-model="new_val"/>
+      </div>
+      <div class="mb-4">
+        <label class="mb-2">新{{ param }}(確認)</label>
+        <input v-bind:type="type" class="form-control border border-primary" v-model="check_val"/>
+      </div>
+      <br>
+      <div>
+        <button class="btn btn-primary" v-on:click="tryUpdateUser">{{ param }}更新</button>
       </div>
     </div>
   </div>

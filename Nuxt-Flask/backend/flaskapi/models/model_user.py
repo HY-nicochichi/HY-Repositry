@@ -10,7 +10,6 @@ from sqlalchemy.orm import (
 from extensions import TableBase
 
 class User(TableBase):
-    __tablename__ = 'user'
     mail: Mapped[str] = mapped_column(unique=True, nullable=False)
     password_hash: Mapped[str] = mapped_column(nullable=False)
     name: Mapped[str] = mapped_column(nullable=False)
