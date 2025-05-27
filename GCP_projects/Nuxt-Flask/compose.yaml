@@ -1,0 +1,22 @@
+services:
+
+  backend:
+    container_name: nuxt-flask-backend
+    build: ./backend
+    ports:
+      - "5000:5000"
+    networks:
+      - network
+
+  frontend:
+    container_name: nuxt-flask-frontend
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend
+    networks:
+      - network
+
+networks:
+  network:
