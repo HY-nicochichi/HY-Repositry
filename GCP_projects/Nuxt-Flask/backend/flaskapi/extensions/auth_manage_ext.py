@@ -45,8 +45,6 @@ class AuthManager():
         self.oauth.init_app(app, cache, fetch_token, update_token)
         self.google = self.oauth.register(
             name = 'google',
-            client_id = app.config['GOOGLE_CLIENT_ID'],
-            client_secret = app.config['GOOGLE_SECRET'],
             server_metadata_url = 'https://accounts.google.com/.well-known/openid-configuration',
             scope = 'openid email profile'
         )

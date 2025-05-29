@@ -12,11 +12,15 @@ from authlib.common.security import generate_token
 bp_auth = Blueprint('bp_auth', __name__, url_prefix='/auth')
 
 @bp_auth.get('/')
-def auth_get() -> tuple[Response, int]:
-    client = request.args.get('client', type=str, default='swagger_ui')
-    session['client'] = client
-    callback_url = url_for('bp_auth.auth_callback_get', _external=True)
-    return auth_manager.google.authorize_redirect(callback_url), 302
+def auth_get() -> tuple[Response, int]: 
+    session['client'] = request.args.get(
+        'client', type=str, default='swagger_ui'
+    ) 
+    redirect_response = auth_manager.google.authorize_redirect(
+        redirect_uri = url_for('bp_auth.auth_callback_get', _external=True),
+        prompt = 'select_account'
+    )
+    return redirect_response, 302
 
 @bp_auth.get('/callback')
 def auth_callback_get() -> tuple[Response, int]:
